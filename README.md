@@ -32,8 +32,6 @@ over multiple features such as the cursor, media, files, and many more.
 
 ## Installation
 
-### Server Setup (C++)
-
 1. Clone this repository.
 
    ```bash
