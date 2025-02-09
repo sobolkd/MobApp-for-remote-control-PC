@@ -68,7 +68,39 @@ public partial class MainPage : ContentPage
         }
     }
 
-    void MoveCursor_Clicked(object sender, EventArgs e) => SendCommand("MOVE 500 300");
+    void Remote_Cursor_Clicked(object sender, EventArgs e)
+    {
+        JoystickView.IsVisible = true;
+        Left_Click.IsVisible = true;
+        Right_Click.IsVisible = true;
+        Remote_Cursor.IsVisible = false;
+    }
+
+    private double cursorX = 500;
+    private double cursorY = 300;
+
+    void Joystick_Moved(object sender, (double X, double Y) e)
+    {
+        double scaleFactor = 10;
+
+        cursorX += e.X * scaleFactor;
+        cursorY += e.Y * scaleFactor;
+
+        int intCursorX = (int)cursorX;
+        int intCursorY = (int)cursorY;
+
+        IpLabel.Text = $"{intCursorX} + {intCursorY}";
+
+        cursorX = Math.Clamp(intCursorX, 0, 1920);  // Max values
+        cursorY = Math.Clamp(intCursorY, 0, 1080);  // Max values
+
+        SendCommand($"MOVE {intCursorX} {intCursorY}");
+    }
+
+
+
+
+
 
     void LeftClick_Clicked(object sender, EventArgs e) => SendCommand("CLICK LEFT");
 

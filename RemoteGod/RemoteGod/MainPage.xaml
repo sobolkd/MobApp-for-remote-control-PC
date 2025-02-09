@@ -1,11 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RemoteGod.MainPage">
+             x:Class="RemoteGod.MainPage"
+             xmlns:controls="clr-namespace:RemoteGod.Controls">
     <VerticalStackLayout Padding="20">
         <Label x:Name="IpLabel" Text="Waiting for server..." FontSize="24" HorizontalOptions="Center"/>
-        <Button Text="Move Cursor" Clicked="MoveCursor_Clicked"/>
-        <Button Text="Left Click" Clicked="LeftClick_Clicked"/>
-        <Button Text="Right Click" Clicked="RightClick_Clicked"/>
+        <Button x:Name="Remote_Cursor" Margin="10" Text="Remote Cursor" Clicked="Remote_Cursor_Clicked" IsVisible="True"/>
+
+        <!-- Joystick -->
+        <controls:JoystickView x:Name="JoystickView" 
+                       WidthRequest="200" 
+                       HeightRequest="200"
+                       Moved="Joystick_Moved"
+                       IsVisible="False"/>
+
+        <!-- Joystick -->
+        <Button x:Name="Left_Click" Margin="10" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False"/>
+        <Button x:Name="Right_Click" Margin="10" Text="Right Click" Clicked="RightClick_Clicked" IsVisible="False"/>
     </VerticalStackLayout>
 </ContentPage>

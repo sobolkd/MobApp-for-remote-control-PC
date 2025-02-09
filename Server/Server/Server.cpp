@@ -20,7 +20,7 @@
 
 bool stopBroadcast = false;
 
-// Отримання локальної IP-адреси
+//local IP
 std::string getLocalIPAddress() {
     char hostname[256];
     if (gethostname(hostname, sizeof(hostname)) == SOCKET_ERROR) {
@@ -53,7 +53,7 @@ std::string getLocalIPAddress() {
     return localIP;
 }
 
-// Отримання глобальної IP-адреси через веб-сервіс
+// IP
 std::string getGlobalIPAddress() {
     HINTERNET hInternet, hConnect;
     DWORD bytesRead;
@@ -79,7 +79,7 @@ std::string getGlobalIPAddress() {
     return std::string(buffer);
 }
 
-// Функція трансляції UDP-повідомлень
+//UDP
 void broadcastUDP() {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
@@ -107,7 +107,7 @@ void broadcastUDP() {
     WSACleanup();
 }
 
-// Обробка підключення клієнта
+// Connect client
 void handleClient(SOCKET clientSock) {
     char buffer[256];
     int bytesReceived = recv(clientSock, buffer, sizeof(buffer) - 1, 0);
@@ -130,7 +130,7 @@ void handleClient(SOCKET clientSock) {
     closesocket(clientSock);
 }
 
-// TCP-сервер, що працює безперервно
+// TCP
 void tcpServer() {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
@@ -169,7 +169,6 @@ void tcpServer() {
             stopBroadcast = true;
         }
 
-        // Створюємо потік для обробки клієнта
         std::thread clientThread(handleClient, clientSock);
         clientThread.detach();
     }
