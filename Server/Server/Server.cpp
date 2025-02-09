@@ -5,10 +5,14 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wininet.h>
+#include "MouseController.h"
+#include <stdio.h>
+
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
 
+#define _CRT_SECURE_NO_WARNINGS
 #define UDP_PORT 8888
 #define TCP_PORT 9999
 #define BROADCAST_IP "255.255.255.255"
@@ -16,7 +20,7 @@
 
 bool stopBroadcast = false;
 
-// Get ip
+// Отримання локальної IP-адреси
 std::string getLocalIPAddress() {
     char hostname[256];
     if (gethostname(hostname, sizeof(hostname)) == SOCKET_ERROR) {
@@ -24,7 +28,7 @@ std::string getLocalIPAddress() {
     }
 
     struct addrinfo hints {}, * info, * p;
-    hints.ai_family = AF_INET;  // IPv4
+    hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE;
 
@@ -49,7 +53,7 @@ std::string getLocalIPAddress() {
     return localIP;
 }
 
-// Get global ip using Web-service
+// Отримання глобальної IP-адреси через веб-сервіс
 std::string getGlobalIPAddress() {
     HINTERNET hInternet, hConnect;
     DWORD bytesRead;
@@ -75,14 +79,14 @@ std::string getGlobalIPAddress() {
     return std::string(buffer);
 }
 
-// UDP
+// Функція трансляції UDP-повідомлень
 void broadcastUDP() {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
 
     SOCKET sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock == INVALID_SOCKET) {
-        std::cerr << "Cannot create UDP-socket\n";
+        std::cerr << "Cannot create UDP socket\n";
         return;
     }
 
@@ -103,14 +107,37 @@ void broadcastUDP() {
     WSACleanup();
 }
 
-// TCP
+// Обробка підключення клієнта
+void handleClient(SOCKET clientSock) {
+    char buffer[256];
+    int bytesReceived = recv(clientSock, buffer, sizeof(buffer) - 1, 0);
+    if (bytesReceived > 0) {
+        buffer[bytesReceived] = '\0';
+        std::string command(buffer);
+
+        if (command.rfind("MOVE", 0) == 0) {
+            int x, y;
+            sscanf_s(command.c_str(), "MOVE %d %d", &x, &y);
+            moveCursor(x, y);
+        }
+        else if (command == "CLICK LEFT") {
+            clickMouse(true);
+        }
+        else if (command == "CLICK RIGHT") {
+            clickMouse(false);
+        }
+    }
+    closesocket(clientSock);
+}
+
+// TCP-сервер, що працює безперервно
 void tcpServer() {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
 
     SOCKET serverSock = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSock == INVALID_SOCKET) {
-        std::cerr << "Cannot create TCP-socket\n";
+        std::cerr << "Cannot create TCP socket\n";
         return;
     }
 
@@ -120,33 +147,33 @@ void tcpServer() {
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(serverSock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-        std::cerr << "Error with binding TCP-socket\n";
+        std::cerr << "Error binding TCP socket\n";
         closesocket(serverSock);
         WSACleanup();
         return;
     }
 
-    listen(serverSock, 1);
-    std::cout << "Waiting for connection...\n";
+    listen(serverSock, SOMAXCONN);
+    std::cout << "Server is listening on port " << TCP_PORT << "...\n";
 
-    sockaddr_in clientAddr{};
-    int clientLen = sizeof(clientAddr);
-    SOCKET clientSock = accept(serverSock, (sockaddr*)&clientAddr, &clientLen);
-    if (clientSock == INVALID_SOCKET) {
-        std::cerr << "Error while accepting connection\n";
-        closesocket(serverSock);
-        WSACleanup();
-        return;
+    while (true) {
+        sockaddr_in clientAddr{};
+        int clientLen = sizeof(clientAddr);
+        SOCKET clientSock = accept(serverSock, (sockaddr*)&clientAddr, &clientLen);
+        if (clientSock == INVALID_SOCKET) {
+            std::cerr << "Error while accepting connection\n";
+            continue;
+        }
+
+        if (!stopBroadcast) {
+            stopBroadcast = true;
+        }
+
+        // Створюємо потік для обробки клієнта
+        std::thread clientThread(handleClient, clientSock);
+        clientThread.detach();
     }
 
-    stopBroadcast = true;
-
-    std::string globalIP = getGlobalIPAddress();
-    std::cout << "Client has been connected! Sending global IP address: " << globalIP << "\n";
-
-    send(clientSock, globalIP.c_str(), globalIP.size(), 0);
-
-    closesocket(clientSock);
     closesocket(serverSock);
     WSACleanup();
 }

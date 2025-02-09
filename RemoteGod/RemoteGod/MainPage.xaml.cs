@@ -9,6 +9,7 @@ public partial class MainPage : ContentPage
     const int UdpPort = 8888;
     const int TcpPort = 9999;
     const string Keyword = "HELLO_SERVER";
+    string? serverIp = null;
 
     public MainPage()
     {
@@ -25,7 +26,7 @@ public partial class MainPage : ContentPage
             string message = Encoding.UTF8.GetString(result.Buffer);
             if (message == Keyword)
             {
-                string serverIp = result.RemoteEndPoint.Address.ToString();
+                serverIp = result.RemoteEndPoint.Address.ToString();
                 string receivedIp = await GetServerIp(serverIp);
                 MainThread.BeginInvokeOnMainThread(() => IpLabel.Text = receivedIp);
                 break;
@@ -49,4 +50,27 @@ public partial class MainPage : ContentPage
             return "Failed to connect";
         }
     }
+
+    async void SendCommand(string command)
+    {
+        if (serverIp == null) return;
+        try
+        {
+            using var tcpClient = new TcpClient();
+            await tcpClient.ConnectAsync(serverIp, TcpPort);
+            using var stream = tcpClient.GetStream();
+            byte[] data = Encoding.UTF8.GetBytes(command);
+            await stream.WriteAsync(data, 0, data.Length);
+        }
+        catch
+        {
+            MainThread.BeginInvokeOnMainThread(() => IpLabel.Text = "Command failed");
+        }
+    }
+
+    void MoveCursor_Clicked(object sender, EventArgs e) => SendCommand("MOVE 500 300");
+
+    void LeftClick_Clicked(object sender, EventArgs e) => SendCommand("CLICK LEFT");
+
+    void RightClick_Clicked(object sender, EventArgs e) => SendCommand("CLICK RIGHT");
 }
