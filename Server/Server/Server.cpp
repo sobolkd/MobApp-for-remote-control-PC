@@ -128,6 +128,7 @@ void handleClient(SOCKET clientSock) {
 }
 
 void tcpServer() {
+    std::cout << "Server started...\n";
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
 
