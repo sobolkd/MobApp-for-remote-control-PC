@@ -1,4 +1,4 @@
 ﻿  Server.cpp
-D:\Diplom\Server\Server\Server.cpp(102,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  LINK : D:\Diplom\Server\x64\Debug\Server.exe not found or not built by the last incremental link; performing full link
+D:\Diplom\Server\Server\Server.cpp(67,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(107,55): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

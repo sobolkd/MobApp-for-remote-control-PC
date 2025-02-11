@@ -1,4 +1,3 @@
-#include "Server.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -6,13 +5,10 @@
 #include <ws2tcpip.h>
 #include <wininet.h>
 #include "MouseController.h"
-#include <stdio.h>
-
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
 
-#define _CRT_SECURE_NO_WARNINGS
 #define UDP_PORT 8888
 #define TCP_PORT 9999
 #define BROADCAST_IP "255.255.255.255"
@@ -20,7 +16,6 @@
 
 bool stopBroadcast = false;
 
-//local IP
 std::string getLocalIPAddress() {
     char hostname[256];
     if (gethostname(hostname, sizeof(hostname)) == SOCKET_ERROR) {
@@ -53,42 +48,12 @@ std::string getLocalIPAddress() {
     return localIP;
 }
 
-// IP
-std::string getGlobalIPAddress() {
-    HINTERNET hInternet, hConnect;
-    DWORD bytesRead;
-    char buffer[128];
-
-    hInternet = InternetOpen(L"GET Global IP", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-    if (hInternet == NULL) {
-        return "Error retrieving global IP";
-    }
-
-    hConnect = InternetOpenUrl(hInternet, L"https://api.ipify.org", NULL, 0, INTERNET_FLAG_RELOAD, 0);
-    if (hConnect == NULL) {
-        InternetCloseHandle(hInternet);
-        return "Error retrieving global IP";
-    }
-
-    InternetReadFile(hConnect, buffer, sizeof(buffer) - 1, &bytesRead);
-    buffer[bytesRead] = '\0';
-
-    InternetCloseHandle(hConnect);
-    InternetCloseHandle(hInternet);
-
-    return std::string(buffer);
-}
-
-//UDP
 void broadcastUDP() {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
 
     SOCKET sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock == INVALID_SOCKET) {
-        std::cerr << "Cannot create UDP socket\n";
-        return;
-    }
+    if (sock == INVALID_SOCKET) return;
 
     BOOL broadcastEnable = TRUE;
     setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char*)&broadcastEnable, sizeof(broadcastEnable));
@@ -107,8 +72,40 @@ void broadcastUDP() {
     WSACleanup();
 }
 
-// Connect client
+std::string getGlobalIPAddress() {
+    HINTERNET hInternet, hConnect;
+    DWORD bytesRead;
+    char buffer[128] = { 0 };
+
+    hInternet = InternetOpen(L"GET Global IP", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+    if (hInternet == NULL) {
+        return "Error retrieving global IP";
+    }
+
+    hConnect = InternetOpenUrl(hInternet, L"https://api.ipify.org", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+    if (hConnect == NULL) {
+        InternetCloseHandle(hInternet);
+        return "Error retrieving global IP";
+    }
+
+    if (!InternetReadFile(hConnect, buffer, sizeof(buffer) - 1, &bytesRead) || bytesRead == 0) {
+        InternetCloseHandle(hConnect);
+        InternetCloseHandle(hInternet);
+        return "Error reading IP";
+    }
+
+    buffer[bytesRead] = '\0';
+
+    InternetCloseHandle(hConnect);
+    InternetCloseHandle(hInternet);
+
+    return std::string(buffer);
+}
+
 void handleClient(SOCKET clientSock) {
+    std::string globalIp = getGlobalIPAddress();
+    send(clientSock, globalIp.c_str(), globalIp.length(), 0);
+
     char buffer[256];
     int bytesReceived = recv(clientSock, buffer, sizeof(buffer) - 1, 0);
     if (bytesReceived > 0) {
@@ -130,16 +127,12 @@ void handleClient(SOCKET clientSock) {
     closesocket(clientSock);
 }
 
-// TCP
 void tcpServer() {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
 
     SOCKET serverSock = socket(AF_INET, SOCK_STREAM, 0);
-    if (serverSock == INVALID_SOCKET) {
-        std::cerr << "Cannot create TCP socket\n";
-        return;
-    }
+    if (serverSock == INVALID_SOCKET) return;
 
     sockaddr_in serverAddr{};
     serverAddr.sin_family = AF_INET;
@@ -147,27 +140,24 @@ void tcpServer() {
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(serverSock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-        std::cerr << "Error binding TCP socket\n";
         closesocket(serverSock);
         WSACleanup();
         return;
     }
 
-    listen(serverSock, SOMAXCONN);
-    std::cout << "Server is listening on port " << TCP_PORT << "...\n";
+    if (listen(serverSock, SOMAXCONN) == SOCKET_ERROR) {
+        closesocket(serverSock);
+        WSACleanup();
+        return;
+    }
 
     while (true) {
         sockaddr_in clientAddr{};
         int clientLen = sizeof(clientAddr);
         SOCKET clientSock = accept(serverSock, (sockaddr*)&clientAddr, &clientLen);
-        if (clientSock == INVALID_SOCKET) {
-            std::cerr << "Error while accepting connection\n";
-            continue;
-        }
+        if (clientSock == INVALID_SOCKET) continue;
 
-        if (!stopBroadcast) {
-            stopBroadcast = true;
-        }
+        if (!stopBroadcast) stopBroadcast = true;
 
         std::thread clientThread(handleClient, clientSock);
         clientThread.detach();
@@ -176,3 +166,4 @@ void tcpServer() {
     closesocket(serverSock);
     WSACleanup();
 }
+

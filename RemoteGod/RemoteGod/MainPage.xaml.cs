@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -10,7 +11,7 @@ public partial class MainPage : ContentPage
     const int TcpPort = 9999;
     const string Keyword = "HELLO_SERVER";
     string? serverIp = null;
-
+    bool IpCheck = false;
     public MainPage()
     {
         InitializeComponent();
@@ -24,13 +25,35 @@ public partial class MainPage : ContentPage
         {
             var result = await udpClient.ReceiveAsync();
             string message = Encoding.UTF8.GetString(result.Buffer);
+            Debug.WriteLine($"Received UDP message: {message}");
+
             if (message == Keyword)
             {
-                serverIp = result.RemoteEndPoint.Address.ToString();
-                string receivedIp = await GetServerIp(serverIp);
-                MainThread.BeginInvokeOnMainThread(() => IpLabel.Text = receivedIp);
-                break;
+                try
+                {
+                    serverIp = result.RemoteEndPoint.Address.ToString();
+                    Debug.WriteLine($"Trying to get IP from TCP: {serverIp}");
+
+                    string receivedIp = await GetServerIp(serverIp);
+                    Debug.WriteLine($"Received Ip message: {receivedIp}");
+
+                    if (!IpCheck)
+                    {
+                        MainThread.BeginInvokeOnMainThread(() => {
+                            Debug.WriteLine($"Setting IpLabel.Text: {receivedIp}");
+                            IpLabel.Text = receivedIp;
+                        });
+                        IpCheck = true;
+                    }
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error: {ex}");
+                    break;
+                }
             }
+
         }
     }
 
