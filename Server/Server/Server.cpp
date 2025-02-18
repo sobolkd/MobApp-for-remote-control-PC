@@ -1,10 +1,15 @@
+// libs
 #include <iostream>
 #include <thread>
 #include <chrono>
+
+
+// headers
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wininet.h>
 #include "MouseController.h"
+#include "Display.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -122,6 +127,13 @@ void handleClient(SOCKET clientSock) {
         }
         else if (command == "CLICK RIGHT") {
             clickMouse(false);
+        }
+        else if (command.rfind("BRIGHTNESS", 0) == 0) {
+            int level;
+            sscanf_s(command.c_str(), "BRIGHTNESS %d", &level);
+            if (level >= 0 && level <= 100) {
+                setMonitorBrightness(level);
+            }   
         }
     }
     closesocket(clientSock);

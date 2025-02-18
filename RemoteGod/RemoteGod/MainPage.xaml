@@ -2,20 +2,40 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemoteGod.MainPage"
+             Title="Waiting for connection..."
              xmlns:controls="clr-namespace:RemoteGod.Controls">
     <VerticalStackLayout Padding="20">
-        <Label x:Name="IpLabel" Text="Waiting for server..." FontSize="24" HorizontalOptions="Center"/>
-        <Button x:Name="Remote_Cursor" Margin="10" Text="Remote Cursor" Clicked="Remote_Cursor_Clicked" IsVisible="True"/>
+        
+        <Button x:Name="Back" Margin="0, 10, 0, 50" Text="Go Back" Clicked="Back_Clicked" IsVisible="False"/>
 
-        <!-- Joystick -->
+        <!-- Main Buttons -->
+        <Button x:Name="Remote_Cursor" Margin="10" Text="Remote Cursor" Clicked="Remote_Cursor_Clicked" IsVisible="True"/>
+        <Button x:Name="Remote_Keyboard" Margin="10" Text="Remote Keyboard" Clicked="Remote_Keyboard_Clicked" IsVisible="True"/>
+        <Button x:Name="Display_Functions" Margin="10" Text="Display Functions" Clicked="Display_Functions_Clicked" IsVisible="True"/>
+        <Button x:Name="Media_Control" Margin="10" Text="Media Control" Clicked="Media_Control_Clicked" IsVisible="True"/>
+        <Button x:Name="File_Manager" Margin="10" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True"/>
+        <Button x:Name="System" Margin="10" Text="System" Clicked="System_Clicked" IsVisible="True"/>
+        <Button x:Name="Spy_Mode" Margin="10" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True"/>
+        <Button x:Name="Browser" Margin="10" Text="Browser" Clicked="Browser_Clicked" IsVisible="True"/>
+        <!-- Main Buttons -->
+
+        <!-- Remote Cursor -->
         <controls:JoystickView x:Name="JoystickView" 
                        WidthRequest="200" 
                        HeightRequest="200"
                        Moved="Joystick_Moved"
-                       IsVisible="False"/>
-
-        <!-- Joystick -->
-        <Button x:Name="Left_Click" Margin="10" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False"/>
+                       IsVisible="False"
+                       Margin="20"/>
+        <Button x:Name="Left_Click" Margin="10, 20, 10, 10" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False"/>
         <Button x:Name="Right_Click" Margin="10" Text="Right Click" Clicked="RightClick_Clicked" IsVisible="False"/>
+        <!-- Remote Cursor -->
+
+        <!-- Display Functions -->
+        <Slider x:Name="BrightnessSlider"
+        Minimum="0" Maximum="100"
+        ValueChanged="BrightnessSlider_Changed"
+        IsVisible="False"/>
+        <!-- Display Functions -->
+        
     </VerticalStackLayout>
 </ContentPage>
