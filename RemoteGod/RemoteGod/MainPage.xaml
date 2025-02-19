@@ -19,6 +19,10 @@
         <Button x:Name="Browser" Margin="10" Text="Browser" Clicked="Browser_Clicked" IsVisible="True"/>
         <!-- Main Buttons -->
 
+        <!--Remote Keyboard-->
+        <Button x:Name="Call_Keyboard" Margin="10" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>
+        <!--Remote Keyboard-->
+
         <!-- Remote Cursor -->
         <controls:JoystickView x:Name="JoystickView" 
                        WidthRequest="200" 

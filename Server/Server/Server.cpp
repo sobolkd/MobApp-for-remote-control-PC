@@ -3,13 +3,14 @@
 #include <thread>
 #include <chrono>
 
-
 // headers
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wininet.h>
 #include "MouseController.h"
 #include "Display.h"
+#include "KeyboardController.h"
+
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -20,6 +21,7 @@
 #define KEYWORD "HELLO_SERVER"
 
 bool stopBroadcast = false;
+bool isSended = false;
 
 std::string getLocalIPAddress() {
     char hostname[256];
@@ -81,7 +83,7 @@ std::string getGlobalIPAddress() {
     HINTERNET hInternet, hConnect;
     DWORD bytesRead;
     char buffer[128] = { 0 };
-
+    ;
     hInternet = InternetOpen(L"GET Global IP", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (hInternet == NULL) {
         return "Error retrieving global IP";
@@ -108,9 +110,14 @@ std::string getGlobalIPAddress() {
 }
 
 void handleClient(SOCKET clientSock) {
-    std::string globalIp = getGlobalIPAddress();
-    send(clientSock, globalIp.c_str(), globalIp.length(), 0);
-
+    
+    if (isSended == false)
+    {
+        std::string globalIp = getGlobalIPAddress();
+        std::cout << "Sending global IP: " << globalIp << std::endl;
+        send(clientSock, globalIp.c_str(), globalIp.length(), 0);
+        isSended = true;
+    }
     char buffer[256];
     int bytesReceived = recv(clientSock, buffer, sizeof(buffer) - 1, 0);
     if (bytesReceived > 0) {
@@ -134,6 +141,9 @@ void handleClient(SOCKET clientSock) {
             if (level >= 0 && level <= 100) {
                 setMonitorBrightness(level);
             }   
+        }
+        else if (command == "OPEN_KEYBOARD") {
+            openOnScreenKeyboard();
         }
     }
     closesocket(clientSock);

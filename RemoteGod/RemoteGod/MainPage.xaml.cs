@@ -8,6 +8,8 @@ public partial class MainPage : ContentPage
 {
     private readonly ServerConnector serverConnector;
     private readonly DisplayController displayController;
+    private KeyboardController keyboardController;
+
 
     private double cursorX = 500;
     private double cursorY = 300;
@@ -17,6 +19,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         serverConnector = new ServerConnector();
         displayController = new DisplayController(serverConnector);
+        keyboardController = new KeyboardController(serverConnector);
 
         serverConnector.OnIpReceived += ip => MainThread.BeginInvokeOnMainThread(() => Title = ip);
         serverConnector.OnCommandFailed += message => MainThread.BeginInvokeOnMainThread(() => Title = message);
@@ -38,6 +41,7 @@ public partial class MainPage : ContentPage
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
+
     }
 
     void Display_Functions_Clicked(object sender, EventArgs e)
@@ -66,6 +70,7 @@ public partial class MainPage : ContentPage
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
+        Call_Keyboard.IsVisible = true;
     }
 
     void Media_Control_Clicked(object sender, EventArgs e)
@@ -148,7 +153,12 @@ public partial class MainPage : ContentPage
         Left_Click.IsVisible = false;
         Right_Click.IsVisible = false;
         BrightnessSlider.IsVisible = false;
-        
+        Call_Keyboard.IsVisible = false;
+    }
+
+    void Call_Keyboard_Clicked (object sender, EventArgs e)
+    {
+        keyboardController.OpenOnScreenKeyboard();
     }
 
     void Joystick_Moved(object sender, (double X, double Y) e)

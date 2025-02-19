@@ -8,19 +8,12 @@ void moveCursor(int x, int y) {
 
 // function for clicks
 void clickMouse(bool leftButton) {
-    INPUT input = { 0 };
-    input.type = INPUT_MOUSE;
-
     if (leftButton) {
-        input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-        SendInput(1, &input, sizeof(INPUT));
-        input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-        SendInput(1, &input, sizeof(INPUT));
+        mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
     }
     else {
-        input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
-        SendInput(1, &input, sizeof(INPUT));
-        input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
-        SendInput(1, &input, sizeof(INPUT));
+        mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+        mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
     }
 }
