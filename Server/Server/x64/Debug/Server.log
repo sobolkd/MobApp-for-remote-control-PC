@@ -1,2 +1,6 @@
 ﻿  MouseController.cpp
+  Server.cpp
+D:\Diplom\Server\Server\Server.cpp(74,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(118,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

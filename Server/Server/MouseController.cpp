@@ -17,3 +17,14 @@ void clickMouse(bool leftButton) {
         mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
     }
 }
+
+//function for scroll
+void scrollMouse(int amount) {
+    INPUT input = { 0 };
+    input.type = INPUT_MOUSE;
+    input.mi.dwFlags = MOUSEEVENTF_WHEEL;
+    input.mi.mouseData = amount;
+
+    SendInput(1, &input, sizeof(INPUT));
+}
+

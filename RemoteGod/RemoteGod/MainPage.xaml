@@ -4,42 +4,75 @@
              x:Class="RemoteGod.MainPage"
              Title="Waiting for connection..."
              xmlns:controls="clr-namespace:RemoteGod.Controls">
-    <VerticalStackLayout Padding="20">
-        
-        <Button x:Name="Back" Margin="0, 10, 0, 50" Text="Go Back" Clicked="Back_Clicked" IsVisible="False"/>
+    <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+        <!--Back Button-->
+        <Button Text="Back"
+                x:Name="Back"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Padding="10"
+                BorderColor="Gray"
+                BorderWidth="1"
+                CornerRadius="5"
+                FontSize="16"
+                IsVisible="False"
+                Clicked="Back_Clicked"/>
+        <!--Back Button-->
 
         <!-- Main Buttons -->
-        <Button x:Name="Remote_Cursor" Margin="10" Text="Remote Cursor" Clicked="Remote_Cursor_Clicked" IsVisible="True"/>
-        <Button x:Name="Remote_Keyboard" Margin="10" Text="Remote Keyboard" Clicked="Remote_Keyboard_Clicked" IsVisible="True"/>
-        <Button x:Name="Display_Functions" Margin="10" Text="Display Functions" Clicked="Display_Functions_Clicked" IsVisible="True"/>
-        <Button x:Name="Media_Control" Margin="10" Text="Media Control" Clicked="Media_Control_Clicked" IsVisible="True"/>
-        <Button x:Name="File_Manager" Margin="10" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True"/>
-        <Button x:Name="System" Margin="10" Text="System" Clicked="System_Clicked" IsVisible="True"/>
-        <Button x:Name="Spy_Mode" Margin="10" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True"/>
-        <Button x:Name="Browser" Margin="10" Text="Browser" Clicked="Browser_Clicked" IsVisible="True"/>
+        <Button x:Name="Remote_Cursor" Text="Remote Cursor" Clicked="Remote_Cursor_Clicked" IsVisible="True"/>
+        <Button x:Name="Remote_Keyboard" Text="Remote Keyboard" Clicked="Remote_Keyboard_Clicked" IsVisible="True"/>
+        <Button x:Name="Display_Functions" Text="Display Functions" Clicked="Display_Functions_Clicked" IsVisible="True"/>
+        <Button x:Name="Media_Control" Text="Media Control" Clicked="Media_Control_Clicked" IsVisible="True"/>
+        <Button x:Name="File_Manager" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True"/>
+        <Button x:Name="System" Text="System" Clicked="System_Clicked" IsVisible="True"/>
+        <Button x:Name="Spy_Mode" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True"/>
+        <Button x:Name="Browser" Text="Browser" Clicked="Browser_Clicked" IsVisible="True"/>
         <!-- Main Buttons -->
 
         <!--Remote Keyboard-->
-        <Button x:Name="Call_Keyboard" Margin="10" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>
+        <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>
         <!--Remote Keyboard-->
-
-        <!-- Remote Cursor -->
-        <controls:JoystickView x:Name="JoystickView" 
-                       WidthRequest="200" 
-                       HeightRequest="200"
-                       Moved="Joystick_Moved"
-                       IsVisible="False"
-                       Margin="20"/>
-        <Button x:Name="Left_Click" Margin="10, 20, 10, 10" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False"/>
-        <Button x:Name="Right_Click" Margin="10" Text="Right Click" Clicked="RightClick_Clicked" IsVisible="False"/>
-        <!-- Remote Cursor -->
-
-        <!-- Display Functions -->
-        <Slider x:Name="BrightnessSlider"
-        Minimum="0" Maximum="100"
-        ValueChanged="BrightnessSlider_Changed"
-        IsVisible="False"/>
-        <!-- Display Functions -->
         
+        <!--Remote Mouse-->
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <HorizontalStackLayout Spacing="0" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Grid.Row="0">
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="10">
+                    <controls:JoystickView x:Name="JoystickView" 
+                                   WidthRequest="200" 
+                                   HeightRequest="200"
+                                   Moved="Joystick_Moved"
+                                   IsVisible="False"
+                                   Margin="20"/>
+
+                    <HorizontalStackLayout Spacing="20" HorizontalOptions="FillAndExpand">
+                        <Button x:Name="Left_Click" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False" HorizontalOptions="StartAndExpand" WidthRequest="130"/>
+                        <Button x:Name="Right_Click" Text="Right Click" Clicked="RightClick_Clicked" IsVisible="False" HorizontalOptions="EndAndExpand" WidthRequest="130"/>
+                    </HorizontalStackLayout>
+                </StackLayout>
+            </HorizontalStackLayout>
+            <Frame x:Name="ScrollBar" BackgroundColor="#1AFFFFFF" IsVisible="False" HeightRequest="300" WidthRequest="70" VerticalOptions="End" HorizontalOptions="Center" Margin="20" Grid.Row="1" CornerRadius="25" BorderColor="Gray">
+                <Frame.Content>
+                    <BoxView BackgroundColor="#1AFFFFFF">
+                        <BoxView.GestureRecognizers>
+                            <PanGestureRecognizer PanUpdated="OnPanUpdated"/>
+                        </BoxView.GestureRecognizers>
+                    </BoxView>
+                </Frame.Content>
+            </Frame>
+        </Grid>
+        <!--Remote Mouse-->
+
+
+        <!-- Display Functions -->
+        <Slider x:Name="BrightnessSlider" Minimum="0" Maximum="100" ValueChanged="BrightnessSlider_Changed" IsVisible="False"/>
+        <!-- Display Functions -->
+
     </VerticalStackLayout>
 </ContentPage>

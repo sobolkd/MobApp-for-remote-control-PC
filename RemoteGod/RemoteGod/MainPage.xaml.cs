@@ -9,7 +9,7 @@ public partial class MainPage : ContentPage
     private readonly ServerConnector serverConnector;
     private readonly DisplayController displayController;
     private KeyboardController keyboardController;
-
+    private readonly ScrollController _scrollController;
 
     private double cursorX = 500;
     private double cursorY = 300;
@@ -20,11 +20,18 @@ public partial class MainPage : ContentPage
         serverConnector = new ServerConnector();
         displayController = new DisplayController(serverConnector);
         keyboardController = new KeyboardController(serverConnector);
+        _scrollController = new ScrollController(serverConnector);
+
 
         serverConnector.OnIpReceived += ip => MainThread.BeginInvokeOnMainThread(() => Title = ip);
         serverConnector.OnCommandFailed += message => MainThread.BeginInvokeOnMainThread(() => Title = message);
 
         serverConnector.StartListening();
+    }
+
+    private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+    {
+        _scrollController.Scroll(sender, e);
     }
 
     void Remote_Cursor_Clicked(object sender, EventArgs e)
@@ -33,6 +40,7 @@ public partial class MainPage : ContentPage
         JoystickView.IsVisible = true;
         Left_Click.IsVisible = true;
         Right_Click.IsVisible = true;
+        ScrollBar.IsVisible = true;
         Remote_Cursor.IsVisible = false;
         Display_Functions.IsVisible = false; 
         Remote_Keyboard.IsVisible = false;
@@ -41,7 +49,6 @@ public partial class MainPage : ContentPage
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
-
     }
 
     void Display_Functions_Clicked(object sender, EventArgs e)
@@ -154,6 +161,7 @@ public partial class MainPage : ContentPage
         Right_Click.IsVisible = false;
         BrightnessSlider.IsVisible = false;
         Call_Keyboard.IsVisible = false;
+        ScrollBar.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -184,6 +192,10 @@ public partial class MainPage : ContentPage
     }
 
     void LeftClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK LEFT");
-
     void RightClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK RIGHT");
+
+    private void Back_Clicked_1(object sender, EventArgs e)
+    {
+
+    }
 }

@@ -145,6 +145,12 @@ void handleClient(SOCKET clientSock) {
         else if (command == "OPEN_KEYBOARD") {
             openOnScreenKeyboard();
         }
+        else if (command.rfind("SCROLL", 0) == 0) {
+            int amount;
+            sscanf_s(command.c_str(), "SCROLL %d", &amount);
+            scrollMouse(amount);
+        }
+
     }
     closesocket(clientSock);
 }
