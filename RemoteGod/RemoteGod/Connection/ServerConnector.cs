@@ -84,4 +84,26 @@ public class ServerConnector
             OnCommandFailed?.Invoke("Command failed");
         }
     }
+
+    public async Task<string> SendCommandWithResponse(string command)
+    {
+        if (ServerIp == null) return "No server connection";
+        try
+        {
+            using var tcpClient = new TcpClient();
+            await tcpClient.ConnectAsync(ServerIp, TcpPort);
+            using var stream = tcpClient.GetStream();
+
+            byte[] data = Encoding.UTF8.GetBytes(command);
+            await stream.WriteAsync(data, 0, data.Length);
+
+            byte[] buffer = new byte[256];
+            int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+            return Encoding.UTF8.GetString(buffer, 0, bytesRead);
+        }
+        catch
+        {
+            return "Command failed";
+        }
+    }
 }

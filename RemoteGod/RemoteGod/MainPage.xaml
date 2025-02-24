@@ -76,5 +76,30 @@
         <Slider x:Name="BrightnessSlider" Minimum="0" Maximum="100" ValueChanged="BrightnessSlider_Changed" IsVisible="False"/>
         <!-- Display Functions -->
 
+        <!-- Media Control -->
+        <VerticalStackLayout Padding="20" x:Name="Media_Controls" IsVisible="False">
+
+            <Label x:Name="NowPlayingLabel" 
+           Text="Now Playing: -" 
+           FontSize="18" 
+           HorizontalOptions="Center" />
+
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" Margin="0, 30, 0, 0">
+                <Button Text="⏮" x:Name="PrevTrack" WidthRequest="100" Clicked="PrevTrack_Clicked" />
+                <Button Text="⏯" x:Name="PlayPause" WidthRequest="100" Clicked="PlayPause_Clicked" />
+                <Button Text="⏭" x:Name="NextTrack" WidthRequest="100" Clicked="NextTrack_Clicked" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                <Button Text="🔇" Margin="10, 10, 0, 10" x:Name="Mute" Clicked="Mute_Clicked" />
+                <Slider x:Name="VolumeSlider" 
+                Minimum="0" Maximum="100" 
+                ValueChanged="VolumeSlider_Changed" 
+                WidthRequest="250"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+        <!-- Media Control -->
+
     </VerticalStackLayout>
 </ContentPage>

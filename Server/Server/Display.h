@@ -10,4 +10,4 @@
 
 bool setMonitorBrightness(int brightness);
 
-#endif // MONITOR_BRIGHTNESS_H
+#endif

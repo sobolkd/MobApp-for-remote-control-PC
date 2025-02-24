@@ -11,6 +11,7 @@
 #include "Display.h"
 #include "KeyboardController.h"
 #include "ClipboardController.h"
+#include "MediaController.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -155,6 +156,32 @@ void handleClient(SOCKET clientSock) {
         }
         else if (command.rfind("CTRL V", 0) == 0) {
             pressCtrlV();
+        }
+        else if (command == "MEDIA PLAYPAUSE") {
+            PlayPause();
+        }
+        else if (command == "MEDIA NEXT") {
+            NextTrack();
+        }
+        else if (command == "MEDIA PREV") {
+            PrevTrack();
+        }
+        else if (command == "VOLUME MUTE") {
+            Mute();
+        }
+        else if (command.rfind("VOLUME", 0) == 0) {
+            int volume;
+            sscanf_s(command.c_str(), "VOLUME %d", &volume);
+            ChangeVolume(volume);
+        }
+        else if (command == "GET NOWPLAYING") {
+            std::string nowPlaying = GetNowPlayingInfo();
+            send(clientSock, nowPlaying.c_str(), nowPlaying.length(), 0);
+        }
+        else if (command == "GET VOLUME") {
+            int volume = GetCurrentVolume();
+            std::string volumeStr = std::to_string(volume);
+            send(clientSock, volumeStr.c_str(), volumeStr.length(), 0);
         }
 
     }

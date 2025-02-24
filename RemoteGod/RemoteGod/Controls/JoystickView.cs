@@ -54,7 +54,7 @@ namespace RemoteGod.Controls
                 canvas.FillColor = Colors.DarkGray;
                 canvas.FillCircle((float)centerX, (float)centerY, (float)_joystick._radius);
 
-                canvas.FillColor = Colors.Blue;
+                canvas.FillColor = Colors.Purple;
                 canvas.FillCircle((float)(centerX + _joystick._thumbX),
                                   (float)(centerY + _joystick._thumbY),
                                   (float)_joystick._radius / 4);

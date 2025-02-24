@@ -10,6 +10,7 @@ public partial class MainPage : ContentPage
     private readonly DisplayController displayController;
     private KeyboardController keyboardController;
     private readonly ScrollController _scrollController;
+    private MediaController mediaController;
 
     private double cursorX = 500;
     private double cursorY = 300;
@@ -21,7 +22,7 @@ public partial class MainPage : ContentPage
         displayController = new DisplayController(serverConnector);
         keyboardController = new KeyboardController(serverConnector);
         _scrollController = new ScrollController(serverConnector);
-
+        mediaController = new MediaController(serverConnector, this);
 
         serverConnector.OnIpReceived += ip => MainThread.BeginInvokeOnMainThread(() => Title = ip);
         serverConnector.OnCommandFailed += message => MainThread.BeginInvokeOnMainThread(() => Title = message);
@@ -85,6 +86,7 @@ public partial class MainPage : ContentPage
     void Media_Control_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
+        Media_Controls.IsVisible = true;
         Remote_Cursor.IsVisible = false;
         Display_Functions.IsVisible = false;
         Remote_Keyboard.IsVisible = false;
@@ -93,6 +95,10 @@ public partial class MainPage : ContentPage
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
+
+        mediaController.UpdateNowPlaying();
+        mediaController.UpdateVolume();
+
     }
 
     void File_Manager_Clicked (object sender, EventArgs e)
@@ -166,6 +172,7 @@ public partial class MainPage : ContentPage
         ScrollBar.IsVisible = false;
         CTRL_C.IsVisible = false;
         CTRL_V.IsVisible = false;
+        Media_Controls.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -197,13 +204,19 @@ public partial class MainPage : ContentPage
 
     void LeftClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK LEFT");
     void RightClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK RIGHT");
-
-    void CTRL_C_Clicked(object sender, EventArgs e)
+    void CTRL_C_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CTRL C");
+    void CTRL_V_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CTRL V");
+    void PrevTrack_Clicked(object sender, EventArgs e) => mediaController.PrevTrack();
+    void PlayPause_Clicked(object sender, EventArgs e) => mediaController.PlayPause();
+    void NextTrack_Clicked(object sender, EventArgs e) => mediaController.NextTrack();
+    void Mute_Clicked(object sender, EventArgs e) => mediaController.Mute();
+    void VolumeSlider_Changed(object sender, ValueChangedEventArgs e) => mediaController.ChangeVolume(e.NewValue);
+    public void UpdateNowPlaying(string nowPlaying)
     {
-        serverConnector.SendCommand("CTRL C");
+        NowPlayingLabel.Text = $"Now Playing: {nowPlaying}";
     }
-    void CTRL_V_Clicked(object sender, EventArgs e)
+    public void UpdateVolume(int volume)
     {
-        serverConnector.SendCommand("CTRL V");
+        VolumeSlider.Value = volume;
     }
 }

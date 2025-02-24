@@ -1,10 +1,10 @@
 #include <iostream>
 #include <thread>
-
-#include "Server.h"
 #include <windows.h>
+#include "Server.h"
 
-int main() {
+int main()
+{
     std::thread udpThread(broadcastUDP);
     tcpServer();
 
