@@ -206,10 +206,18 @@ public partial class MainPage : ContentPage
     void RightClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK RIGHT");
     void CTRL_C_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CTRL C");
     void CTRL_V_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CTRL V");
-    void PrevTrack_Clicked(object sender, EventArgs e) => mediaController.PrevTrack();
+    void PrevTrack_Clicked(object sender, EventArgs e)
+    {
+        mediaController.PrevTrack();
+        WaitForUpdate();
+    }
     void PlayPause_Clicked(object sender, EventArgs e) => mediaController.PlayPause();
-    void NextTrack_Clicked(object sender, EventArgs e) => mediaController.NextTrack();
-    void Mute_Clicked(object sender, EventArgs e) => mediaController.Mute();
+    void NextTrack_Clicked(object sender, EventArgs e)
+    {
+        mediaController.NextTrack();
+        WaitForUpdate();
+    }
+        void Mute_Clicked(object sender, EventArgs e) => mediaController.Mute();
     void VolumeSlider_Changed(object sender, ValueChangedEventArgs e) => mediaController.ChangeVolume(e.NewValue);
     public void UpdateNowPlaying(string nowPlaying)
     {
@@ -218,5 +226,10 @@ public partial class MainPage : ContentPage
     public void UpdateVolume(int volume)
     {
         VolumeSlider.Value = volume;
+    }
+    public async void WaitForUpdate()
+    {
+        await Task.Delay(1000);
+        mediaController.UpdateNowPlaying();
     }
 }

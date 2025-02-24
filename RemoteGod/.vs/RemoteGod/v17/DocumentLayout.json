@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\controls\\mediacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\controls\\mediacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
@@ -22,7 +26,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainPage.xaml",
               "DocumentMoniker": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml",
               "RelativeDocumentMoniker": "RemoteGod\\MainPage.xaml",
@@ -41,10 +45,23 @@
               "RelativeDocumentMoniker": "RemoteGod\\MainPage.xaml.cs",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml.cs",
               "RelativeToolTip": "RemoteGod\\MainPage.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAASwOsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-05T18:07:10.551Z",
               "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MediaController.cs",
+              "DocumentMoniker": "D:\\Diplom\\RemoteGod\\RemoteGod\\Controls\\MediaController.cs",
+              "RelativeDocumentMoniker": "RemoteGod\\Controls\\MediaController.cs",
+              "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\Controls\\MediaController.cs",
+              "RelativeToolTip": "RemoteGod\\Controls\\MediaController.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAkwCoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T22:46:30.87Z",
               "EditorCaption": ""
             }
           ]

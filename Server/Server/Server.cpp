@@ -162,6 +162,7 @@ void handleClient(SOCKET clientSock) {
         }
         else if (command == "MEDIA NEXT") {
             NextTrack();
+
         }
         else if (command == "MEDIA PREV") {
             PrevTrack();
