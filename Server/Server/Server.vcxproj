@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClipboardController.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClipboardController.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="MouseController.h" />

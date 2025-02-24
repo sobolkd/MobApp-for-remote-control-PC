@@ -41,6 +41,8 @@ public partial class MainPage : ContentPage
         Left_Click.IsVisible = true;
         Right_Click.IsVisible = true;
         ScrollBar.IsVisible = true;
+        CTRL_V.IsVisible = true;
+        CTRL_C.IsVisible = true;
         Remote_Cursor.IsVisible = false;
         Display_Functions.IsVisible = false; 
         Remote_Keyboard.IsVisible = false;
@@ -162,6 +164,8 @@ public partial class MainPage : ContentPage
         BrightnessSlider.IsVisible = false;
         Call_Keyboard.IsVisible = false;
         ScrollBar.IsVisible = false;
+        CTRL_C.IsVisible = false;
+        CTRL_V.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -194,8 +198,12 @@ public partial class MainPage : ContentPage
     void LeftClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK LEFT");
     void RightClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK RIGHT");
 
-    private void Back_Clicked_1(object sender, EventArgs e)
+    void CTRL_C_Clicked(object sender, EventArgs e)
     {
-
+        serverConnector.SendCommand("CTRL C");
+    }
+    void CTRL_V_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("CTRL V");
     }
 }

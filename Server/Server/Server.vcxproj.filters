@@ -30,6 +30,9 @@
     <ClCompile Include="KeyboardController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClipboardController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Server.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipboardController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

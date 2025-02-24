@@ -55,9 +55,11 @@
                         <Button x:Name="Left_Click" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False" HorizontalOptions="StartAndExpand" WidthRequest="130"/>
                         <Button x:Name="Right_Click" Text="Right Click" Clicked="RightClick_Clicked" IsVisible="False" HorizontalOptions="EndAndExpand" WidthRequest="130"/>
                     </HorizontalStackLayout>
+                    <Button x:Name="CTRL_C" Text="Ctrl + C" Clicked="CTRL_C_Clicked" IsVisible="False" />
+                    <Button x:Name="CTRL_V" Text="Ctrl + V" Clicked="CTRL_V_Clicked" IsVisible="False" />
                 </StackLayout>
             </HorizontalStackLayout>
-            <Frame x:Name="ScrollBar" BackgroundColor="#1AFFFFFF" IsVisible="False" HeightRequest="300" WidthRequest="70" VerticalOptions="End" HorizontalOptions="Center" Margin="20" Grid.Row="1" CornerRadius="25" BorderColor="Gray">
+            <Frame x:Name="ScrollBar" BackgroundColor="#1AFFFFFF" IsVisible="False" HeightRequest="200" WidthRequest="70" VerticalOptions="End" HorizontalOptions="Center" Margin="20" Grid.Row="1" CornerRadius="25" BorderColor="Gray">
                 <Frame.Content>
                     <BoxView BackgroundColor="#1AFFFFFF">
                         <BoxView.GestureRecognizers>

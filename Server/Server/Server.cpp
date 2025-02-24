@@ -10,7 +10,7 @@
 #include "MouseController.h"
 #include "Display.h"
 #include "KeyboardController.h"
-
+#include "ClipboardController.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -149,6 +149,12 @@ void handleClient(SOCKET clientSock) {
             int amount;
             sscanf_s(command.c_str(), "SCROLL %d", &amount);
             scrollMouse(amount);
+        }
+        else if (command.rfind("CTRL C", 0) == 0) {
+            pressCtrlC();
+        }
+        else if (command.rfind("CTRL V", 0) == 0) {
+            pressCtrlV();
         }
 
     }
