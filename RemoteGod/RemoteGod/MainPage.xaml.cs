@@ -34,7 +34,6 @@ public partial class MainPage : ContentPage
     {
         _scrollController.Scroll(sender, e);
     }
-
     void Remote_Cursor_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -53,21 +52,21 @@ public partial class MainPage : ContentPage
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
     }
-
     void Display_Functions_Clicked(object sender, EventArgs e)
     {
-        Display_Functions.IsVisible = false;
-        Remote_Cursor.IsVisible = false;
-        Media_Control.IsVisible = false;
         Back.IsVisible = true;
         BrightnessSlider.IsVisible = true;
+        BrightnessLabel.IsVisible = true;
         Remote_Keyboard.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
+        Display_Functions.IsVisible = false;
+        Remote_Cursor.IsVisible = false;
+        Media_Control.IsVisible = false;
+        UpdateBrightnessSlider();
     }
-
     void Remote_Keyboard_Clicked (object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -173,6 +172,7 @@ public partial class MainPage : ContentPage
         CTRL_C.IsVisible = false;
         CTRL_V.IsVisible = false;
         Media_Controls.IsVisible = false;
+        BrightnessLabel.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -200,8 +200,17 @@ public partial class MainPage : ContentPage
     {
         int brightness = (int)e.NewValue;
         displayController.SetBrightness(brightness);
+        BrightnessLabel.Text = $"Brightness = {brightness}";
     }
-
+    async void UpdateBrightnessSlider()
+    {
+        int? brightness = await displayController.GetBrightness();
+        if (brightness.HasValue)
+        {
+            BrightnessSlider.Value = brightness.Value;
+            BrightnessLabel.Text = $"Brightness = {brightness.Value}";
+        }
+    }
     void LeftClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK LEFT");
     void RightClick_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CLICK RIGHT");
     void CTRL_C_Clicked(object sender, EventArgs e) => serverConnector.SendCommand("CTRL C");
@@ -217,7 +226,7 @@ public partial class MainPage : ContentPage
         mediaController.NextTrack();
         WaitForUpdate();
     }
-        void Mute_Clicked(object sender, EventArgs e) => mediaController.Mute();
+    void Mute_Clicked(object sender, EventArgs e) => mediaController.Mute();
     void VolumeSlider_Changed(object sender, ValueChangedEventArgs e) => mediaController.ChangeVolume(e.NewValue);
     public void UpdateNowPlaying(string nowPlaying)
     {

@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "D:\\Diplom\\Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\MediaController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\MediaController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -22,11 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Main.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Main.cpp",
               "RelativeDocumentMoniker": "Server\\Main.cpp",
@@ -35,33 +31,20 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-05T17:26:38.405Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Server.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeDocumentMoniker": "Server\\Server.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeToolTip": "Server\\Server.cpp",
-              "ViewState": "AgIAAJYAAAAAAAAAAAAwwLUAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwAsAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-24T22:44:59.797Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MediaController.cpp",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\MediaController.cpp",
-              "RelativeDocumentMoniker": "Server\\MediaController.cpp",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\MediaController.cpp",
-              "RelativeToolTip": "Server\\MediaController.cpp",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-24T22:19:31.881Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

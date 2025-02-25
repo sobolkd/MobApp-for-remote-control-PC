@@ -21,5 +21,16 @@ namespace RemoteGod
 
             serverConnector.SendCommand($"BRIGHTNESS {level}");
         }
+
+        public async Task<int?> GetBrightness()
+        {
+            string response = await serverConnector.SendCommandWithResponse("GET_BRIGHTNESS");
+            if (int.TryParse(response, out int brightness))
+            {
+                return brightness;
+            }
+            return null;
+        }
+
     }
 }

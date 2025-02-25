@@ -2,12 +2,12 @@
 #define MONITOR_BRIGHTNESS_H
 
 #include <windows.h>
-#include <highlevelmonitorconfigurationapi.h>
+#include <powrprof.h>
 #include <iostream>
 
-#pragma comment(lib, "user32.lib")
-#pragma comment(lib, "dxva2.lib")
+#pragma comment(lib, "PowrProf.lib")
 
+int getMonitorBrightness();
 bool setMonitorBrightness(int brightness);
 
 #endif

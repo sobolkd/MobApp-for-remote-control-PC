@@ -184,6 +184,12 @@ void handleClient(SOCKET clientSock) {
             std::string volumeStr = std::to_string(volume);
             send(clientSock, volumeStr.c_str(), volumeStr.length(), 0);
         }
+        else if (command == "GET_BRIGHTNESS") {
+            int brightness = getMonitorBrightness();
+            std::string response = (brightness >= 0) ? std::to_string(brightness) : "ERROR";
+            send(clientSock, response.c_str(), response.size(), 0);
+        }
+
 
     }
     closesocket(clientSock);

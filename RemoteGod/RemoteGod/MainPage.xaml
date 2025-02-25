@@ -73,6 +73,7 @@
 
 
         <!-- Display Functions -->
+        <Label x:Name="BrightnessLabel" Text="Brightness = 0" IsVisible="False"/>
         <Slider x:Name="BrightnessSlider" Minimum="0" Maximum="100" ValueChanged="BrightnessSlider_Changed" IsVisible="False"/>
         <!-- Display Functions -->
 
