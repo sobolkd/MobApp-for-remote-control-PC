@@ -32,7 +32,11 @@
         <!-- Main Buttons -->
 
         <!--Remote Keyboard-->
-        <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>
+        <StackLayout>
+              <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>
+              <Entry x:Name="ClipboardEntry" Placeholder="Enter text to copy" IsVisible="False" Margin=" 0, 20, 0, 20" />
+            <Button x:Name="SendTextToClipboard" Text="Copy to PC Clipboard" Clicked="SendTextToClipboard_Clicked" IsVisible="False" />
+        </StackLayout>
         <!--Remote Keyboard-->
         
         <!--Remote Mouse-->

@@ -70,16 +70,17 @@ public partial class MainPage : ContentPage
     void Remote_Keyboard_Clicked (object sender, EventArgs e)
     {
         Back.IsVisible = true;
+        ClipboardEntry.IsVisible = true;
+        SendTextToClipboard.IsVisible = true;
+        Call_Keyboard.IsVisible = true;
         Display_Functions.IsVisible = false;
         Remote_Cursor.IsVisible = false;
         Media_Control.IsVisible = false;
-        Back.IsVisible = true;
         Remote_Keyboard.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
-        Call_Keyboard.IsVisible = true;
     }
 
     void Media_Control_Clicked(object sender, EventArgs e)
@@ -173,6 +174,8 @@ public partial class MainPage : ContentPage
         CTRL_V.IsVisible = false;
         Media_Controls.IsVisible = false;
         BrightnessLabel.IsVisible = false;
+        ClipboardEntry.IsVisible = false;
+        SendTextToClipboard.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -238,7 +241,19 @@ public partial class MainPage : ContentPage
     }
     public async void WaitForUpdate()
     {
-        await Task.Delay(1000);
+        await Task.Delay(200);
         mediaController.UpdateNowPlaying();
+    }
+    public async void SendTextToClipboard_Clicked(object sender, EventArgs e)
+    {
+        string text = ClipboardEntry.Text;
+        if (!string.IsNullOrEmpty(text))
+        {
+            bool success = await keyboardController.SendClipboardText(text);
+            if (success)
+                await DisplayAlert("Success", "Text copied to PC clipboard!", "OK");
+            else
+                await DisplayAlert("Error", "Failed to copy text.", "OK");
+        }
     }
 }

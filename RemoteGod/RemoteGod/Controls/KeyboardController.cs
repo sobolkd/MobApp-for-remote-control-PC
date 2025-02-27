@@ -13,4 +13,11 @@ public class KeyboardController
     {
         serverConnector.SendCommand("OPEN_KEYBOARD");
     }
+
+    public async Task<bool> SendClipboardText(string text)
+    {
+        string response = await serverConnector.SendCommandWithResponse($"SET_CLIPBOARD {text}");
+        return response == "OK";
+    }
+
 }

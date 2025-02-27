@@ -2,6 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <string>
 
 // headers
 #include <winsock2.h>
@@ -54,6 +55,13 @@ std::string getLocalIPAddress() {
 
     freeaddrinfo(info);
     return localIP;
+}
+
+std::wstring stringToWstring(const std::string& str) {
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+    std::wstring wstr(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], size_needed);
+    return wstr;
 }
 
 void broadcastUDP() {
@@ -125,17 +133,23 @@ void handleClient(SOCKET clientSock) {
         buffer[bytesReceived] = '\0';
         std::string command(buffer);
 
+        /* here all comands from app*/
+
+        // move cursor
         if (command.rfind("MOVE", 0) == 0) {
             int x, y;
             sscanf_s(command.c_str(), "MOVE %d %d", &x, &y);
             moveCursor(x, y);
         }
+        // left click
         else if (command == "CLICK LEFT") {
             clickMouse(true);
         }
+        //right click
         else if (command == "CLICK RIGHT") {
             clickMouse(false);
         }
+        // change brightness
         else if (command.rfind("BRIGHTNESS", 0) == 0) {
             int level;
             sscanf_s(command.c_str(), "BRIGHTNESS %d", &level);
@@ -143,50 +157,68 @@ void handleClient(SOCKET clientSock) {
                 setMonitorBrightness(level);
             }   
         }
+        // call on-screen keyboard
         else if (command == "OPEN_KEYBOARD") {
             openOnScreenKeyboard();
         }
+        // scroll
         else if (command.rfind("SCROLL", 0) == 0) {
             int amount;
             sscanf_s(command.c_str(), "SCROLL %d", &amount);
             scrollMouse(amount);
         }
+        // copy
         else if (command.rfind("CTRL C", 0) == 0) {
             pressCtrlC();
         }
+        // paste
         else if (command.rfind("CTRL V", 0) == 0) {
             pressCtrlV();
         }
+        // Pause/Unpause music
         else if (command == "MEDIA PLAYPAUSE") {
             PlayPause();
         }
+        // next media-file
         else if (command == "MEDIA NEXT") {
             NextTrack();
 
         }
+        // previous media-file
         else if (command == "MEDIA PREV") {
             PrevTrack();
         }
+        // volume = 0
         else if (command == "VOLUME MUTE") {
             Mute();
         }
+        // change volume
         else if (command.rfind("VOLUME", 0) == 0) {
             int volume;
             sscanf_s(command.c_str(), "VOLUME %d", &volume);
             ChangeVolume(volume);
         }
+        // get name of media-file
         else if (command == "GET NOWPLAYING") {
             std::string nowPlaying = GetNowPlayingInfo();
             send(clientSock, nowPlaying.c_str(), nowPlaying.length(), 0);
         }
+        // get volume level
         else if (command == "GET VOLUME") {
             int volume = GetCurrentVolume();
             std::string volumeStr = std::to_string(volume);
             send(clientSock, volumeStr.c_str(), volumeStr.length(), 0);
         }
+        // get brightness level
         else if (command == "GET_BRIGHTNESS") {
             int brightness = getMonitorBrightness();
             std::string response = (brightness >= 0) ? std::to_string(brightness) : "ERROR";
+            send(clientSock, response.c_str(), response.size(), 0);
+        }
+        else if (command.compare(0, 14, "SET_CLIPBOARD ") == 0) {
+            std::wstring text = stringToWstring(command.substr(14));
+            bool success = setClipboardText(text);
+            std::string response = success ? "OK" : "ERROR";
             send(clientSock, response.c_str(), response.size(), 0);
         }
 
