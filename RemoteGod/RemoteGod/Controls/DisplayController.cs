@@ -22,6 +22,19 @@ namespace RemoteGod
             serverConnector.SendCommand($"BRIGHTNESS {level}");
         }
 
+        public async Task SetResolution(string selected)
+        {
+            if (string.IsNullOrEmpty(selected))
+                return;
+
+            string[] parts = selected.Split('x');
+            if (parts.Length != 2 || !int.TryParse(parts[0], out int width) || !int.TryParse(parts[1], out int height))
+            {
+                return;
+            }
+            await serverConnector.SendCommandWithResponse($"SET_RESOLUTION {width} {height}");
+        }
+
         public async Task<int?> GetBrightness()
         {
             string response = await serverConnector.SendCommandWithResponse("GET_BRIGHTNESS");

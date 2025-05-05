@@ -79,6 +79,20 @@
         <!-- Display Functions -->
         <Label x:Name="BrightnessLabel" Text="Brightness = 0" IsVisible="False"/>
         <Slider x:Name="BrightnessSlider" Minimum="0" Maximum="100" ValueChanged="BrightnessSlider_Changed" IsVisible="False"/>
+
+        <Label Text="Resolution" IsVisible="False" x:Name="ResolutionLabel"/>
+        <Picker x:Name="ResolutionPicker" Title="Select Resolution" IsVisible="False">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>1920x1080</x:String>
+                    <x:String>1600x900</x:String>
+                    <x:String>1366x768</x:String>
+                    <x:String>1280x720</x:String>
+                    <x:String>1024x768</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Button Text="Change" Clicked="ChangeResolution_Clicked" IsVisible="False" x:Name="ChangeResolutionButton"/>
         <!-- Display Functions -->
 
         <!-- Media Control -->

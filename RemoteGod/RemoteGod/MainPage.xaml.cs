@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Maui.Controls;
+using static Android.Print.PrintAttributes;
 
 namespace RemoteGod;
 
@@ -57,6 +58,9 @@ public partial class MainPage : ContentPage
         Back.IsVisible = true;
         BrightnessSlider.IsVisible = true;
         BrightnessLabel.IsVisible = true;
+        ResolutionLabel.IsVisible = true;
+        ResolutionPicker.IsVisible = true;
+        ChangeResolutionButton.IsVisible = true;
         Remote_Keyboard.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
@@ -176,6 +180,9 @@ public partial class MainPage : ContentPage
         BrightnessLabel.IsVisible = false;
         ClipboardEntry.IsVisible = false;
         SendTextToClipboard.IsVisible = false;
+        ResolutionLabel.IsVisible = false;
+        ResolutionPicker.IsVisible = false;
+        ChangeResolutionButton.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -205,6 +212,21 @@ public partial class MainPage : ContentPage
         displayController.SetBrightness(brightness);
         BrightnessLabel.Text = $"Brightness = {brightness}";
     }
+    async void ChangeResolution_Clicked(object sender, EventArgs e)
+    {
+        string selected = ResolutionPicker.SelectedItem as string;
+        if (!string.IsNullOrEmpty(selected))
+        {
+            await displayController.SetResolution(selected);
+
+            await DisplayAlert("Resolution Change", "Resolution has been changed.", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Please select a valid resolution.", "OK");
+        }
+    }
+
     async void UpdateBrightnessSlider()
     {
         int? brightness = await displayController.GetBrightness();

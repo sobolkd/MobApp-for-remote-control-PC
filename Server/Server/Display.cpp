@@ -51,3 +51,35 @@ bool setMonitorBrightness(int brightness) {
     LocalFree(activeScheme);
     return true;
 }
+
+bool setScreenResolution(int width, int height) {
+    DEVMODE devMode = {};
+    devMode.dmSize = sizeof(DEVMODE);
+    int modeIndex = 0;
+    bool resolutionAvailable = false;
+
+    while (EnumDisplaySettings(NULL, modeIndex, &devMode)) {
+        if (devMode.dmPelsWidth == width && devMode.dmPelsHeight == height) {
+            resolutionAvailable = true;
+            break;
+        }
+        modeIndex++;
+    }
+
+    if (!resolutionAvailable) {
+        std::cerr << "Requested resolution is not supported." << std::endl;
+        return false;
+    }
+
+    devMode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
+
+    LONG result = ChangeDisplaySettingsEx(NULL, &devMode, NULL, CDS_UPDATEREGISTRY | CDS_RESET, NULL);
+    if (result != DISP_CHANGE_SUCCESSFUL) {
+        std::cerr << "Failed to change screen resolution. Error code: " << result << std::endl;
+        return false;
+    }
+    std::cout << "Resolution changed to: " << width << "x" << height << std::endl;
+    return true;
+}
+
+

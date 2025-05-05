@@ -1,10 +1,2 @@
-﻿  KeyboardController.cpp
-  Server.cpp
-D:\Diplom\Server\Server\Server.cpp(83,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(127,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(204,67): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(210,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(216,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(222,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
+﻿  Display.cpp
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

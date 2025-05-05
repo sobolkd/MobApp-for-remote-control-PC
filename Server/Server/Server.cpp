@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
+#include <sstream>
 
 // headers
 #include <winsock2.h>
@@ -215,11 +216,24 @@ void handleClient(SOCKET clientSock) {
             std::string response = (brightness >= 0) ? std::to_string(brightness) : "ERROR";
             send(clientSock, response.c_str(), response.size(), 0);
         }
+        // set clipboard
         else if (command.compare(0, 14, "SET_CLIPBOARD ") == 0) {
             std::wstring text = stringToWstring(command.substr(14));
+
             bool success = setClipboardText(text);
             std::string response = success ? "OK" : "ERROR";
             send(clientSock, response.c_str(), response.size(), 0);
+        }
+        // set resolution
+        else if (command.compare(0, 15, "SET_RESOLUTION ") == 0) {
+            std::istringstream iss(command.substr(15));
+            int width, height;
+            if (iss >> width >> height) {
+                bool success = setScreenResolution(width, height);
+            }
+            else {
+                std::cout << "Invalid Format" << std::endl;
+            }
         }
 
 
@@ -228,7 +242,17 @@ void handleClient(SOCKET clientSock) {
 }
 
 void tcpServer() {
-    std::cout << "Server started...\n";
+
+    std::cout << R"(  
+  _________     ___.          .__   
+ /   _____/ ____\_ |__   ____ |  |  
+ \_____  \ /  _ \| __ \ /  _ \|  |  
+ /        (  <_> ) \_\ (  <_> )  |__
+/_______  /\____/|___  /\____/|____/
+        \/           \/             
+)" << std::endl;
+std::cout << "Server started..." << std::endl;
+
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
 
