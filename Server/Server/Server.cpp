@@ -235,11 +235,25 @@ void handleClient(SOCKET clientSock) {
                 std::cout << "Invalid Format" << std::endl;
             }
         }
+        // quiet mode
+        else if (command.compare(0, 15, "QUIET_MODE_ON") == 0) {
+            setQuietMode(true);
+        }
+        else if (command.compare(0, 16, "QUIET_MODE_OFF") == 0) {
+            setQuietMode(false);
+        }
+
 
 
     }
     closesocket(clientSock);
 }
+
+void sendResult(bool success, SOCKET clientSock) {
+    std::string response = success ? "OK" : "ERROR";
+    send(clientSock, response.c_str(), response.size(), 0);
+}
+
 
 void tcpServer() {
 

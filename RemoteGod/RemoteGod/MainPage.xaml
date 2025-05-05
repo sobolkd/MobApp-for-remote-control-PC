@@ -93,6 +93,8 @@
             </Picker.ItemsSource>
         </Picker>
         <Button Text="Change" Clicked="ChangeResolution_Clicked" IsVisible="False" x:Name="ChangeResolutionButton"/>
+        <Label Text="Quiet Mode" IsVisible="False" x:Name="QuietModeLabel"/>
+        <Switch x:Name="QuietModeSwitch" Toggled="QuietModeSwitch_Toggled" IsVisible="False"/>
         <!-- Display Functions -->
 
         <!-- Media Control -->

@@ -10,4 +10,5 @@
 int getMonitorBrightness();
 bool setMonitorBrightness(int brightness);
 bool setScreenResolution(int width, int height);
+bool setQuietMode(bool enable);
 #endif

@@ -1,8 +1,12 @@
 #include <windows.h>
 #include <powrprof.h>
 #include <iostream>
+#include <atlbase.h>
+#include <wrl.h>
 
 #pragma comment(lib, "PowrProf.lib")
+
+using namespace Microsoft::WRL;
 
 int getMonitorBrightness() {
     DWORD brightness;
@@ -81,5 +85,29 @@ bool setScreenResolution(int width, int height) {
     std::cout << "Resolution changed to: " << width << "x" << height << std::endl;
     return true;
 }
+
+    bool setQuietMode(bool enable) {
+        HKEY hKey;
+        const wchar_t* subKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications";
+
+        LONG result = RegOpenKeyExW(HKEY_CURRENT_USER, subKey, 0, KEY_SET_VALUE, &hKey);
+        if (result != ERROR_SUCCESS) {
+            std::cerr << "RegOpenKeyExW failed with error: " << result << "\n";
+            return false;
+        }
+
+        DWORD value = enable ? 1 : 0;
+        result = RegSetValueExW(hKey, L"ToastEnabled", 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(value));
+        RegCloseKey(hKey);
+
+        if (result != ERROR_SUCCESS) {
+            std::cerr << "RegSetValueExW failed with error: " << result << "\n";
+            return false;
+        }
+
+        return true;
+    }
+
+
 
 

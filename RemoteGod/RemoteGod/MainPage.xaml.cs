@@ -61,6 +61,8 @@ public partial class MainPage : ContentPage
         ResolutionLabel.IsVisible = true;
         ResolutionPicker.IsVisible = true;
         ChangeResolutionButton.IsVisible = true;
+        QuietModeLabel.IsVisible = true;
+        QuietModeSwitch.IsVisible = true;
         Remote_Keyboard.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
@@ -183,6 +185,8 @@ public partial class MainPage : ContentPage
         ResolutionLabel.IsVisible = false;
         ResolutionPicker.IsVisible = false;
         ChangeResolutionButton.IsVisible = false;
+        QuietModeLabel.IsVisible = false;
+        QuietModeSwitch.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -204,6 +208,12 @@ public partial class MainPage : ContentPage
         cursorY = Math.Clamp(intCursorY, 0, 1080);
 
         serverConnector.SendCommand($"MOVE {intCursorX} {intCursorY}");
+    }
+
+    private async void QuietModeSwitch_Toggled(object sender, ToggledEventArgs e)
+    {
+        string command = e.Value ? "QUIET_MODE_ON" : "QUIET_MODE_OFF";
+        serverConnector.SendCommand(command);
     }
 
     void BrightnessSlider_Changed(object sender, ValueChangedEventArgs e)
