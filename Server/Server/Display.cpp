@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <powrprof.h>
 #include <iostream>
 #include <atlbase.h>
@@ -108,6 +108,29 @@ bool setScreenResolution(int width, int height) {
         return true;
     }
 
+    bool setDisplayOrientation(DWORD orientation) {
+        DEVMODE devMode = {};
+        devMode.dmSize = sizeof(DEVMODE);
+        devMode.dmFields = DM_DISPLAYORIENTATION;
 
+        if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode))
+            return false;
+
+        // Перевірка, чи вже така орієнтація
+        if (devMode.dmDisplayOrientation == orientation)
+            return true;
+
+        // Якщо переходимо між горизонтальним ↔ вертикальним, треба поміняти ширину і висоту
+        if ((devMode.dmDisplayOrientation == DMDO_90 || devMode.dmDisplayOrientation == DMDO_270) !=
+            (orientation == DMDO_90 || orientation == DMDO_270)) {
+            devMode.dmFields |= DM_PELSWIDTH | DM_PELSHEIGHT;
+            std::swap(devMode.dmPelsWidth, devMode.dmPelsHeight);
+        }
+
+        devMode.dmDisplayOrientation = orientation;
+
+        LONG result = ChangeDisplaySettingsEx(NULL, &devMode, NULL, CDS_UPDATEREGISTRY | CDS_RESET, NULL);
+        return (result == DISP_CHANGE_SUCCESSFUL);
+    }
 
 

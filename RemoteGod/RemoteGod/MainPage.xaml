@@ -95,6 +95,17 @@
         <Button Text="Change" Clicked="ChangeResolution_Clicked" IsVisible="False" x:Name="ChangeResolutionButton"/>
         <Label Text="Quiet Mode" IsVisible="False" x:Name="QuietModeLabel"/>
         <Switch x:Name="QuietModeSwitch" Toggled="QuietModeSwitch_Toggled" IsVisible="False"/>
+        <Label Text="Change Orientation" IsVisible="False" x:Name="ChangeOrientationText"/>
+        <Picker x:Name="OrientationPicker" Title="Choose Orientation" SelectedIndexChanged="OrientationPicker_SelectedIndexChanged" IsVisible="False">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>0°</x:String>
+                    <x:String>90°</x:String>
+                    <x:String>180°</x:String>
+                    <x:String>270°</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
         <!-- Display Functions -->
 
         <!-- Media Control -->

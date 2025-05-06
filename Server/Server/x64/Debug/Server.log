@@ -1,2 +1,9 @@
-﻿  Display.cpp
+﻿  Server.cpp
+D:\Diplom\Server\Server\Server.cpp(84,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(128,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(205,67): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(211,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(217,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(225,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(273,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

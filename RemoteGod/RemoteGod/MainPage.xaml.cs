@@ -63,6 +63,8 @@ public partial class MainPage : ContentPage
         ChangeResolutionButton.IsVisible = true;
         QuietModeLabel.IsVisible = true;
         QuietModeSwitch.IsVisible = true;
+        OrientationPicker.IsVisible = true;
+        ChangeOrientationText.IsVisible = true;
         Remote_Keyboard.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
@@ -187,6 +189,8 @@ public partial class MainPage : ContentPage
         ChangeResolutionButton.IsVisible = false;
         QuietModeLabel.IsVisible = false;
         QuietModeSwitch.IsVisible = false;
+        OrientationPicker.IsVisible = false;
+        ChangeOrientationText.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -288,4 +292,27 @@ public partial class MainPage : ContentPage
                 await DisplayAlert("Error", "Failed to copy text.", "OK");
         }
     }
+    private void OrientationPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var picker = sender as Picker;
+        if (picker.SelectedIndex == -1)
+            return;
+
+        string selected = picker.Items[picker.SelectedIndex];
+
+        string command = selected switch
+        {
+            "0°" => "CHANGE_ORIENTATION 0",
+            "90°" => "CHANGE_ORIENTATION 90",
+            "180°" => "CHANGE_ORIENTATION 180",
+            "270°" => "CHANGE_ORIENTATION 270",
+            _ => null
+        };
+
+        if (command != null)
+        {
+            serverConnector.SendCommand(command);
+        }
+    }
+
 }

@@ -242,6 +242,25 @@ void handleClient(SOCKET clientSock) {
         else if (command.compare(0, 16, "QUIET_MODE_OFF") == 0) {
             setQuietMode(false);
         }
+        // change orientation
+        else if (command.rfind("CHANGE_ORIENTATION", 0) == 0) {
+            int angle = 0;
+            if (sscanf_s(command.c_str(), "CHANGE_ORIENTATION %d", &angle) == 1) {
+                int orientation = DMDO_DEFAULT;
+                if (angle == 90) orientation = DMDO_90;
+                else if (angle == 180) orientation = DMDO_180;
+                else if (angle == 270) orientation = DMDO_270;
+                else orientation = DMDO_DEFAULT;
+
+                bool result = setDisplayOrientation(orientation);
+                std::cout << (result ? "Orientation changed." : "Orientation changing failed") << std::endl;
+            }
+            else {
+                std::cout << "Invalid orientation command." << std::endl;
+            }
+            }
+        //some next
+
 
 
 
