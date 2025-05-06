@@ -15,7 +15,7 @@ public partial class MainPage : ContentPage
 
     private double cursorX = 500;
     private double cursorY = 300;
-
+    public string SelectedAudioOutput { get; set; }
     public MainPage()
     {
         InitializeComponent();
@@ -92,7 +92,6 @@ public partial class MainPage : ContentPage
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
     }
-
     void Media_Control_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -108,9 +107,9 @@ public partial class MainPage : ContentPage
 
         mediaController.UpdateNowPlaying();
         mediaController.UpdateVolume();
+        mediaController.NameAudioOutputs();
 
     }
-
     void File_Manager_Clicked (object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -123,7 +122,6 @@ public partial class MainPage : ContentPage
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
     }
-
     void System_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -136,7 +134,6 @@ public partial class MainPage : ContentPage
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
     }
-
     void Spy_Mode_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -149,7 +146,6 @@ public partial class MainPage : ContentPage
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
     }
-
     void Browser_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -162,7 +158,6 @@ public partial class MainPage : ContentPage
         Spy_Mode.IsVisible = false;
         Browser.IsVisible = false;
     }
-
     void Back_Clicked(object sender, EventArgs e)
     {
         Display_Functions.IsVisible = true;
@@ -196,12 +191,10 @@ public partial class MainPage : ContentPage
         SleepModeLabel.IsVisible = false;
         SleepModeSwitch.IsVisible = false;
     }
-
     void Call_Keyboard_Clicked (object sender, EventArgs e)
     {
         keyboardController.OpenOnScreenKeyboard();
     }
-
     void Joystick_Moved(object sender, (double X, double Y) e)
     {
         double scaleFactor = 10;
@@ -217,13 +210,11 @@ public partial class MainPage : ContentPage
 
         serverConnector.SendCommand($"MOVE {intCursorX} {intCursorY}");
     }
-
     private async void QuietModeSwitch_Toggled(object sender, ToggledEventArgs e)
     {
         string command = e.Value ? "QUIET_MODE_ON" : "QUIET_MODE_OFF";
         serverConnector.SendCommand(command);
     }
-
     void BrightnessSlider_Changed(object sender, ValueChangedEventArgs e)
     {
         int brightness = (int)e.NewValue;
@@ -244,7 +235,6 @@ public partial class MainPage : ContentPage
             await DisplayAlert("Error", "Please select a valid resolution.", "OK");
         }
     }
-
     async void UpdateBrightnessSlider()
     {
         int? brightness = await displayController.GetBrightness();
@@ -318,7 +308,6 @@ public partial class MainPage : ContentPage
             serverConnector.SendCommand(command);
         }
     }
-
     private void SleepModeSwitch_Toggled(object sender, ToggledEventArgs e)
     {
         string command = e.Value switch
@@ -328,5 +317,49 @@ public partial class MainPage : ContentPage
         };
         serverConnector.SendCommand(command);
     }
+    public void GetAudioOutputs(string audioOutputs)
+    {
+        if (string.IsNullOrWhiteSpace(audioOutputs))
+            return;
+
+        var outputs = audioOutputs.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+        AudioOutputsStack.Children.Clear();
+
+        foreach (var output in outputs)
+        {
+            var label = new Label
+            {
+                Text = output,
+                FontSize = 16,
+                TextColor = Colors.Black,
+                Padding = new Thickness(10)
+            };
+
+            var frame = new Frame
+            {
+                Content = label,
+                BackgroundColor = Colors.LightGray,
+                CornerRadius = 10,
+                Margin = new Thickness(5)
+            };
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += async (sender, e) => await ChangeAudioOutput(output);
+
+            frame.GestureRecognizers.Add(tapGestureRecognizer);
+
+            AudioOutputsStack.Children.Add(frame);
+        }
+    }
+    private async Task ChangeAudioOutput(string audioOutput)
+    {
+        if (string.IsNullOrEmpty(audioOutput))
+        {
+            return;
+        }
+        var command = "CHANGE_AUDIO_OUTPUTS " + audioOutput;
+        serverConnector.SendCommand(command);
+    }
+
 
 }

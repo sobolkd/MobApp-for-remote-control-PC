@@ -4,7 +4,7 @@
 #include <chrono>
 #include <string>
 #include <sstream>
-
+#include <vector>
 // headers
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -210,6 +210,30 @@ void handleClient(SOCKET clientSock) {
             std::string volumeStr = std::to_string(volume);
             send(clientSock, volumeStr.c_str(), volumeStr.length(), 0);
         }
+        //get audio-outputs
+        else if (command.rfind("GET_AUDIO_OUTPUTS", 0) == 0)
+        {
+            std::vector<std::wstring> audioOutputs = GetAudioOutputs();
+            std::wstring outputStr = L"Available Audio Outputs:\n";
+            for (const auto& output : audioOutputs) {
+                outputStr += output + L"\n";
+            }
+
+            std::string outputStrUtf8(outputStr.begin(), outputStr.end());
+            std::cout << outputStrUtf8 << std::endl;
+            send(clientSock, outputStrUtf8.c_str(), outputStrUtf8.length(), 0);
+        }
+        // change audio output
+        else if (command.rfind("CHANGE_AUDIO_OUTPUTS", 0) == 0)
+        {
+            std::wstring deviceId = std::wstring(command.begin() + std::wstring(L"CHANGE_AUDIO_OUTPUTS ").length(), command.end());
+
+            bool success = SetAudioOutput(deviceId);
+            if (success)
+                std::cout << "Audio output changed successfully\n";
+            else
+                std::cout << "Failed to change audio output\n";
+        }
         // get brightness level
         else if (command == "GET_BRIGHTNESS") {
             int brightness = getMonitorBrightness();
@@ -238,9 +262,11 @@ void handleClient(SOCKET clientSock) {
         // quiet mode
         else if (command.compare(0, 15, "QUIET_MODE_ON") == 0) {
             setQuietMode(true);
+            std::cout << "Quiet mode ON." << std::endl;
         }
         else if (command.compare(0, 16, "QUIET_MODE_OFF") == 0) {
             setQuietMode(false);
+            std::cout << "Quiet mode OFF." << std::endl;
         }
         // change orientation
         else if (command.rfind("CHANGE_ORIENTATION", 0) == 0) {
@@ -258,16 +284,18 @@ void handleClient(SOCKET clientSock) {
             else {
                 std::cout << "Invalid orientation command." << std::endl;
             }
-            }
+        }
         // sleep mode
         else if (command.rfind("SLEEP_MODE_ON", 0) == 0)
         {
             setMonitorSleep();
+            std::cout << "Sleep mode ON." << std::endl;
         }
         else if (command.rfind("SLEEP_MODE_OFF", 0) == 0)
         {
             wakeUpMonitor();
-            }
+            std::cout << "Sleep mode OFF." << std::endl;
+        }
 
 
 

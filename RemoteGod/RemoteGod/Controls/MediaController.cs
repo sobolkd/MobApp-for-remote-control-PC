@@ -46,6 +46,12 @@ namespace RemoteGod
             mainPage.UpdateNowPlaying(response);
         }
 
+        public async Task NameAudioOutputs()
+        {
+            string response = await serverConnector.SendCommandWithResponse("GET_AUDIO_OUTPUTS");
+            mainPage.GetAudioOutputs(response);
+        }
+
         public async Task UpdateVolume()
         {
             string response = await serverConnector.SendCommandWithResponse("GET VOLUME");

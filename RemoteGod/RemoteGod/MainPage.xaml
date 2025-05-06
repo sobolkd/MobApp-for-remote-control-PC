@@ -132,7 +132,11 @@
                 WidthRequest="250"/>
             </HorizontalStackLayout>
 
+            <StackLayout x:Name="AudioOutputsStack" Padding="10"></StackLayout>
+
+
         </VerticalStackLayout>
+        
         <!-- Media Control -->
 
     </VerticalStackLayout>

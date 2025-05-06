@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Display.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Display.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\MediaController.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\MediaController.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Display.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Display.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\MediaController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\MediaController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "Server\\Server.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeToolTip": "Server\\Server.cpp",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAwwAgBAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAM0AAAAAAAAAAIAwwOoAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-24T22:44:59.797Z",
               "IsPinned": true,
@@ -41,27 +41,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Display.cpp",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Display.cpp",
-              "RelativeDocumentMoniker": "Server\\Display.cpp",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\Display.cpp",
-              "RelativeToolTip": "Server\\Display.cpp",
-              "ViewState": "AgIAAHAAAAAAAAAAAAAwwIUAAAAFAAAAAAAAAA==",
+              "Title": "MediaController.cpp",
+              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\MediaController.cpp",
+              "RelativeDocumentMoniker": "Server\\MediaController.cpp",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\MediaController.cpp",
+              "RelativeToolTip": "Server\\MediaController.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-05T11:31:00.836Z",
+              "WhenOpened": "2025-05-06T13:40:42.497Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Display.h",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Display.h",
-              "RelativeDocumentMoniker": "Server\\Display.h",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\Display.h",
-              "RelativeToolTip": "Server\\Display.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAASAAAAAAAAAA==",
+              "Title": "MediaController.h",
+              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\MediaController.h",
+              "RelativeDocumentMoniker": "Server\\MediaController.h",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\MediaController.h",
+              "RelativeToolTip": "Server\\MediaController.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAIAwwBYAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-05T11:30:57.617Z",
+              "WhenOpened": "2025-05-06T13:40:40.338Z",
               "EditorCaption": ""
             }
           ]

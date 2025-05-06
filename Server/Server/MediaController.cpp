@@ -7,8 +7,40 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Media.Control.h>
 #include <winrt/Windows.Media.h>
+#include <vector>
+#include <functiondiscoverykeys_devpkey.h>
+#include <initguid.h>
+#include <mmreg.h>
+#include <exception>
+#include <comdef.h>
+#include <audiopolicy.h>
+
+
+DEFINE_GUID(CLSID_PolicyConfigClient, 0x870af99c, 0x171d, 0x4f9e, 0xaf, 0x0d, 0xe6, 0x3d, 0xf4, 0x0c, 0x2b, 0xc9);
+const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
 
 #pragma comment(lib, "windowsapp")
+#pragma comment(lib, "Ole32.lib")
+#pragma comment(lib, "Uuid.lib")
+const IID IID_IAudioEndpointVolume =
+{ 0x5CDF2C82, 0x841E, 0x4546, { 0x97, 0x22, 0x0C, 0xF7, 0x40, 0x78, 0x22, 0x9A } };
+
+struct __declspec(uuid("f8679f50-850a-41cf-9c72-430f290290c8")) IPolicyConfig;
+struct IPolicyConfig : public IUnknown {
+    virtual HRESULT GetMixFormat(LPCWSTR, WAVEFORMATEX**) { return E_NOTIMPL; }
+    virtual HRESULT GetDeviceFormat(LPCWSTR, INT, WAVEFORMATEX**) { return E_NOTIMPL; }
+    virtual HRESULT ResetDeviceFormat(LPCWSTR) { return E_NOTIMPL; }
+    virtual HRESULT SetDeviceFormat(LPCWSTR, WAVEFORMATEX*, WAVEFORMATEX*) { return E_NOTIMPL; }
+    virtual HRESULT GetProcessingPeriod(LPCWSTR, INT, PINT64, PINT64) { return E_NOTIMPL; }
+    virtual HRESULT SetProcessingPeriod(LPCWSTR, PINT64) { return E_NOTIMPL; }
+    virtual HRESULT GetShareMode(LPCWSTR, struct DeviceShareMode*) { return E_NOTIMPL; }
+    virtual HRESULT SetShareMode(LPCWSTR, struct DeviceShareMode*) { return E_NOTIMPL; }
+    virtual HRESULT GetPropertyValue(LPCWSTR, const PROPERTYKEY&, PROPVARIANT*) { return E_NOTIMPL; }
+    virtual HRESULT SetPropertyValue(LPCWSTR, const PROPERTYKEY&, PROPVARIANT*) { return E_NOTIMPL; }
+    virtual HRESULT SetDefaultEndpoint(LPCWSTR wszDeviceId, ERole role) = 0;
+    virtual HRESULT SetEndpointVisibility(LPCWSTR, INT) { return E_NOTIMPL; }
+};
+
 
 //Get Name of Song
 std::string GetNowPlayingInfo() {
@@ -184,4 +216,197 @@ void ChangeVolume(int volume) {
     pEnumerator->Release();
     CoUninitialize();
 }
+// get all audio outputs
+std::vector<std::wstring> GetAudioOutputs() {
+    std::vector<std::wstring> audioOutputs;
+
+    CoInitialize(nullptr);
+
+    IMMDeviceEnumerator* pEnumerator = nullptr;
+    IMMDeviceCollection* pCollection = nullptr;
+    HRESULT hr = CoCreateInstance(
+        __uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, IID_PPV_ARGS(&pEnumerator));
+
+    if (FAILED(hr)) {
+        CoUninitialize();
+        return audioOutputs;
+    }
+
+    hr = pEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &pCollection);
+    if (FAILED(hr)) {
+        pEnumerator->Release();
+        CoUninitialize();
+        return audioOutputs;
+    }
+
+    UINT count;
+    pCollection->GetCount(&count);
+
+    for (UINT i = 0; i < count; i++) {
+        IMMDevice* pDevice = nullptr;
+        hr = pCollection->Item(i, &pDevice);
+
+        if (SUCCEEDED(hr)) {
+            IPropertyStore* pProps = nullptr;
+            hr = pDevice->OpenPropertyStore(STGM_READ, &pProps);
+
+            if (SUCCEEDED(hr)) {
+                PROPVARIANT varName;
+                PropVariantInit(&varName);
+
+                hr = pProps->GetValue(PKEY_Device_FriendlyName, &varName);
+                if (SUCCEEDED(hr)) {
+                    audioOutputs.push_back(varName.pwszVal);
+                    PropVariantClear(&varName);
+                }
+                pProps->Release();
+            }
+            pDevice->Release();
+        }
+    }
+
+    pCollection->Release();
+    pEnumerator->Release();
+    CoUninitialize();
+    return audioOutputs;
+}
+// find device id
+std::wstring FindDeviceIdByName(const std::wstring& deviceName)
+{
+    CoInitialize(nullptr);
+    IMMDeviceEnumerator* pEnumerator = nullptr;
+    HRESULT hr = CoCreateInstance(
+        CLSID_MMDeviceEnumerator,
+        nullptr,
+        CLSCTX_ALL,
+        __uuidof(IMMDeviceEnumerator),
+        (void**)&pEnumerator);
+    if (FAILED(hr)) {
+        std::wcerr << L"Failed to create device enumerator" << std::endl;
+        CoUninitialize();
+        return L"";
+    }
+
+    IMMDeviceCollection* pDevices = nullptr;
+    hr = pEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &pDevices);
+    if (FAILED(hr)) {
+        std::wcerr << L"Failed to enumerate audio devices" << std::endl;
+        pEnumerator->Release();
+        CoUninitialize();
+        return L"";
+    }
+
+    UINT deviceCount = 0;
+    pDevices->GetCount(&deviceCount);
+    for (UINT i = 0; i < deviceCount; ++i) {
+        IMMDevice* pDevice = nullptr;
+        hr = pDevices->Item(i, &pDevice);
+        if (FAILED(hr)) {
+            continue;
+        }
+
+        IPropertyStore* pProps = nullptr;
+        hr = pDevice->OpenPropertyStore(STGM_READ, &pProps);
+        if (FAILED(hr)) {
+            pDevice->Release();
+            continue;
+        }
+
+        PROPVARIANT varName;
+        PropVariantInit(&varName);
+        hr = pProps->GetValue(PKEY_Device_FriendlyName, &varName);
+        if (SUCCEEDED(hr)) {
+            if (deviceName == varName.pwszVal) {
+                LPWSTR deviceId = nullptr;
+                hr = pDevice->GetId(&deviceId);
+                if (SUCCEEDED(hr)) {
+                    std::wstring id(deviceId);
+                    CoTaskMemFree(deviceId);
+                    pProps->Release();
+                    pDevice->Release();
+                    pDevices->Release();
+                    pEnumerator->Release();
+                    CoUninitialize();
+                    return id;
+                }
+            }
+        }
+
+        PropVariantClear(&varName);
+        pProps->Release();
+        pDevice->Release();
+    }
+
+    pDevices->Release();
+    pEnumerator->Release();
+    CoUninitialize();
+    return L"";
+}
+
+// change audio outputs
+bool SetAudioOutput(const std::wstring& deviceName) {
+    try {
+        std::wstring deviceId = FindDeviceIdByName(deviceName);
+        if (deviceId.empty()) {
+            std::wcerr << L"Device not found: " << deviceName << std::endl;
+            return false;
+        }
+
+        std::wcout << L"Device ID: " << deviceId << std::endl;
+
+        CoInitialize(nullptr);
+        IPolicyConfig* pPolicyConfig = nullptr;
+        HRESULT hr = CoCreateInstance(
+            CLSID_PolicyConfigClient,
+            nullptr, CLSCTX_ALL,
+            __uuidof(IPolicyConfig),
+            (LPVOID*)&pPolicyConfig);
+
+        if (FAILED(hr) || !pPolicyConfig) {
+            CoUninitialize();
+            throw std::runtime_error("Failed to create PolicyConfigClient instance");
+        }
+
+        hr = pPolicyConfig->SetDefaultEndpoint(deviceId.c_str(), eConsole);
+        if (FAILED(hr)) {
+            pPolicyConfig->Release();
+            CoUninitialize();
+            throw std::runtime_error("Failed to set default endpoint for eConsole");
+        }
+
+        hr = pPolicyConfig->SetDefaultEndpoint(deviceId.c_str(), eMultimedia);
+        if (FAILED(hr)) {
+            pPolicyConfig->Release();
+            CoUninitialize();
+            throw std::runtime_error("Failed to set default endpoint for eMultimedia");
+        }
+
+        hr = pPolicyConfig->SetDefaultEndpoint(deviceId.c_str(), eCommunications);
+        if (FAILED(hr)) {
+            pPolicyConfig->Release();
+            CoUninitialize();
+            throw std::runtime_error("Failed to set default endpoint for eCommunications");
+        }
+
+        pPolicyConfig->Release();
+        CoUninitialize();
+
+        return true;
+    }
+    catch (const std::exception& e) {
+        std::wcerr << L"Error: " << e.what() << std::endl;
+        return false;
+    }
+    catch (_com_error& e) {
+        std::wcerr << L"COM Error: " << e.ErrorMessage() << std::endl;
+        return false;
+    }
+    catch (...) {
+        std::wcerr << L"Unknown error occurred" << std::endl;
+        return false;
+    }
+}
+
+
+
 
