@@ -116,11 +116,9 @@ bool setScreenResolution(int width, int height) {
         if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode))
             return false;
 
-        // Перевірка, чи вже така орієнтація
         if (devMode.dmDisplayOrientation == orientation)
             return true;
 
-        // Якщо переходимо між горизонтальним ↔ вертикальним, треба поміняти ширину і висоту
         if ((devMode.dmDisplayOrientation == DMDO_90 || devMode.dmDisplayOrientation == DMDO_270) !=
             (orientation == DMDO_90 || orientation == DMDO_270)) {
             devMode.dmFields |= DM_PELSWIDTH | DM_PELSHEIGHT;
@@ -131,6 +129,18 @@ bool setScreenResolution(int width, int height) {
 
         LONG result = ChangeDisplaySettingsEx(NULL, &devMode, NULL, CDS_UPDATEREGISTRY | CDS_RESET, NULL);
         return (result == DISP_CHANGE_SUCCESSFUL);
+    }
+
+    bool setMonitorSleep() {
+        SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, (LPARAM)2);
+        return true;
+    }
+
+    bool wakeUpMonitor() {
+        SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, (LPARAM)-1);
+        LockWorkStation();
+
+        return true;
     }
 
 

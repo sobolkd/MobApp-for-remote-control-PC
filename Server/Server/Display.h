@@ -12,4 +12,6 @@ bool setMonitorBrightness(int brightness);
 bool setScreenResolution(int width, int height);
 bool setQuietMode(bool enable);
 bool setDisplayOrientation(DWORD orientation);
+bool setMonitorSleep();
+bool wakeUpMonitor();
 #endif

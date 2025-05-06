@@ -259,7 +259,15 @@ void handleClient(SOCKET clientSock) {
                 std::cout << "Invalid orientation command." << std::endl;
             }
             }
-        //some next
+        // sleep mode
+        else if (command.rfind("SLEEP_MODE_ON", 0) == 0)
+        {
+            setMonitorSleep();
+        }
+        else if (command.rfind("SLEEP_MODE_OFF", 0) == 0)
+        {
+            wakeUpMonitor();
+            }
 
 
 

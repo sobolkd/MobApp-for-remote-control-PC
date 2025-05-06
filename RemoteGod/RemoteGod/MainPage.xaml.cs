@@ -73,6 +73,8 @@ public partial class MainPage : ContentPage
         Display_Functions.IsVisible = false;
         Remote_Cursor.IsVisible = false;
         Media_Control.IsVisible = false;
+        SleepModeLabel.IsVisible= true;
+        SleepModeSwitch.IsVisible= true;
         UpdateBrightnessSlider();
     }
     void Remote_Keyboard_Clicked (object sender, EventArgs e)
@@ -191,6 +193,8 @@ public partial class MainPage : ContentPage
         QuietModeSwitch.IsVisible = false;
         OrientationPicker.IsVisible = false;
         ChangeOrientationText.IsVisible = false;
+        SleepModeLabel.IsVisible = false;
+        SleepModeSwitch.IsVisible = false;
     }
 
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -313,6 +317,16 @@ public partial class MainPage : ContentPage
         {
             serverConnector.SendCommand(command);
         }
+    }
+
+    private void SleepModeSwitch_Toggled(object sender, ToggledEventArgs e)
+    {
+        string command = e.Value switch
+        {
+            true => "SLEEP_MODE_ON",
+            false => "SLEEP_MODE_OFF"
+        };
+        serverConnector.SendCommand(command);
     }
 
 }

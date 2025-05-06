@@ -106,6 +106,8 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
+        <Label Text="Sleep Mode" IsVisible="False" x:Name="SleepModeLabel"/>
+        <Switch x:Name="SleepModeSwitch" Toggled="SleepModeSwitch_Toggled" IsVisible="False"/>
         <!-- Display Functions -->
 
         <!-- Media Control -->
