@@ -135,6 +135,7 @@
     <ClCompile Include="MediaController.cpp" />
     <ClCompile Include="MouseController.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="SystemFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClipboardController.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="MediaController.h" />
     <ClInclude Include="MouseController.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="SystemFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

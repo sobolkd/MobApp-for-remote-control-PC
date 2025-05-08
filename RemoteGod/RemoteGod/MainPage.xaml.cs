@@ -125,6 +125,7 @@ public partial class MainPage : ContentPage
     void System_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
+        SystemStack.IsVisible = true;
         Remote_Cursor.IsVisible = false;
         Display_Functions.IsVisible = false;
         Remote_Keyboard.IsVisible = false;
@@ -190,6 +191,7 @@ public partial class MainPage : ContentPage
         ChangeOrientationText.IsVisible = false;
         SleepModeLabel.IsVisible = false;
         SleepModeSwitch.IsVisible = false;
+        SystemStack.IsVisible = false;
     }
     void Call_Keyboard_Clicked (object sender, EventArgs e)
     {
@@ -360,6 +362,24 @@ public partial class MainPage : ContentPage
         var command = "CHANGE_AUDIO_OUTPUTS " + audioOutput;
         serverConnector.SendCommand(command);
     }
-
-
+    private void RestartPC_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("RESTART_PC");
+    }
+    private void ShutDownPC_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("SHUT_DOWN_PC");
+    }
+    private void LockScreen_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("LOCK_SCREEN_PC");
+    }
+    private void EndSession_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("END_SESSION");
+    }
+    private void CallTaskManager_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("CALL_TASK_MANAGER");
+    }
 }

@@ -31,6 +31,16 @@
         <Button x:Name="Browser" Text="Browser" Clicked="Browser_Clicked" IsVisible="True"/>
         <!-- Main Buttons -->
 
+        <!-- System -->
+        <VerticalStackLayout Padding="20" x:Name="SystemStack" IsVisible="False">
+            <Button x:Name="RestartPCButton" Text="Restart PC" Clicked="RestartPC_Clicked" Margin="10"/>
+            <Button x:Name="ShutDownPCButton" Text="Shut Down PC" Clicked="ShutDownPC_Clicked" Margin="10"/>
+            <Button x:Name="LockScreenButton" Text="Lock Screen" Clicked="LockScreen_Clicked" Margin="10"/>
+            <Button x:Name="EndSessionButton" Text="End User Session" Clicked="EndSession_Clicked" Margin="10"/>
+            <Button x:Name="CallTaskManagerButton" Text="Open Task Manager" Clicked="CallTaskManager_Clicked" Margin="10"/>
+        </VerticalStackLayout>
+        <!-- System -->
+        
         <!--Remote Keyboard-->
         <StackLayout>
               <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>

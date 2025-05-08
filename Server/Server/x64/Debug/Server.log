@@ -1,9 +1,17 @@
-﻿  MediaController.cpp
+﻿  Server.cpp
+D:\Diplom\Server\Server\Server.cpp(85,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(129,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(206,67): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(212,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(225,73): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(242,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(250,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(375,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
-  (compiling source file 'MediaController.cpp')
+  (compiling source file 'Server.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18):
       the template instantiation context (the oldest one first) is
-          D:\Diplom\Server\Server\MediaController.cpp(66,27):
+          D:\Diplom\Server\Server\Server.cpp(223,38):
           see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
@@ -11,8 +19,8 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-              D:\Diplom\Server\Server\MediaController.cpp(66,9):
-              see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'GetNowPlayingInfo'
+              D:\Diplom\Server\Server\Server.cpp(223,38):
+              see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'handleClient'
           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(793,17):
           see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
           with
@@ -32,4 +40,8 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
               _SizeTy=unsigned __int64
           ]
   
+  SystemFunctions.cpp
+D:\Diplom\Server\Server\SystemFunctions.cpp(85,16): warning C4311: 'type cast': pointer truncation from 'HINSTANCE' to 'int'
+D:\Diplom\Server\Server\SystemFunctions.cpp(85,16): warning C4302: 'type cast': truncation from 'HINSTANCE' to 'int'
+  Generating Code...
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

@@ -14,6 +14,7 @@
 #include "KeyboardController.h"
 #include "ClipboardController.h"
 #include "MediaController.h"
+#include "SystemFunctions.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -296,7 +297,72 @@ void handleClient(SOCKET clientSock) {
             wakeUpMonitor();
             std::cout << "Sleep mode OFF." << std::endl;
         }
-
+        // restart PC
+        else if (command.rfind("RESTART_PC", 0) == 0)
+        {
+            bool result = restartComputer();
+            if (result)
+            {
+                std::cout << "Restarting PC..." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with restarting PC." << std::endl;
+            }
+        }
+        // shut down PC
+        else if (command.rfind("SHUT_DOWN_PC", 0) == 0)
+        {
+            bool result = shutdownComputer();
+            if (result)
+            {
+                std::cout << "Shutting down PC..." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with shutting down PC." << std::endl;
+            }
+        }
+        // Lock Screen
+        else if (command.rfind("LOCK_SCREEN_PC", 0) == 0)
+        {
+            bool result = lockWorkstation();
+            if (result)
+            {
+                std::cout << "Lock Screen." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with locking screen." << std::endl;
+            }
+        }
+        // End User Session
+        else if (command.rfind("END_SESSION", 0) == 0)
+        {
+            bool result = logoffUser();
+            if (result)
+            {
+                std::cout << "Log off user." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with logging off user." << std::endl;
+            }
+        }
+        // Call Task Manager
+        else if (command.rfind("CALL_TASK_MANAGER", 0) == 0)
+        {
+            bool result = openTaskManager();
+            if (result)
+            {
+                std::cout << "Open Task Manager." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with opening task manager." << std::endl;
+            }
+        }
+        
 
 
 
