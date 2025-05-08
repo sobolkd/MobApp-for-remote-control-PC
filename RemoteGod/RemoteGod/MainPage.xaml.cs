@@ -12,6 +12,7 @@ public partial class MainPage : ContentPage
     private KeyboardController keyboardController;
     private readonly ScrollController _scrollController;
     private MediaController mediaController;
+    private SystemController systemController;
 
     private double cursorX = 500;
     private double cursorY = 300;
@@ -51,7 +52,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
     }
     void Display_Functions_Clicked(object sender, EventArgs e)
     {
@@ -69,7 +69,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
         Display_Functions.IsVisible = false;
         Remote_Cursor.IsVisible = false;
         Media_Control.IsVisible = false;
@@ -90,7 +89,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
     }
     void Media_Control_Clicked(object sender, EventArgs e)
     {
@@ -103,7 +101,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
 
         mediaController.UpdateNowPlaying();
         mediaController.UpdateVolume();
@@ -120,7 +117,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
     }
     void System_Clicked(object sender, EventArgs e)
     {
@@ -133,8 +129,21 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
+        UpdateDataPc();
     }
+    public async Task UpdateDataPc()
+    {
+        await DisplayAlert("Resolution Change", "Resolution has been changed.", "OK");
+        while (System.IsVisible)
+        {
+            await systemController.GetCPUUsage();
+            await systemController.GetMemoryUsage();
+            await systemController.GetDiskUsage();
+            await Task.Delay(5000);
+        }
+    }
+
+
     void Spy_Mode_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -145,7 +154,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
     }
     void Browser_Clicked(object sender, EventArgs e)
     {
@@ -157,7 +165,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        Browser.IsVisible = false;
     }
     void Back_Clicked(object sender, EventArgs e)
     {
@@ -168,7 +175,6 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = true;
         System.IsVisible = true;
         Spy_Mode.IsVisible = true;
-        Browser.IsVisible = true;
         Back.IsVisible = false;
         JoystickView.IsVisible = false;
         Left_Click.IsVisible = false;
@@ -381,5 +387,25 @@ public partial class MainPage : ContentPage
     private void CallTaskManager_Clicked(object sender, EventArgs e)
     {
         serverConnector.SendCommand("CALL_TASK_MANAGER");
+    }
+    private void ShowDesktop_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("SHOW_DESKTOP");
+    }
+    private void AltTab_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("ALT_TAB");
+    }
+    public void UpdateCpuUsage(string cpuUsage)
+    {
+        CPUUsageLabel.Text = cpuUsage;
+    }
+    public void UpdateMemoryUsage(string memoryUsage)
+    {
+        MemoryUsageLabel.Text = memoryUsage;
+    }
+    public void UpdateDiskUsage(string diskUsage)
+    {
+        DiskUsageLabel.Text = diskUsage;
     }
 }

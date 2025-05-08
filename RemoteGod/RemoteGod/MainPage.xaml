@@ -28,16 +28,20 @@
         <Button x:Name="File_Manager" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True"/>
         <Button x:Name="System" Text="System" Clicked="System_Clicked" IsVisible="True"/>
         <Button x:Name="Spy_Mode" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True"/>
-        <Button x:Name="Browser" Text="Browser" Clicked="Browser_Clicked" IsVisible="True"/>
         <!-- Main Buttons -->
 
         <!-- System -->
         <VerticalStackLayout Padding="20" x:Name="SystemStack" IsVisible="False">
+            <Label Text="Getting CPU usage..." x:Name="CPUUsageLabel"/>
+            <Label Text="Getting memory usage..." x:Name="MemoryUsageLabel"/>
+            <Label Text="Getting disk usage..." x:Name="DiskUsageLabel"/>
             <Button x:Name="RestartPCButton" Text="Restart PC" Clicked="RestartPC_Clicked" Margin="10"/>
             <Button x:Name="ShutDownPCButton" Text="Shut Down PC" Clicked="ShutDownPC_Clicked" Margin="10"/>
             <Button x:Name="LockScreenButton" Text="Lock Screen" Clicked="LockScreen_Clicked" Margin="10"/>
             <Button x:Name="EndSessionButton" Text="End User Session" Clicked="EndSession_Clicked" Margin="10"/>
             <Button x:Name="CallTaskManagerButton" Text="Open Task Manager" Clicked="CallTaskManager_Clicked" Margin="10"/>
+            <Button x:Name="ShowDesktopButton" Text="Show Desktop" Clicked="ShowDesktop_Clicked" Margin="10"/>
+            <Button x:Name="AltTabButton" Text="Alt+Tab" Clicked="AltTab_Clicked" Margin="10"/>
         </VerticalStackLayout>
         <!-- System -->
         

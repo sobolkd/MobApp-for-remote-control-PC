@@ -362,6 +362,102 @@ void handleClient(SOCKET clientSock) {
                 std::cout << "Error with opening task manager." << std::endl;
             }
         }
+        // Show Desktop
+        else if (command.rfind("SHOW_DESKTOP", 0) == 0)
+        {
+            bool result = showDesktop();
+            if (result)
+            {
+                std::cout << "WIN+D (Show Desktop)." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with showing desktop." << std::endl;
+            }
+        }
+        // Alt+Tab
+        else if (command.rfind("ALT_TAB", 0) == 0)
+        {
+            bool result = altTab();
+            if (result)
+            {
+                std::cout << "Alt+Tab." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error with Alt+Tab." << std::endl;
+            }
+        }
+        // Get CPU usage
+        else if (command.rfind("CPU_USAGE", 0) == 0)
+        {
+            std::cout << "ya tut" << std::endl;
+            double result = getCpuUsage();
+
+            if (result >= 0.0)
+            {
+                std::cout << "Current CPU usage: " << result << "%" << std::endl;
+
+                std::ostringstream oss;
+                oss.precision(2);
+                oss << std::fixed << result;
+
+                std::string response = oss.str();
+                send(clientSock, response.c_str(), response.size(), 0);
+            }
+            else
+            {
+                std::cerr << "Error with getting CPU usage." << std::endl;
+                std::string errorMsg = "ERROR";
+                send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+            }
+        }
+        // Get Memory Usage
+        else if (command.rfind("MEMORY_USAGE", 0) == 0)
+        {
+            double result = getMemoryUsage();
+
+            if (result >= 0.0)
+            {
+                std::cout << "Current memory usage: " << result << "%" << std::endl;
+
+                std::ostringstream oss;
+                oss.precision(2);
+                oss << std::fixed << result;
+
+                std::string response = oss.str();
+                send(clientSock, response.c_str(), response.size(), 0);
+            }
+            else
+            {
+                std::cerr << "Error with getting memory usage." << std::endl;
+                std::string errorMsg = "ERROR";
+                send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+            }
+        }
+        // Get Disk Usage
+        else if (command.rfind("DISK_USAGE", 0) == 0)
+        {
+            double result = getDiskUsage();
+
+            if (result >= 0.0)
+            {
+                std::cout << "Current disk usage: " << result << "%" << std::endl;
+
+                std::ostringstream oss;
+                oss.precision(2);
+                oss << std::fixed << result;
+
+                std::string response = oss.str();
+                send(clientSock, response.c_str(), response.size(), 0);
+            }
+            else
+            {
+                std::cerr << "Error with getting disk usage." << std::endl;
+                std::string errorMsg = "ERROR";
+                send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+            }
+            }
         
 
 

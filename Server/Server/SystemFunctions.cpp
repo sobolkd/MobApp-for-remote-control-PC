@@ -1,5 +1,7 @@
 #include <Windows.h>
 #include "SystemFunctions.h"
+#include <pdh.h>
+#include <pdhmsg.h>
 
 // restart PC
 bool restartComputer() {
@@ -87,4 +89,71 @@ bool openTaskManager() {
     catch (...) {
         return false;
     }
+}
+// Show Desktop
+bool showDesktop() {
+    try {
+        keybd_event(VK_LWIN, 0, 0, 0);
+        keybd_event('D', 0, 0, 0);
+        keybd_event('D', 0, KEYEVENTF_KEYUP, 0);
+        keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
+}
+// Alt+Tab
+bool altTab() {
+    try {
+        keybd_event(VK_MENU, 0, 0, 0);         
+        keybd_event(VK_TAB, 0, 0, 0);          
+        keybd_event(VK_TAB, 0, KEYEVENTF_KEYUP, 0); 
+        keybd_event(VK_MENU, 0, KEYEVENTF_KEYUP, 0);
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
+}
+// Get Cpu Usage
+double getCpuUsage() {
+    static PDH_HQUERY cpuQuery;
+    static PDH_HCOUNTER cpuTotal;
+    static bool initialized = false;
+
+    if (!initialized) {
+        PdhOpenQuery(NULL, NULL, &cpuQuery);
+        PdhAddEnglishCounter(cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &cpuTotal);
+        PdhCollectQueryData(cpuQuery);
+        initialized = true;
+        Sleep(100);
+    }
+
+    PdhCollectQueryData(cpuQuery);
+    PDH_FMT_COUNTERVALUE counterVal;
+    PdhGetFormattedCounterValue(cpuTotal, PDH_FMT_DOUBLE, NULL, &counterVal);
+
+    return counterVal.doubleValue;
+}
+// Get Memory Usage
+double getMemoryUsage() {
+    MEMORYSTATUSEX memInfo;
+    memInfo.dwLength = sizeof(memInfo);
+    GlobalMemoryStatusEx(&memInfo);
+
+    DWORDLONG totalPhysMem = memInfo.ullTotalPhys;
+    DWORDLONG physMemUsed = memInfo.ullTotalPhys - memInfo.ullAvailPhys;
+
+    return (physMemUsed * 100.0) / totalPhysMem;
+}
+// Get Disk Usage
+double getDiskUsage() {
+    ULARGE_INTEGER freeBytesAvailable, totalBytes, totalFreeBytes;
+
+    if (GetDiskFreeSpaceEx(L"C:\\", &freeBytesAvailable, &totalBytes, &totalFreeBytes)) {
+        ULONGLONG usedBytes = totalBytes.QuadPart - totalFreeBytes.QuadPart;
+        return (usedBytes * 100.0) / totalBytes.QuadPart;
+    }
+    return -1.0;
 }
