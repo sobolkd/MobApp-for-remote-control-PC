@@ -2,7 +2,17 @@
 #include "SystemFunctions.h"
 #include <pdh.h>
 #include <pdhmsg.h>
+#include <iostream>
 
+
+#pragma comment(lib, "pdh.lib")
+#pragma comment(lib, "wbemuuid.lib")
+
+typedef struct {
+    LARGE_INTEGER ReadBytes;
+    LARGE_INTEGER WriteBytes;
+    LARGE_INTEGER OtherBytes;
+} DISK_IO_STATS;
 // restart PC
 bool restartComputer() {
     try {
@@ -116,25 +126,33 @@ bool altTab() {
         return false;
     }
 }
-// Get Cpu Usage
+// Get CPU usage
 double getCpuUsage() {
     static PDH_HQUERY cpuQuery;
     static PDH_HCOUNTER cpuTotal;
     static bool initialized = false;
 
-    if (!initialized) {
-        PdhOpenQuery(NULL, NULL, &cpuQuery);
-        PdhAddEnglishCounter(cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &cpuTotal);
-        PdhCollectQueryData(cpuQuery);
-        initialized = true;
-        Sleep(100);
+    try {
+        if (!initialized) {
+            if (PdhOpenQuery(NULL, NULL, &cpuQuery) != ERROR_SUCCESS) throw std::runtime_error("Failed to open PDH query");
+            if (PdhAddCounter(cpuQuery, L"\\Processor Information(_Total)\\% Processor Utility", NULL, &cpuTotal) != ERROR_SUCCESS) throw std::runtime_error("Failed to add PDH counter");
+            if (PdhCollectQueryData(cpuQuery) != ERROR_SUCCESS) throw std::runtime_error("Failed to collect PDH query data");
+
+            initialized = true;
+            Sleep(200);
+        }
+
+        if (PdhCollectQueryData(cpuQuery) != ERROR_SUCCESS) throw std::runtime_error("Failed to collect PDH query data");
+
+        PDH_FMT_COUNTERVALUE counterVal;
+        if (PdhGetFormattedCounterValue(cpuTotal, PDH_FMT_DOUBLE, NULL, &counterVal) != ERROR_SUCCESS) throw std::runtime_error("Failed to get formatted counter value");
+
+        return counterVal.doubleValue;
     }
-
-    PdhCollectQueryData(cpuQuery);
-    PDH_FMT_COUNTERVALUE counterVal;
-    PdhGetFormattedCounterValue(cpuTotal, PDH_FMT_DOUBLE, NULL, &counterVal);
-
-    return counterVal.doubleValue;
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return -1.0;
+    }
 }
 // Get Memory Usage
 double getMemoryUsage() {

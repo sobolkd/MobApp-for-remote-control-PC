@@ -12,7 +12,7 @@ public partial class MainPage : ContentPage
     private KeyboardController keyboardController;
     private readonly ScrollController _scrollController;
     private MediaController mediaController;
-    private SystemController systemController;
+    private readonly SystemController systemController;
 
     private double cursorX = 500;
     private double cursorY = 300;
@@ -25,9 +25,24 @@ public partial class MainPage : ContentPage
         keyboardController = new KeyboardController(serverConnector);
         _scrollController = new ScrollController(serverConnector);
         mediaController = new MediaController(serverConnector, this);
+        systemController = new SystemController(serverConnector, this);
+        serverConnector.OnIpReceived += ip =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Title = ip;
+                ShowIpLabel.Text = "PC IP: " + ip;
+            });
+        };
 
-        serverConnector.OnIpReceived += ip => MainThread.BeginInvokeOnMainThread(() => Title = ip);
-        serverConnector.OnCommandFailed += message => MainThread.BeginInvokeOnMainThread(() => Title = message);
+        serverConnector.OnCommandFailed += message =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Title = message;
+                ShowIpLabel.Text = "PC IP:" + message + "%";
+            });
+        };
 
         serverConnector.StartListening();
     }
@@ -129,21 +144,8 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
-        UpdateDataPc();
+         _ = UpdateDataPc();
     }
-    public async Task UpdateDataPc()
-    {
-        await DisplayAlert("Resolution Change", "Resolution has been changed.", "OK");
-        while (System.IsVisible)
-        {
-            await systemController.GetCPUUsage();
-            await systemController.GetMemoryUsage();
-            await systemController.GetDiskUsage();
-            await Task.Delay(5000);
-        }
-    }
-
-
     void Spy_Mode_Clicked(object sender, EventArgs e)
     {
         Back.IsVisible = true;
@@ -398,14 +400,24 @@ public partial class MainPage : ContentPage
     }
     public void UpdateCpuUsage(string cpuUsage)
     {
-        CPUUsageLabel.Text = cpuUsage;
+        CPUUsageLabel.Text = "Curent CPU usage: " + cpuUsage + "%";
     }
     public void UpdateMemoryUsage(string memoryUsage)
     {
-        MemoryUsageLabel.Text = memoryUsage;
+        MemoryUsageLabel.Text = "Curent memory usage: " + memoryUsage + "%";
     }
     public void UpdateDiskUsage(string diskUsage)
     {
-        DiskUsageLabel.Text = diskUsage;
+        DiskUsageLabel.Text = "Disk space occupied: " + diskUsage + "%";
+    }
+    public async Task UpdateDataPc()
+    {
+        while (SystemStack.IsVisible)
+        {
+            await systemController.GetCPUUsage();
+            await systemController.GetMemoryUsage();
+            await systemController.GetDiskUsage();
+            await Task.Delay(1000);
+        }
     }
 }

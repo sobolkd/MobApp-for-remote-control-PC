@@ -32,6 +32,7 @@
 
         <!-- System -->
         <VerticalStackLayout Padding="20" x:Name="SystemStack" IsVisible="False">
+            <Label Text="Getting PC IP" x:Name="ShowIpLabel"/>
             <Label Text="Getting CPU usage..." x:Name="CPUUsageLabel"/>
             <Label Text="Getting memory usage..." x:Name="MemoryUsageLabel"/>
             <Label Text="Getting disk usage..." x:Name="DiskUsageLabel"/>

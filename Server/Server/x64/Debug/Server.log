@@ -6,13 +6,13 @@ D:\Diplom\Server\Server\Server.cpp(212,65): warning C4267: 'argument': conversio
 D:\Diplom\Server\Server\Server.cpp(225,73): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 D:\Diplom\Server\Server\Server.cpp(242,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 D:\Diplom\Server\Server\Server.cpp(250,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(406,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(412,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(429,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(435,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(452,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(458,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(471,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(405,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(411,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(428,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(434,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(451,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(457,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(470,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
   (compiling source file 'Server.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18):

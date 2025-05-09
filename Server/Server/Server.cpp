@@ -136,7 +136,7 @@ void handleClient(SOCKET clientSock) {
         std::string command(buffer);
 
         /* here all comands from app*/
-
+        std::cout <<std::endl << "Received command: " << command << std::endl;
         // move cursor
         if (command.rfind("MOVE", 0) == 0) {
             int x, y;
@@ -391,7 +391,6 @@ void handleClient(SOCKET clientSock) {
         // Get CPU usage
         else if (command.rfind("CPU_USAGE", 0) == 0)
         {
-            std::cout << "ya tut" << std::endl;
             double result = getCpuUsage();
 
             if (result >= 0.0)
@@ -457,7 +456,7 @@ void handleClient(SOCKET clientSock) {
                 std::string errorMsg = "ERROR";
                 send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
             }
-            }
+        }
         
 
 
