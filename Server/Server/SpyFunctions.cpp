@@ -10,6 +10,7 @@
 
 void SaveScreenToFile() {
     try {
+        SetProcessDPIAware();
         int screenX = GetSystemMetrics(SM_CXSCREEN);
         int screenY = GetSystemMetrics(SM_CYSCREEN);
 
