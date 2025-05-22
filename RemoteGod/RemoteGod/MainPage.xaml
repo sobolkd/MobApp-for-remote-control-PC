@@ -152,7 +152,11 @@
 
         </VerticalStackLayout>
         
-        <!-- Media Control -->
+        <!-- Spy Mode -->
+        <VerticalStackLayout Padding="20" x:Name="SpyMode" IsVisible="False">
+            <Button Text="Screenshot" x:Name="MakeScreen" WidthRequest="100" Clicked="MakeScreen_Clicked" />
+        </VerticalStackLayout>
+        <!-- Spy Mode -->
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
 </ContentPage>

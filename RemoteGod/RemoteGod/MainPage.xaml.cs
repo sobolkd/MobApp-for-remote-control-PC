@@ -156,6 +156,7 @@ public partial class MainPage : ContentPage
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
+        SpyMode.IsVisible = true;
     }
     void Browser_Clicked(object sender, EventArgs e)
     {
@@ -200,6 +201,7 @@ public partial class MainPage : ContentPage
         SleepModeLabel.IsVisible = false;
         SleepModeSwitch.IsVisible = false;
         SystemStack.IsVisible = false;
+        SpyMode.IsVisible = false;
     }
     void Call_Keyboard_Clicked (object sender, EventArgs e)
     {
@@ -419,5 +421,10 @@ public partial class MainPage : ContentPage
             await systemController.GetDiskUsage();
             await Task.Delay(1000);
         }
+    }
+
+    private void MakeScreen_Clicked(object sender, EventArgs e)
+    {
+        serverConnector.SendCommand("MAKE_SCREEN");
     }
 }
