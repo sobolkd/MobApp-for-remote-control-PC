@@ -17,17 +17,18 @@
                 CornerRadius="5"
                 FontSize="16"
                 IsVisible="False"
-                Clicked="Back_Clicked"/>
+                Clicked="Back_Clicked"
+                Style="{StaticResource AccentButtonStyle}"/>
         <!--Back Button-->
 
         <!-- Main Buttons -->
-        <Button x:Name="Remote_Cursor" Text="Remote Cursor" Clicked="Remote_Cursor_Clicked" IsVisible="True"/>
-        <Button x:Name="Remote_Keyboard" Text="Remote Keyboard" Clicked="Remote_Keyboard_Clicked" IsVisible="True"/>
-        <Button x:Name="Display_Functions" Text="Display Functions" Clicked="Display_Functions_Clicked" IsVisible="True"/>
-        <Button x:Name="Media_Control" Text="Media Control" Clicked="Media_Control_Clicked" IsVisible="True"/>
-        <Button x:Name="File_Manager" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True"/>
-        <Button x:Name="System" Text="System" Clicked="System_Clicked" IsVisible="True"/>
-        <Button x:Name="Spy_Mode" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True"/>
+        <Button x:Name="Remote_Mouse" Text="Remote Mouse" Clicked="Remote_Mouse_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
+        <Button x:Name="Remote_Keyboard" Text="Remote Keyboard" Clicked="Remote_Keyboard_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
+        <Button x:Name="Display_Functions" Text="Display Functions" Clicked="Display_Functions_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
+        <Button x:Name="Media_Control" Text="Media Control" Clicked="Media_Control_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
+        <Button x:Name="File_Manager" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
+        <Button x:Name="System" Text="System" Clicked="System_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
+        <Button x:Name="Spy_Mode" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
         <!-- Main Buttons -->
 
         <!-- System -->
@@ -36,26 +37,27 @@
             <Label Text="Getting CPU usage..." x:Name="CPUUsageLabel"/>
             <Label Text="Getting memory usage..." x:Name="MemoryUsageLabel"/>
             <Label Text="Getting disk usage..." x:Name="DiskUsageLabel"/>
-            <Button x:Name="RestartPCButton" Text="Restart PC" Clicked="RestartPC_Clicked" Margin="10"/>
-            <Button x:Name="ShutDownPCButton" Text="Shut Down PC" Clicked="ShutDownPC_Clicked" Margin="10"/>
-            <Button x:Name="LockScreenButton" Text="Lock Screen" Clicked="LockScreen_Clicked" Margin="10"/>
-            <Button x:Name="EndSessionButton" Text="End User Session" Clicked="EndSession_Clicked" Margin="10"/>
-            <Button x:Name="CallTaskManagerButton" Text="Open Task Manager" Clicked="CallTaskManager_Clicked" Margin="10"/>
-            <Button x:Name="ShowDesktopButton" Text="Show Desktop" Clicked="ShowDesktop_Clicked" Margin="10"/>
-            <Button x:Name="AltTabButton" Text="Alt+Tab" Clicked="AltTab_Clicked" Margin="10"/>
+            <Button x:Name="RestartPCButton" Text="Restart PC" Clicked="RestartPC_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="ShutDownPCButton" Text="Shut Down PC" Clicked="ShutDownPC_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="LockScreenButton" Text="Lock Screen" Clicked="LockScreen_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="EndSessionButton" Text="End User Session" Clicked="EndSession_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="CallTaskManagerButton" Text="Open Task Manager" Clicked="CallTaskManager_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="ShowDesktopButton" Text="Show Desktop" Clicked="ShowDesktop_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="AltTabButton" Text="Alt+Tab" Clicked="AltTab_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
         </VerticalStackLayout>
         <!-- System -->
         
         <!--Remote Keyboard-->
-        <StackLayout>
-              <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" IsVisible="False"/>
-              <Entry x:Name="ClipboardEntry" Placeholder="Enter text to copy" IsVisible="False" Margin=" 0, 20, 0, 20" />
-            <Button x:Name="SendTextToClipboard" Text="Copy to PC Clipboard" Clicked="SendTextToClipboard_Clicked" IsVisible="False" />
+        <StackLayout x:Name="RemoteKeyboard" IsVisible="False">
+            <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" Style="{StaticResource MainButtonStyle}"/>
+              <Entry x:Name="ClipboardEntry" Placeholder="Enter text to copy" Margin=" 0, 20, 0, 20" />
+            <Button x:Name="SendTextToClipboard" Text="Copy to PC Clipboard" Clicked="SendTextToClipboard_Clicked" Style="{StaticResource MainButtonStyle}"/>
         </StackLayout>
         <!--Remote Keyboard-->
-        
+
         <!--Remote Mouse-->
-        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Padding="20" x:Name="RemoteMouse" IsVisible="False">
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -67,18 +69,17 @@
                                    WidthRequest="200" 
                                    HeightRequest="200"
                                    Moved="Joystick_Moved"
-                                   IsVisible="False"
                                    Margin="20"/>
 
                     <HorizontalStackLayout Spacing="20" HorizontalOptions="FillAndExpand">
-                        <Button x:Name="Left_Click" Text="Left Click" Clicked="LeftClick_Clicked" IsVisible="False" HorizontalOptions="StartAndExpand" WidthRequest="130"/>
-                        <Button x:Name="Right_Click" Text="Right Click" Clicked="RightClick_Clicked" IsVisible="False" HorizontalOptions="EndAndExpand" WidthRequest="130"/>
+                            <Button x:Name="Left_Click" Text="Left Click" Clicked="LeftClick_Clicked"  HorizontalOptions="StartAndExpand" WidthRequest="130" Style="{StaticResource MainButtonStyle}"/>
+                            <Button x:Name="Right_Click" Text="Right Click" Clicked="RightClick_Clicked" HorizontalOptions="EndAndExpand" WidthRequest="130" Style="{StaticResource MainButtonStyle}"/>
                     </HorizontalStackLayout>
-                    <Button x:Name="CTRL_C" Text="Ctrl + C" Clicked="CTRL_C_Clicked" IsVisible="False" />
-                    <Button x:Name="CTRL_V" Text="Ctrl + V" Clicked="CTRL_V_Clicked" IsVisible="False" />
+                        <Button x:Name="CTRL_C" Text="Ctrl + C" Clicked="CTRL_C_Clicked" Style="{StaticResource MainButtonStyle}"/>
+                        <Button x:Name="CTRL_V" Text="Ctrl + V" Clicked="CTRL_V_Clicked" Style="{StaticResource MainButtonStyle}"/>
                 </StackLayout>
             </HorizontalStackLayout>
-            <Frame x:Name="ScrollBar" BackgroundColor="#1AFFFFFF" IsVisible="False" HeightRequest="200" WidthRequest="70" VerticalOptions="End" HorizontalOptions="Center" Margin="20" Grid.Row="1" CornerRadius="25" BorderColor="Gray">
+            <Frame x:Name="ScrollBar" BackgroundColor="#1AFFFFFF" HeightRequest="200" WidthRequest="70" VerticalOptions="End" HorizontalOptions="Center" Margin="20" Grid.Row="1" CornerRadius="25" BorderColor="Gray">
                 <Frame.Content>
                     <BoxView BackgroundColor="#1AFFFFFF">
                         <BoxView.GestureRecognizers>
@@ -88,15 +89,16 @@
                 </Frame.Content>
             </Frame>
         </Grid>
+        </VerticalStackLayout>
         <!--Remote Mouse-->
 
-
         <!-- Display Functions -->
-        <Label x:Name="BrightnessLabel" Text="Brightness = 0" IsVisible="False"/>
-        <Slider x:Name="BrightnessSlider" Minimum="0" Maximum="100" ValueChanged="BrightnessSlider_Changed" IsVisible="False"/>
+        <VerticalStackLayout Padding="20" x:Name="DisplayFunctions" IsVisible="False">
+        <Label x:Name="BrightnessLabel" Text="Brightness = 0"/>
+        <Slider x:Name="BrightnessSlider" Minimum="0" Maximum="100" ValueChanged="BrightnessSlider_Changed"/>
 
-        <Label Text="Resolution" IsVisible="False" x:Name="ResolutionLabel"/>
-        <Picker x:Name="ResolutionPicker" Title="Select Resolution" IsVisible="False">
+        <Label Text="Resolution" x:Name="ResolutionLabel"/>
+        <Picker x:Name="ResolutionPicker" Title="Select Resolution">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>1920x1080</x:String>
@@ -107,11 +109,11 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-        <Button Text="Change" Clicked="ChangeResolution_Clicked" IsVisible="False" x:Name="ChangeResolutionButton"/>
-        <Label Text="Quiet Mode" IsVisible="False" x:Name="QuietModeLabel"/>
-        <Switch x:Name="QuietModeSwitch" Toggled="QuietModeSwitch_Toggled" IsVisible="False"/>
-        <Label Text="Change Orientation" IsVisible="False" x:Name="ChangeOrientationText"/>
-        <Picker x:Name="OrientationPicker" Title="Choose Orientation" SelectedIndexChanged="OrientationPicker_SelectedIndexChanged" IsVisible="False">
+            <Button Text="Change" Clicked="ChangeResolution_Clicked" x:Name="ChangeResolutionButton" Style="{StaticResource MainButtonStyle}"/>
+        <Label Text="Quiet Mode" x:Name="QuietModeLabel"/>
+        <Switch x:Name="QuietModeSwitch" Toggled="QuietModeSwitch_Toggled"/>
+        <Label Text="Change Orientation" x:Name="ChangeOrientationText"/>
+        <Picker x:Name="OrientationPicker" Title="Choose Orientation" SelectedIndexChanged="OrientationPicker_SelectedIndexChanged">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>0°</x:String>
@@ -121,8 +123,9 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-        <Label Text="Sleep Mode" IsVisible="False" x:Name="SleepModeLabel"/>
-        <Switch x:Name="SleepModeSwitch" Toggled="SleepModeSwitch_Toggled" IsVisible="False"/>
+        <Label Text="Sleep Mode" x:Name="SleepModeLabel"/>
+        <Switch x:Name="SleepModeSwitch" Toggled="SleepModeSwitch_Toggled"/>
+        </VerticalStackLayout>
         <!-- Display Functions -->
 
         <!-- Media Control -->
@@ -134,13 +137,13 @@
            HorizontalOptions="Center" />
 
             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" Margin="0, 30, 0, 0">
-                <Button Text="⏮" x:Name="PrevTrack" WidthRequest="100" Clicked="PrevTrack_Clicked" />
-                <Button Text="⏯" x:Name="PlayPause" WidthRequest="100" Clicked="PlayPause_Clicked" />
-                <Button Text="⏭" x:Name="NextTrack" WidthRequest="100" Clicked="NextTrack_Clicked" />
+                <Button Text="⏮" x:Name="PrevTrack" WidthRequest="100" Clicked="PrevTrack_Clicked" Style="{StaticResource MainButtonStyle}"/>
+                <Button Text="⏯" x:Name="PlayPause" WidthRequest="100" Clicked="PlayPause_Clicked" Style="{StaticResource MainButtonStyle}"/>
+                <Button Text="⏭" x:Name="NextTrack" WidthRequest="100" Clicked="NextTrack_Clicked" Style="{StaticResource MainButtonStyle}"/>
             </HorizontalStackLayout>
 
             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                <Button Text="🔇" Margin="10, 10, 0, 10" x:Name="Mute" Clicked="Mute_Clicked" />
+                <Button Text="🔇" Margin="10, 10, 0, 10" x:Name="Mute" Clicked="Mute_Clicked" Style="{StaticResource MainButtonStyle}"/>
                 <Slider x:Name="VolumeSlider" 
                 Minimum="0" Maximum="100" 
                 ValueChanged="VolumeSlider_Changed" 
@@ -154,7 +157,7 @@
         
         <!-- Spy Mode -->
         <VerticalStackLayout Padding="20" x:Name="SpyMode" IsVisible="False">
-            <Button Text="Screenshot" x:Name="MakeScreen" Clicked="MakeScreen_Clicked" />
+            <Button Text="Screenshot" x:Name="MakeScreen" Clicked="MakeScreen_Clicked" Style="{StaticResource MainButtonStyle}"/>
         </VerticalStackLayout>
         <!-- Spy Mode -->
 

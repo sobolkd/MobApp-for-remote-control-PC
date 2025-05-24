@@ -4,6 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Color x:Key="PrimaryColor">#D7D2D0</Color>
+    <Color x:Key="SecondaryColor">#FFFFFF</Color>
+    <Color x:Key="AccentColor">#FD4C2A</Color>
+    <Color x:Key="TextColor">#525251</Color>
+    <Color x:Key="DarkColor">#050504</Color>
+    
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -423,5 +429,101 @@
         <Setter Property="UnselectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
+    <!--My styles-->
+    <!-- Стиль головної кнопки -->
+    <Style TargetType="Button" x:Key="MainButtonStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+        <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#80000000" Offset="3,3" Radius="6" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#CFCAC8" />
+                            <Setter Property="TranslationY" Value="1" />
+                            <Setter Property="Scale" Value="0.97" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.4" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Стиль акцентної кнопки -->
+    <Style TargetType="Button" x:Key="AccentButtonStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}" />
+        <Setter Property="TextColor" Value="{StaticResource SecondaryColor}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#90000000" Offset="0,4" Radius="8" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#E54320" />
+                            <Setter Property="TranslationY" Value="1" />
+                            <Setter Property="Scale" Value="0.96" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.5" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Стиль темної кнопки -->
+    <Style TargetType="Button" x:Key="DarkButtonStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource DarkColor}" />
+        <Setter Property="TextColor" Value="{StaticResource SecondaryColor}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#FF111111" Offset="2,2" Radius="7" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#1C1C1C" />
+                            <Setter Property="Scale" Value="0.95" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.4" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

@@ -51,72 +51,48 @@ public partial class MainPage : ContentPage
     {
         _scrollController.Scroll(sender, e);
     }
-    void Remote_Cursor_Clicked(object sender, EventArgs e)
+    private void HideAllButtons()
     {
         Back.IsVisible = true;
-        JoystickView.IsVisible = true;
-        Left_Click.IsVisible = true;
-        Right_Click.IsVisible = true;
-        ScrollBar.IsVisible = true;
-        CTRL_V.IsVisible = true;
-        CTRL_C.IsVisible = true;
-        Remote_Cursor.IsVisible = false;
-        Display_Functions.IsVisible = false; 
+        Remote_Mouse.IsVisible = false;
         Remote_Keyboard.IsVisible = false;
+        Display_Functions.IsVisible = false;
         Media_Control.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
         Spy_Mode.IsVisible = false;
+    }
+    private void ShowAllButtons()
+    {
+        Back.IsVisible = false;
+        Remote_Mouse.IsVisible = true;
+        Remote_Keyboard.IsVisible = true;
+        Display_Functions.IsVisible = true;
+        Media_Control.IsVisible = true;
+        File_Manager.IsVisible = true;
+        System.IsVisible = true;
+        Spy_Mode.IsVisible = true;
+    }
+    void Remote_Mouse_Clicked(object sender, EventArgs e)
+    {
+        HideAllButtons();
+        RemoteMouse.IsVisible = true;
+    }
+    void Remote_Keyboard_Clicked(object sender, EventArgs e)
+    {
+        HideAllButtons();
+        RemoteKeyboard.IsVisible = true;
     }
     void Display_Functions_Clicked(object sender, EventArgs e)
     {
-        Back.IsVisible = true;
-        BrightnessSlider.IsVisible = true;
-        BrightnessLabel.IsVisible = true;
-        ResolutionLabel.IsVisible = true;
-        ResolutionPicker.IsVisible = true;
-        ChangeResolutionButton.IsVisible = true;
-        QuietModeLabel.IsVisible = true;
-        QuietModeSwitch.IsVisible = true;
-        OrientationPicker.IsVisible = true;
-        ChangeOrientationText.IsVisible = true;
-        Remote_Keyboard.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
-        Display_Functions.IsVisible = false;
-        Remote_Cursor.IsVisible = false;
-        Media_Control.IsVisible = false;
-        SleepModeLabel.IsVisible= true;
-        SleepModeSwitch.IsVisible= true;
+        HideAllButtons();
+        DisplayFunctions.IsVisible = true;
         UpdateBrightnessSlider();
-    }
-    void Remote_Keyboard_Clicked (object sender, EventArgs e)
-    {
-        Back.IsVisible = true;
-        ClipboardEntry.IsVisible = true;
-        SendTextToClipboard.IsVisible = true;
-        Call_Keyboard.IsVisible = true;
-        Display_Functions.IsVisible = false;
-        Remote_Cursor.IsVisible = false;
-        Media_Control.IsVisible = false;
-        Remote_Keyboard.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
     }
     void Media_Control_Clicked(object sender, EventArgs e)
     {
-        Back.IsVisible = true;
+        HideAllButtons();
         Media_Controls.IsVisible = true;
-        Remote_Cursor.IsVisible = false;
-        Display_Functions.IsVisible = false;
-        Remote_Keyboard.IsVisible = false;
-        Media_Control.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
-
         mediaController.UpdateNowPlaying();
         mediaController.UpdateVolume();
         mediaController.NameAudioOutputs();
@@ -124,84 +100,29 @@ public partial class MainPage : ContentPage
     }
     void File_Manager_Clicked (object sender, EventArgs e)
     {
-        Back.IsVisible = true;
-        Remote_Cursor.IsVisible = false;
-        Display_Functions.IsVisible = false;
-        Remote_Keyboard.IsVisible = false;
-        Media_Control.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
+        HideAllButtons();
     }
     void System_Clicked(object sender, EventArgs e)
     {
-        Back.IsVisible = true;
+        HideAllButtons();
         SystemStack.IsVisible = true;
-        Remote_Cursor.IsVisible = false;
-        Display_Functions.IsVisible = false;
-        Remote_Keyboard.IsVisible = false;
-        Media_Control.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
-         _ = UpdateDataPc();
+        _ = UpdateDataPc();
     }
     void Spy_Mode_Clicked(object sender, EventArgs e)
     {
-        Back.IsVisible = true;
-        Remote_Cursor.IsVisible = false;
-        Display_Functions.IsVisible = false;
-        Remote_Keyboard.IsVisible = false;
-        Media_Control.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
+        HideAllButtons();
         SpyMode.IsVisible = true;
-    }
-    void Browser_Clicked(object sender, EventArgs e)
-    {
-        Back.IsVisible = true;
-        Remote_Cursor.IsVisible = false;
-        Display_Functions.IsVisible = false;
-        Remote_Keyboard.IsVisible = false;
-        Media_Control.IsVisible = false;
-        File_Manager.IsVisible = false;
-        System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
     }
     void Back_Clicked(object sender, EventArgs e)
     {
-        Display_Functions.IsVisible = true;
-        Remote_Cursor.IsVisible = true;
-        Remote_Keyboard.IsVisible = true;
-        Media_Control.IsVisible = true;
-        File_Manager.IsVisible = true;
-        System.IsVisible = true;
-        Spy_Mode.IsVisible = true;
-        Back.IsVisible = false;
-        JoystickView.IsVisible = false;
-        Left_Click.IsVisible = false;
-        Right_Click.IsVisible = false;
-        BrightnessSlider.IsVisible = false;
-        Call_Keyboard.IsVisible = false;
-        ScrollBar.IsVisible = false;
-        CTRL_C.IsVisible = false;
-        CTRL_V.IsVisible = false;
+        RemoteMouse.IsVisible = false;
+        RemoteKeyboard.IsVisible = false;
+        DisplayFunctions.IsVisible = false;
         Media_Controls.IsVisible = false;
-        BrightnessLabel.IsVisible = false;
-        ClipboardEntry.IsVisible = false;
-        SendTextToClipboard.IsVisible = false;
-        ResolutionLabel.IsVisible = false;
-        ResolutionPicker.IsVisible = false;
-        ChangeResolutionButton.IsVisible = false;
-        QuietModeLabel.IsVisible = false;
-        QuietModeSwitch.IsVisible = false;
-        OrientationPicker.IsVisible = false;
-        ChangeOrientationText.IsVisible = false;
-        SleepModeLabel.IsVisible = false;
-        SleepModeSwitch.IsVisible = false;
+        // here will be placed file_manager
         SystemStack.IsVisible = false;
         SpyMode.IsVisible = false;
+        ShowAllButtons();
     }
     void Call_Keyboard_Clicked (object sender, EventArgs e)
     {
