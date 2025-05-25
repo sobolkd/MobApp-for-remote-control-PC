@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Diplom\\Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\SpyFunctions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\SpyFunctions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\SpyFunctions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\SpyFunctions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\filesystem_handler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\filesystem_handler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\filesystem_handler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\filesystem_handler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +22,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Server.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeDocumentMoniker": "Server\\Server.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeToolTip": "Server\\Server.cpp",
-              "ViewState": "AgIAALcBAAAAAAAAAAAgwMUBAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAANkBAAAAAAAAAAAvwPMBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-24T22:44:59.797Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "SpyFunctions.h",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\SpyFunctions.h",
-              "RelativeDocumentMoniker": "Server\\SpyFunctions.h",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\SpyFunctions.h",
-              "RelativeToolTip": "Server\\SpyFunctions.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Title": "filesystem_handler.h",
+              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\filesystem_handler.h",
+              "RelativeDocumentMoniker": "Server\\filesystem_handler.h",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\filesystem_handler.h",
+              "RelativeToolTip": "Server\\filesystem_handler.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-22T04:04:34.86Z"
+              "WhenOpened": "2025-05-25T04:17:15.523Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SpyFunctions.cpp",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\SpyFunctions.cpp",
-              "RelativeDocumentMoniker": "Server\\SpyFunctions.cpp",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\SpyFunctions.cpp",
-              "RelativeToolTip": "Server\\SpyFunctions.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA0AAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "filesystem_handler.cpp",
+              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\filesystem_handler.cpp",
+              "RelativeDocumentMoniker": "Server\\filesystem_handler.cpp",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\filesystem_handler.cpp",
+              "RelativeToolTip": "Server\\filesystem_handler.cpp",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-22T04:03:20.937Z",
+              "WhenOpened": "2025-05-25T04:17:11.232Z",
               "EditorCaption": ""
             }
           ]

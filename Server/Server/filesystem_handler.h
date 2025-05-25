@@ -1,0 +1,15 @@
+#pragma once
+
+#include <string>
+#include <vector>
+
+struct FileEntry {
+    std::wstring name;
+    bool is_directory;
+};
+
+std::vector<std::wstring> list_logical_drives();
+std::string get_driver_list_response();
+
+std::vector<FileEntry> list_directory_contents(const std::wstring& path);
+std::string get_directory_list_response(const std::wstring& path);

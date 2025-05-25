@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using Microsoft.Maui.Controls;
 using static Android.Print.PrintAttributes;
+using RemoteGod.ViewModels;
+using RemoteGod.Models;
 
 namespace RemoteGod;
 
@@ -13,6 +15,7 @@ public partial class MainPage : ContentPage
     private readonly ScrollController _scrollController;
     private MediaController mediaController;
     private readonly SystemController systemController;
+    private FileExplorerViewModel viewModel;
 
     private double cursorX = 500;
     private double cursorY = 300;
@@ -26,6 +29,8 @@ public partial class MainPage : ContentPage
         _scrollController = new ScrollController(serverConnector);
         mediaController = new MediaController(serverConnector, this);
         systemController = new SystemController(serverConnector, this);
+        viewModel = new FileExplorerViewModel();
+        BindingContext = viewModel;
         serverConnector.OnIpReceived += ip =>
         {
             MainThread.BeginInvokeOnMainThread(() =>
@@ -98,9 +103,27 @@ public partial class MainPage : ContentPage
         mediaController.NameAudioOutputs();
 
     }
-    void File_Manager_Clicked (object sender, EventArgs e)
+    // working here
+    private async void File_Manager_Clicked(object sender, EventArgs e)
     {
         HideAllButtons();
+        FileExplorerPanel.IsVisible = true;
+        await viewModel.LoadDriversAsync(serverConnector.SendCommandWithResponse);
+    }
+    private async void OnFileSelected(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.Count == 0)
+            return;
+
+        var selected = e.CurrentSelection[0] as FileItem;
+        if (selected == null)
+            return;
+
+        if (!selected.IsDirectory)
+            return;
+
+        await viewModel.LoadDirectoryAsync(selected.Path, serverConnector.SendCommandWithResponse);
+        ((CollectionView)sender).SelectedItem = null;
     }
     void System_Clicked(object sender, EventArgs e)
     {
@@ -119,7 +142,7 @@ public partial class MainPage : ContentPage
         RemoteKeyboard.IsVisible = false;
         DisplayFunctions.IsVisible = false;
         Media_Controls.IsVisible = false;
-        // here will be placed file_manager
+        FileExplorerPanel.IsVisible = false;
         SystemStack.IsVisible = false;
         SpyMode.IsVisible = false;
         ShowAllButtons();

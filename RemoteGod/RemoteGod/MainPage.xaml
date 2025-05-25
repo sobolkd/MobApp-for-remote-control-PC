@@ -160,6 +160,26 @@
             <Button Text="Screenshot" x:Name="MakeScreen" Clicked="MakeScreen_Clicked" Style="{StaticResource MainButtonStyle}"/>
         </VerticalStackLayout>
         <!-- Spy Mode -->
-
+        
+        <!-- File Manager -->
+        <VerticalStackLayout x:Name="FileExplorerPanel" IsVisible="False" Spacing="10" Padding="10">
+            <Label Text="{Binding CurrentPath}" FontAttributes="Bold" FontSize="16"/>
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Назад" Command="{Binding NavigateUpCommand}" />
+                <Button Text="Оновити" Command="{Binding RefreshCommand}" />
+            </HorizontalStackLayout>
+            <CollectionView x:Name="FileListView" ItemsSource="{Binding FileItems}" SelectionMode="Single" SelectionChanged="OnFileSelected">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="5" ColumnDefinitions="40, *">
+                            <Label Text="{Binding Icon}" FontSize="20" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                            <Label Grid.Column="1" Text="{Binding DisplayName}" VerticalTextAlignment="Center" FontSize="14" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
+        <!-- File Manager -->
+
+    </VerticalStackLayout>
 </ContentPage>

