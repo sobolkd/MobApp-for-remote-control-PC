@@ -28,6 +28,8 @@ namespace RemoteGod.ViewModels
             }
         }
 
+        private Func<string, Task<string>> _sendCommandAsync;
+
         public ICommand NavigateUpCommand { get; }
         public ICommand RefreshCommand { get; }
 
@@ -39,6 +41,8 @@ namespace RemoteGod.ViewModels
 
         public async Task LoadDriversAsync(Func<string, Task<string>> sendCommandAsync)
         {
+            _sendCommandAsync = sendCommandAsync;
+
             try
             {
                 string response = await sendCommandAsync("GET_DRIVERLIST");
@@ -70,14 +74,23 @@ namespace RemoteGod.ViewModels
 
         public async Task LoadDirectoryAsync(string path, Func<string, Task<string>> sendCommandAsync)
         {
-            if (string.IsNullOrEmpty(path))
+            if (path == null)
                 return;
 
-            CurrentPath = path;
+            _sendCommandAsync = sendCommandAsync;
+
+            string cleanPath = path.Replace("[DIR] ", "").Replace("[DRIVE] ", "").TrimStart('/', '\\').Trim();
+
+            if (string.IsNullOrWhiteSpace(cleanPath))
+            {
+                await LoadDriversAsync(sendCommandAsync);
+                return;
+            }
+
+            CurrentPath = cleanPath;
 
             try
             {
-                string cleanPath = path.Replace("[DIR] ", "").Replace("[DRIVE] ", "").Trim();
                 string command = $"CD_{cleanPath}";
                 string response = await sendCommandAsync(command);
 
@@ -127,21 +140,26 @@ namespace RemoteGod.ViewModels
 
         private async Task NavigateUpAsync()
         {
-            if (!string.IsNullOrWhiteSpace(CurrentPath))
+            if (string.IsNullOrWhiteSpace(CurrentPath))
+                return;
+
+            var parent = Directory.GetParent(CurrentPath)?.FullName;
+
+            if (!string.IsNullOrEmpty(parent))
             {
-                var parent = Directory.GetParent(CurrentPath)?.FullName;
-                if (!string.IsNullOrEmpty(parent))
-                {
-                    await LoadDirectoryAsync(parent, async command => await Task.FromResult(""));
-                }
+                await LoadDirectoryAsync(parent, _sendCommandAsync);
+            }
+            else
+            {
+                await LoadDriversAsync(_sendCommandAsync);
             }
         }
 
         private async Task RefreshAsync()
         {
-            if (!string.IsNullOrEmpty(CurrentPath))
+            if (!string.IsNullOrEmpty(CurrentPath) && _sendCommandAsync != null)
             {
-                await LoadDirectoryAsync(CurrentPath, async command => await Task.FromResult(""));
+                await LoadDirectoryAsync(CurrentPath, _sendCommandAsync);
             }
         }
 
