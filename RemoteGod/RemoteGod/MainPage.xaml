@@ -7,7 +7,7 @@
     <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
         <!--Back Button-->
-        <Button Text="Back"
+        <Button Text="Menu"
                 x:Name="Back"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
@@ -51,7 +51,9 @@
         <StackLayout x:Name="RemoteKeyboard" IsVisible="False">
             <Button x:Name="Call_Keyboard" Text="On Screen Keyboard" Clicked="Call_Keyboard_Clicked" Style="{StaticResource MainButtonStyle}"/>
               <Entry x:Name="ClipboardEntry" Placeholder="Enter text to copy" Margin=" 0, 20, 0, 20" />
-            <Button x:Name="SendTextToClipboard" Text="Copy to PC Clipboard" Clicked="SendTextToClipboard_Clicked" Style="{StaticResource MainButtonStyle}"/>
+            <Button x:Name="SendTextToClipboard" Text="Copy to PC Clipboard" Clicked="SendTextToClipboard_Clicked" Style="{StaticResource MainButtonStyle}" Margin="0, 10, 0, 10"/>
+            <Button x:Name="CTRL_C" Text="Ctrl + C" Clicked="CTRL_C_Clicked" Style="{StaticResource MainButtonStyle}" Margin="0, 10, 0, 10"/>
+            <Button x:Name="CTRL_V" Text="Ctrl + V" Clicked="CTRL_V_Clicked" Style="{StaticResource MainButtonStyle}" Margin="0, 10, 0, 10"/>
         </StackLayout>
         <!--Remote Keyboard-->
 
@@ -71,13 +73,11 @@
                                    Moved="Joystick_Moved"
                                    Margin="20"/>
 
-                    <HorizontalStackLayout Spacing="20" HorizontalOptions="FillAndExpand">
+                        <HorizontalStackLayout Spacing="20" HorizontalOptions="FillAndExpand">
                             <Button x:Name="Left_Click" Text="Left Click" Clicked="LeftClick_Clicked"  HorizontalOptions="StartAndExpand" WidthRequest="130" Style="{StaticResource MainButtonStyle}"/>
                             <Button x:Name="Right_Click" Text="Right Click" Clicked="RightClick_Clicked" HorizontalOptions="EndAndExpand" WidthRequest="130" Style="{StaticResource MainButtonStyle}"/>
-                    </HorizontalStackLayout>
-                        <Button x:Name="CTRL_C" Text="Ctrl + C" Clicked="CTRL_C_Clicked" Style="{StaticResource MainButtonStyle}"/>
-                        <Button x:Name="CTRL_V" Text="Ctrl + V" Clicked="CTRL_V_Clicked" Style="{StaticResource MainButtonStyle}"/>
-                </StackLayout>
+                        </HorizontalStackLayout>
+                    </StackLayout>
             </HorizontalStackLayout>
             <Frame x:Name="ScrollBar" BackgroundColor="#1AFFFFFF" HeightRequest="200" WidthRequest="70" VerticalOptions="End" HorizontalOptions="Center" Margin="20" Grid.Row="1" CornerRadius="25" BorderColor="Gray">
                 <Frame.Content>
@@ -165,8 +165,8 @@
         <VerticalStackLayout x:Name="FileExplorerPanel" IsVisible="False" Spacing="10" Padding="10">
             <Label Text="{Binding CurrentPath}" FontAttributes="Bold" FontSize="16"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Назад" Command="{Binding NavigateUpCommand}" />
-                <Button Text="Оновити" Command="{Binding RefreshCommand}" />
+                <Button Text="Back" Command="{Binding NavigateUpCommand}" />
+                <Button Text="Update" Command="{Binding RefreshCommand}" />
             </HorizontalStackLayout>
             <CollectionView x:Name="FileListView" ItemsSource="{Binding FileItems}" SelectionMode="Single" SelectionChanged="OnFileSelected">
                 <CollectionView.ItemTemplate>

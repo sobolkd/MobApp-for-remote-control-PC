@@ -119,12 +119,36 @@ public partial class MainPage : ContentPage
         if (selected == null)
             return;
 
-        if (!selected.IsDirectory)
-            return;
+        if (selected.IsDirectory)
+        {
+            await viewModel.LoadDirectoryAsync(selected.Path, serverConnector.SendCommandWithResponse);
+        }
+        else
+        {
+            string action = await Application.Current.MainPage.DisplayActionSheet(
+                $"Select an action for {selected.Name}", "Cancel", null,
+                "Download", "Copy", "Move", "Delete");
 
-        await viewModel.LoadDirectoryAsync(selected.Path, serverConnector.SendCommandWithResponse);
-        ((CollectionView)sender).SelectedItem = null;
+            switch (action)
+            {
+                case "Download":
+                    // TODO: 
+                    break;
+                case "Copy":
+                    // TODO: 
+                    break;
+                case "Move":
+                    // TODO: 
+                    break;
+                case "Delete":
+                    // TODO:
+                    break;
+            }
+        }
+
+    ((CollectionView)sender).SelectedItem = null;
     }
+
     void System_Clicked(object sender, EventArgs e)
     {
         HideAllButtons();

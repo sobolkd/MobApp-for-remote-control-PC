@@ -79,7 +79,9 @@ namespace RemoteGod.ViewModels
 
             _sendCommandAsync = sendCommandAsync;
 
-            string cleanPath = path.Replace("[DIR] ", "").Replace("[DRIVE] ", "").TrimStart('/', '\\').Trim();
+            string cleanPath = path.Replace("[DIR] ", "").Replace("[DRIVE] ", "").Trim();
+            cleanPath = cleanPath.Replace(@"\\", @"\").Replace(@"//", @"/").Replace(@"\/", @"\").Replace(@"/\", @"\");
+
 
             if (string.IsNullOrWhiteSpace(cleanPath))
             {
