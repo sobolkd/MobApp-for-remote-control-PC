@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 
 struct FileEntry {
     std::wstring name;
@@ -13,3 +14,4 @@ std::string get_driver_list_response();
 
 std::vector<FileEntry> list_directory_contents(const std::wstring& path);
 std::string get_directory_list_response(const std::wstring& path);
+bool sendFileToClient(const std::wstring& filePath, SOCKET clientSocket);

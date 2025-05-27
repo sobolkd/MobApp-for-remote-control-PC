@@ -132,8 +132,25 @@ public partial class MainPage : ContentPage
             switch (action)
             {
                 case "Download":
-                    // TODO: 
+                    if (!await serverConnector.EnsureStoragePermissionAsync())
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Permission", "Storage permission not granted", "OK");
+                        return;
+                    }
+
+                    string fileName = selected.Name;
+                    string downloadsDir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+                    string downloadPath = Path.Combine(downloadsDir, fileName);
+
+                    bool success = await serverConnector.DownloadFileAsync(selected.Path, downloadPath);
+
+                    if (success)
+                        await Application.Current.MainPage.DisplayAlert("Success", "File downloaded to Downloads", "OK");
+                    else
+                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to download file", "OK");
+
                     break;
+
                 case "Copy":
                     // TODO: 
                     break;
@@ -148,6 +165,7 @@ public partial class MainPage : ContentPage
 
     ((CollectionView)sender).SelectedItem = null;
     }
+
 
     void System_Clicked(object sender, EventArgs e)
     {

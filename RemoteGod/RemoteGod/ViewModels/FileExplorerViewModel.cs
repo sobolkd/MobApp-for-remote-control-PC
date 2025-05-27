@@ -140,6 +140,8 @@ namespace RemoteGod.ViewModels
             }
         }
 
+
+
         private async Task NavigateUpAsync()
         {
             if (string.IsNullOrWhiteSpace(CurrentPath))

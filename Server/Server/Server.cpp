@@ -498,6 +498,13 @@ void handleClient(SOCKET clientSock) {
                 send(clientSock, response.c_str(), response.size(), 0);
             }
         }
+        // Send file 
+        else if (command.rfind("SEND_", 0) == 0)
+        {
+            std::string filePath = command.substr(5);
+            std::wstring wFilePath = stringToWstring(filePath);
+            sendFileToClient(wFilePath, clientSock);
+            }
 
 
         

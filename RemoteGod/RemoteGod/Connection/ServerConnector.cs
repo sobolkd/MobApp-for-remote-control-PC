@@ -3,6 +3,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
+#if ANDROID
+using Android;
+using Android.Content.PM;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
+using Android.App;
+using Android.Content;
+using Microsoft.Maui.ApplicationModel;
+#endif
+
+
 namespace RemoteGod;
 
 public class ServerConnector
@@ -84,6 +95,26 @@ public class ServerConnector
             OnCommandFailed?.Invoke("Command failed");
         }
     }
+    public async Task<bool> EnsureStoragePermissionAsync()
+    {
+#if ANDROID
+        var activity = Platform.CurrentActivity;
+
+        if (!Android.OS.Environment.IsExternalStorageManager)
+        {
+            Intent intent = new Intent(Android.Provider.Settings.ActionManageAppAllFilesAccessPermission);
+            intent.SetData(Android.Net.Uri.Parse("package:" + Android.App.Application.Context.PackageName));
+            activity.StartActivity(intent);
+
+            return false;
+        }
+
+        return true;
+#else
+    return true;
+#endif
+    }
+
 
     public async Task<string> SendCommandWithResponse(string command)
     {
@@ -106,4 +137,44 @@ public class ServerConnector
             return "Command failed";
         }
     }
+
+    public async Task<bool> DownloadFileAsync(string remotePath, string localFilePath)
+    {
+        if (ServerIp == null) return false;
+
+        try
+        {
+            using var tcpClient = new TcpClient();
+            await tcpClient.ConnectAsync(ServerIp, TcpPort);
+            using var stream = tcpClient.GetStream();
+
+            byte[] request = Encoding.UTF8.GetBytes($"SEND_{remotePath}");
+            await stream.WriteAsync(request, 0, request.Length);
+
+            byte[] sizeBuffer = new byte[4];
+            int readSize = await stream.ReadAsync(sizeBuffer, 0, 4);
+            if (readSize != 4) return false;
+
+            int fileSize = BitConverter.ToInt32(sizeBuffer, 0);
+            byte[] fileBuffer = new byte[fileSize];
+            int totalRead = 0;
+
+            while (totalRead < fileSize)
+            {
+                int read = await stream.ReadAsync(fileBuffer, totalRead, fileSize - totalRead);
+                if (read == 0) break;
+                totalRead += read;
+            }
+
+            if (totalRead != fileSize) return false;
+
+            await File.WriteAllBytesAsync(localFilePath, fileBuffer);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 }

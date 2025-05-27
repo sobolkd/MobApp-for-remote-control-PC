@@ -2,8 +2,12 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <fstream>
 #include <filesystem>
 #include <iostream>
+#include <algorithm>
+#include <locale>
+#include <codecvt>
 
 namespace fs = std::filesystem;
 
@@ -73,3 +77,63 @@ std::string get_directory_list_response(const std::wstring& path) {
 
     return oss.str();
 }
+
+bool sendFileToClient(const std::wstring& filePath, SOCKET clientSocket)
+{
+    HANDLE hFile = CreateFileW(filePath.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE)
+    {
+        std::wcerr << L"[ERROR] Cannot open file: " << filePath << L"\n";
+        return false;
+    }
+
+    LARGE_INTEGER fileSizeLI;
+    if (!GetFileSizeEx(hFile, &fileSizeLI))
+    {
+        std::wcerr << L"[ERROR] Cannot get file size: " << filePath << L"\n";
+        CloseHandle(hFile);
+        return false;
+    }
+
+    if (fileSizeLI.QuadPart > UINT32_MAX)
+    {
+        std::wcerr << L"[ERROR] File too large: " << filePath << L"\n";
+        CloseHandle(hFile);
+        return false;
+    }
+
+    uint32_t fileSize = static_cast<uint32_t>(fileSizeLI.QuadPart);
+    std::vector<char> buffer(fileSize);
+
+    DWORD bytesRead = 0;
+    if (!ReadFile(hFile, buffer.data(), fileSize, &bytesRead, nullptr) || bytesRead != fileSize)
+    {
+        std::wcerr << L"[ERROR] Cannot read file: " << filePath << L"\n";
+        CloseHandle(hFile);
+        return false;
+    }
+
+    CloseHandle(hFile);
+
+    if (send(clientSocket, reinterpret_cast<const char*>(&fileSize), sizeof(fileSize), 0) <= 0)
+    {
+        std::cerr << "[ERROR] Error sending size\n";
+        return false;
+    }
+
+    size_t totalSent = 0;
+    while (totalSent < buffer.size())
+    {
+        int sent = send(clientSocket, buffer.data() + totalSent, buffer.size() - totalSent, 0);
+        if (sent <= 0)
+        {
+            std::cerr << "[ERROR] Error sending file data\n";
+            return false;
+        }
+        totalSent += sent;
+    }
+
+    std::wcout << L"[LOG] File has been fully sent: " << filePath << L"\n";
+    return true;
+}
+
