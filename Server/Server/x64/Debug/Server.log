@@ -1,3 +1,2 @@
-﻿  filesystem_handler.cpp
-D:\Diplom\Server\Server\filesystem_handler.cpp(127,80): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+﻿  MediaController.cpp
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

@@ -41,8 +41,7 @@ struct IPolicyConfig : public IUnknown {
     virtual HRESULT SetEndpointVisibility(LPCWSTR, INT) { return E_NOTIMPL; }
 };
 
-
-//Get Name of Song
+// Get Name of Song
 std::string GetNowPlayingInfo() {
     try {
         using namespace winrt::Windows::Media::Control;
@@ -61,14 +60,29 @@ std::string GetNowPlayingInfo() {
         }
 
         auto mediaProperties = session.TryGetMediaPropertiesAsync().get();
+        std::wstring wtitle = mediaProperties.Title().c_str();
 
-        std::wstring title = mediaProperties.Title().c_str();
-        return std::string(title.begin(), title.end());
+        // WideCharToMultiByte — конвертація UTF-16 (wstring) у UTF-8 (string)
+        int utf8Size = WideCharToMultiByte(CP_UTF8, 0, wtitle.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        if (utf8Size == 0) {
+            return "Unknown Track";
+        }
+
+        std::string utf8title(utf8Size, 0);
+        WideCharToMultiByte(CP_UTF8, 0, wtitle.c_str(), -1, &utf8title[0], utf8Size, nullptr, nullptr);
+
+        // Видаляємо зайвий нуль-термінатор
+        if (!utf8title.empty() && utf8title.back() == '\0') {
+            utf8title.pop_back();
+        }
+
+        return utf8title;
     }
     catch (...) {
         return "Unknown Track";
     }
 }
+
 
 // Get Volume 
 int GetCurrentVolume() {

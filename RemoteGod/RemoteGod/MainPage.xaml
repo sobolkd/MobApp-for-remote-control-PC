@@ -130,7 +130,6 @@
 
         <!-- Media Control -->
         <VerticalStackLayout Padding="20" x:Name="Media_Controls" IsVisible="False">
-
             <Label x:Name="NowPlayingLabel" 
            Text="Now Playing: -" 
            FontSize="18" 
@@ -150,10 +149,15 @@
                 WidthRequest="250"/>
             </HorizontalStackLayout>
 
-            <StackLayout x:Name="AudioOutputsStack" Padding="10"></StackLayout>
-
-
+            <StackLayout x:Name="AudioOutputsStack"
+             Orientation="Vertical"
+             Spacing="2"
+             Margin="0,20,0,0"
+             HorizontalOptions="Center"
+             WidthRequest="400">
+            </StackLayout>
         </VerticalStackLayout>
+        <!-- Media Control -->
         
         <!-- Spy Mode -->
         <VerticalStackLayout Padding="20" x:Name="SpyMode" IsVisible="False">

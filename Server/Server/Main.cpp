@@ -6,6 +6,7 @@
 #include <io.h>
 int main()
 {
+    std::cout << "Starting server..." << std::endl;
     SetConsoleOutputCP(CP_UTF8);
     _setmode(_fileno(stdout), _O_TEXT);
     std::thread udpThread(broadcastUDP);

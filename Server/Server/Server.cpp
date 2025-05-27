@@ -504,12 +504,11 @@ void handleClient(SOCKET clientSock) {
             std::string filePath = command.substr(5);
             std::wstring wFilePath = stringToWstring(filePath);
             sendFileToClient(wFilePath, clientSock);
-            }
-
-
-        
-
-
+        }
+        else if (command.rfind("DELETE_", 0) == 0)
+        {
+            // here
+        }
 
     }
     closesocket(clientSock);
@@ -531,7 +530,7 @@ void tcpServer() {
 /_______  /\____/|___  /\____/|____/
         \/           \/             
 )" << std::endl;
-std::cout << "Server started..." << std::endl;
+std::cout << "Ready to work!" << std::endl;
 
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
