@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using RemoteGod.Models;
 using Microsoft.Maui.Controls;
+using System.Text.RegularExpressions;
 
 namespace RemoteGod.ViewModels
 {
@@ -74,20 +75,17 @@ namespace RemoteGod.ViewModels
 
         public async Task LoadDirectoryAsync(string path, Func<string, Task<string>> sendCommandAsync)
         {
-            if (path == null)
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                FileItems.Clear();
+                CurrentPath = string.Empty;
                 return;
+            }
 
             _sendCommandAsync = sendCommandAsync;
 
             string cleanPath = path.Replace("[DIR] ", "").Replace("[DRIVE] ", "").Trim();
             cleanPath = cleanPath.Replace(@"\\", @"\").Replace(@"//", @"/").Replace(@"\/", @"\").Replace(@"/\", @"\");
-
-
-            if (string.IsNullOrWhiteSpace(cleanPath))
-            {
-                await LoadDriversAsync(sendCommandAsync);
-                return;
-            }
 
             CurrentPath = cleanPath;
 
@@ -145,20 +143,25 @@ namespace RemoteGod.ViewModels
         private async Task NavigateUpAsync()
         {
             if (string.IsNullOrWhiteSpace(CurrentPath))
+            {
+                await LoadDriversAsync(_sendCommandAsync);
                 return;
+            }
 
             var parent = Directory.GetParent(CurrentPath)?.FullName;
 
+            if (Regex.IsMatch(CurrentPath, @"^[A-Z]:\\?$", RegexOptions.IgnoreCase))
+            {
+                await LoadDriversAsync(_sendCommandAsync);
+                return;
+            }
             if (!string.IsNullOrEmpty(parent))
             {
                 await LoadDirectoryAsync(parent, _sendCommandAsync);
+                return;
             }
-            else
-            {
-                await LoadDriversAsync(_sendCommandAsync);
-            }
+            await LoadDriversAsync(_sendCommandAsync);
         }
-
         private async Task RefreshAsync()
         {
             if (!string.IsNullOrEmpty(CurrentPath) && _sendCommandAsync != null)

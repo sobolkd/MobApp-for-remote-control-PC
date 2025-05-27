@@ -476,7 +476,7 @@ void handleClient(SOCKET clientSock) {
         {
             SaveScreenToFile();
         }
-        // Get river list
+        // Get driver list
         else if (command.rfind("GET_DRIVERLIST", 0) == 0)
         {
             std::string response = get_driver_list_response();
@@ -505,9 +505,10 @@ void handleClient(SOCKET clientSock) {
             std::wstring wFilePath = stringToWstring(filePath);
             sendFileToClient(wFilePath, clientSock);
         }
+        // Delete file 
         else if (command.rfind("DELETE_", 0) == 0)
         {
-            // here
+            handleDeleteFile(command, clientSock);
         }
 
     }

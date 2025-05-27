@@ -36,6 +36,33 @@ std::string wstring_to_utf8(const std::wstring& wstr) {
     return strTo;
 }
 
+std::wstring stringToWstring2(const std::string& str)
+{
+    if (str.empty()) return std::wstring();
+
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.data(), (int)str.size(), nullptr, 0);
+    std::wstring wstrTo(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, str.data(), (int)str.size(), &wstrTo[0], size_needed);
+    return wstrTo;
+}
+
+void handleDeleteFile(const std::string& command, SOCKET clientSock)
+{
+    std::string filePath = command.substr(7);
+    std::wstring wFilePath = stringToWstring2(filePath);
+
+    if (DeleteFileW(wFilePath.c_str()))
+    {
+        std::string response = "Success!";
+        send(clientSock, response.c_str(), (int)response.size(), 0);
+    }
+    else
+    {
+        std::string response = "Failed deleting file";
+        send(clientSock, response.c_str(), (int)response.size(), 0);
+    }
+}
+
 std::vector<FileEntry> list_directory_contents(const std::wstring& path) {
     std::vector<FileEntry> entries;
     try {

@@ -103,7 +103,6 @@ public partial class MainPage : ContentPage
         mediaController.NameAudioOutputs();
 
     }
-    // working here
     private async void File_Manager_Clicked(object sender, EventArgs e)
     {
         HideAllButtons();
@@ -152,13 +151,24 @@ public partial class MainPage : ContentPage
                     break;
 
                 case "Copy":
-                    // TODO: 
+
                     break;
                 case "Move":
                     // TODO: 
                     break;
                 case "Delete":
-                    // TODO:
+                    bool confirm = await Application.Current.MainPage.DisplayAlert(
+                        "Confirmation",
+                        $"Are you sure you want to delete {selected.Name}?",
+                        "Yes",
+                        "No"
+                    );
+                    if (confirm)
+                    {
+                        string response = await serverConnector.SendCommandWithResponse($"DELETE_{selected.Path}");
+
+                        await Application.Current.MainPage.DisplayAlert("", response, "OK");
+                    }
                     break;
             }
         }

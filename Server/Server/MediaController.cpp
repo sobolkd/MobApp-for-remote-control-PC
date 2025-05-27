@@ -62,7 +62,6 @@ std::string GetNowPlayingInfo() {
         auto mediaProperties = session.TryGetMediaPropertiesAsync().get();
         std::wstring wtitle = mediaProperties.Title().c_str();
 
-        // WideCharToMultiByte — конвертація UTF-16 (wstring) у UTF-8 (string)
         int utf8Size = WideCharToMultiByte(CP_UTF8, 0, wtitle.c_str(), -1, nullptr, 0, nullptr, nullptr);
         if (utf8Size == 0) {
             return "Unknown Track";
@@ -71,7 +70,6 @@ std::string GetNowPlayingInfo() {
         std::string utf8title(utf8Size, 0);
         WideCharToMultiByte(CP_UTF8, 0, wtitle.c_str(), -1, &utf8title[0], utf8Size, nullptr, nullptr);
 
-        // Видаляємо зайвий нуль-термінатор
         if (!utf8title.empty() && utf8title.back() == '\0') {
             utf8title.pop_back();
         }
