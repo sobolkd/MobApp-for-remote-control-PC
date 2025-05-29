@@ -118,18 +118,6 @@ public partial class MainPage : ContentPage
 
         ((CollectionView)sender).SelectedItem = null;
 
-        if (viewModel.OnDirectorySelectedForCopy != null)
-        {
-            if (selected != null && selected.IsDirectory)
-            {
-                var handler = viewModel.OnDirectorySelectedForCopy;
-                viewModel.OnDirectorySelectedForCopy = null;
-                CopyToLabel.IsVisible = false;
-                handler.Invoke(selected.Path);
-            }
-            return;
-        }
-
         if (selected == null)
             return;
 
@@ -141,7 +129,7 @@ public partial class MainPage : ContentPage
         {
             string action = await Application.Current.MainPage.DisplayActionSheet(
                 $"Select an action for {selected.Name}", "Cancel", null,
-                "Download", "Copy", "Move", "Delete");
+                "Download", "Copy", "Delete");
 
             switch (action)
             {
@@ -165,31 +153,8 @@ public partial class MainPage : ContentPage
                     break;
 
                 case "Copy":
-                    {
-                        string sourcePath = selected.Path;
-
-                        viewModel.OnDirectorySelectedForCopy = async (destinationPath) =>
-                        {
-                            string command = $"COPY_{sourcePath}_{destinationPath}";
-                            string response = await serverConnector.SendCommandWithResponse(command);
-
-                            await Application.Current.MainPage.DisplayAlert("Copy", response, "OK");
-                            viewModel.OnDirectorySelectedForCopy = null;
-                        };
-
-                        CopyToLabel.IsVisible = true;
-
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Select destination",
-                            "Please choose a folder where you want to copy the file.",
-                            "OK");
-
-                        await viewModel.LoadDriversAsync(serverConnector.SendCommandWithResponse);
-                        break;
-                    }
-
-                case "Move":
-                    // TODO: move
+                    viewModel.CopySourcePath = selected.Path;
+                    await Application.Current.MainPage.DisplayAlert("Copy", $"Copied '{selected.Name}'. Now navigate to target folder and press Paste.", "OK");
                     break;
 
                 case "Delete":
@@ -201,13 +166,13 @@ public partial class MainPage : ContentPage
                     {
                         string response = await serverConnector.SendCommandWithResponse($"DELETE_{selected.Path}");
                         await Application.Current.MainPage.DisplayAlert("", response, "OK");
+
+                        await viewModel.RefreshAsync();
                     }
                     break;
             }
         }
     }
-
-
 
     void System_Clicked(object sender, EventArgs e)
     {
@@ -455,4 +420,28 @@ public partial class MainPage : ContentPage
     {
         serverConnector.SendCommand("MAKE_SCREEN");
     }
+
+    private async void OnPasteClicked(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(viewModel.CopySourcePath))
+            return;
+
+        string sourcePath = viewModel.CopySourcePath;
+        string destinationPath = viewModel.CurrentPath;
+
+        if (string.IsNullOrEmpty(destinationPath))
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Select a destination folder first.", "OK");
+            return;
+        }
+
+        string command = $"COPY_{sourcePath}_{destinationPath}";
+        string response = await serverConnector.SendCommandWithResponse(command);
+
+        await Application.Current.MainPage.DisplayAlert("Paste", response, "OK");
+
+
+        viewModel.CopySourcePath = null;
+    }
+
 }

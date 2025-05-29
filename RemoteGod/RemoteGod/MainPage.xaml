@@ -172,6 +172,7 @@
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Back" Command="{Binding NavigateUpCommand}" />
                 <Button Text="Update" Command="{Binding RefreshCommand}" />
+                <Button Text="Paste"  IsEnabled="{Binding CanPaste}" Clicked="OnPasteClicked" />
             </HorizontalStackLayout>
             <CollectionView x:Name="FileListView" ItemsSource="{Binding FileItems}" SelectionMode="Single" SelectionChanged="OnFileSelected">
                 <CollectionView.ItemTemplate>

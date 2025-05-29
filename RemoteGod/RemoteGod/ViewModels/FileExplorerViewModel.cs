@@ -30,14 +30,33 @@ namespace RemoteGod.ViewModels
         }
 
         private Func<string, Task<string>> _sendCommandAsync;
-        public Action<string>? OnDirectorySelectedForCopy { get; set; }
+
+        private string? _copySourcePath;
+        public string? CopySourcePath
+        {
+            get => _copySourcePath;
+            set
+            {
+                if (_copySourcePath != value)
+                {
+                    _copySourcePath = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(CanPaste));
+                }
+            }
+        }
+
+        public bool CanPaste => !string.IsNullOrEmpty(CopySourcePath);
+
         public ICommand NavigateUpCommand { get; }
         public ICommand RefreshCommand { get; }
+        public ICommand PasteCommand { get; }
 
         public FileExplorerViewModel()
         {
             NavigateUpCommand = new Command(async () => await NavigateUpAsync());
             RefreshCommand = new Command(async () => await RefreshAsync());
+            PasteCommand = new Command(async () => await PasteAsync());
         }
 
         public async Task LoadDriversAsync(Func<string, Task<string>> sendCommandAsync)
@@ -138,8 +157,6 @@ namespace RemoteGod.ViewModels
             }
         }
 
-
-
         private async Task NavigateUpAsync()
         {
             if (string.IsNullOrWhiteSpace(CurrentPath))
@@ -162,12 +179,28 @@ namespace RemoteGod.ViewModels
             }
             await LoadDriversAsync(_sendCommandAsync);
         }
-        private async Task RefreshAsync()
+
+        public async Task RefreshAsync()
         {
             if (!string.IsNullOrEmpty(CurrentPath) && _sendCommandAsync != null)
             {
                 await LoadDirectoryAsync(CurrentPath, _sendCommandAsync);
             }
+        }
+
+        private async Task PasteAsync()
+        {
+            if (string.IsNullOrEmpty(CopySourcePath) || string.IsNullOrEmpty(CurrentPath))
+                return;
+
+            string command = $"COPY_{CopySourcePath}_{CurrentPath}";
+            string response = await _sendCommandAsync(command);
+
+            await Application.Current.MainPage.DisplayAlert("Paste", response, "OK");
+
+            CopySourcePath = null;
+
+            await LoadDirectoryAsync(CurrentPath, _sendCommandAsync);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
