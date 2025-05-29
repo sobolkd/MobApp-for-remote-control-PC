@@ -30,7 +30,7 @@ namespace RemoteGod.ViewModels
         }
 
         private Func<string, Task<string>> _sendCommandAsync;
-
+        public Action<string>? OnDirectorySelectedForCopy { get; set; }
         public ICommand NavigateUpCommand { get; }
         public ICommand RefreshCommand { get; }
 

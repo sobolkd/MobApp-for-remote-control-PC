@@ -115,6 +115,21 @@ public partial class MainPage : ContentPage
             return;
 
         var selected = e.CurrentSelection[0] as FileItem;
+
+        ((CollectionView)sender).SelectedItem = null;
+
+        if (viewModel.OnDirectorySelectedForCopy != null)
+        {
+            if (selected != null && selected.IsDirectory)
+            {
+                var handler = viewModel.OnDirectorySelectedForCopy;
+                viewModel.OnDirectorySelectedForCopy = null;
+                CopyToLabel.IsVisible = false;
+                handler.Invoke(selected.Path);
+            }
+            return;
+        }
+
         if (selected == null)
             return;
 
@@ -143,38 +158,55 @@ public partial class MainPage : ContentPage
 
                     bool success = await serverConnector.DownloadFileAsync(selected.Path, downloadPath);
 
-                    if (success)
-                        await Application.Current.MainPage.DisplayAlert("Success", "File downloaded to Downloads", "OK");
-                    else
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to download file", "OK");
-
+                    await Application.Current.MainPage.DisplayAlert(
+                        success ? "Success" : "Error",
+                        success ? "File downloaded to Downloads" : "Failed to download file",
+                        "OK");
                     break;
 
                 case "Copy":
+                    {
+                        string sourcePath = selected.Path;
 
-                    break;
+                        viewModel.OnDirectorySelectedForCopy = async (destinationPath) =>
+                        {
+                            string command = $"COPY_{sourcePath}_{destinationPath}";
+                            string response = await serverConnector.SendCommandWithResponse(command);
+
+                            await Application.Current.MainPage.DisplayAlert("Copy", response, "OK");
+                            viewModel.OnDirectorySelectedForCopy = null;
+                        };
+
+                        CopyToLabel.IsVisible = true;
+
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Select destination",
+                            "Please choose a folder where you want to copy the file.",
+                            "OK");
+
+                        await viewModel.LoadDriversAsync(serverConnector.SendCommandWithResponse);
+                        break;
+                    }
+
                 case "Move":
-                    // TODO: 
+                    // TODO: move
                     break;
+
                 case "Delete":
                     bool confirm = await Application.Current.MainPage.DisplayAlert(
                         "Confirmation",
                         $"Are you sure you want to delete {selected.Name}?",
-                        "Yes",
-                        "No"
-                    );
+                        "Yes", "No");
                     if (confirm)
                     {
                         string response = await serverConnector.SendCommandWithResponse($"DELETE_{selected.Path}");
-
                         await Application.Current.MainPage.DisplayAlert("", response, "OK");
                     }
                     break;
             }
         }
-
-    ((CollectionView)sender).SelectedItem = null;
     }
+
 
 
     void System_Clicked(object sender, EventArgs e)

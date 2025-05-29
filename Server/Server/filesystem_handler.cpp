@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <string>
 #include <vector>
 #include <sstream>
@@ -46,10 +46,16 @@ std::wstring stringToWstring2(const std::string& str)
     return wstrTo;
 }
 
+std::wstring normalizePathSeparators(const std::wstring& path) {
+    std::wstring normalized = path;
+    std::replace(normalized.begin(), normalized.end(), L'/', L'\\');
+    return normalized;
+}
+
 void handleDeleteFile(const std::string& command, SOCKET clientSock)
 {
     std::string filePath = command.substr(7);
-    std::wstring wFilePath = stringToWstring2(filePath);
+    std::wstring wFilePath = normalizePathSeparators(stringToWstring2(filePath));
 
     if (DeleteFileW(wFilePath.c_str()))
     {
@@ -164,3 +170,50 @@ bool sendFileToClient(const std::wstring& filePath, SOCKET clientSocket)
     return true;
 }
 
+void handleCopyFile(const std::string& command, SOCKET clientSock)
+{
+    try
+    {
+        size_t firstUnderscore = command.find('_');
+        size_t secondUnderscore = command.find('_', firstUnderscore + 1);
+
+        if (firstUnderscore == std::string::npos || secondUnderscore == std::string::npos)
+        {
+            std::string response = "Invalid COPY command format.";
+            send(clientSock, response.c_str(), (int)response.size(), 0);
+            return;
+        }
+
+        std::string sourcePath = command.substr(firstUnderscore + 1, secondUnderscore - firstUnderscore - 1);
+        std::string destPath = command.substr(secondUnderscore + 1);
+
+        std::wstring wSourcePath = normalizePathSeparators(stringToWstring2(sourcePath));
+        std::wstring wDestPath = normalizePathSeparators(stringToWstring2(destPath));
+
+        std::wcout << L"[LOG] Copying file from: " << wSourcePath << L" to " << wDestPath << std::endl;
+
+        if (fs::is_directory(wDestPath)) {
+            wDestPath += L"\\" + fs::path(wSourcePath).filename().wstring();
+        }
+
+        if (CopyFileW(wSourcePath.c_str(), wDestPath.c_str(), FALSE))
+        {
+            std::string response = "Copy successful!";
+            send(clientSock, response.c_str(), (int)response.size(), 0);
+        }
+        else
+        {
+            std::wstring errorMsg = L"[ERROR] Failed to copy file. Error code: " + std::to_wstring(GetLastError());
+            std::wcerr << errorMsg << std::endl;
+
+            std::string response = "Failed to copy file.";
+            send(clientSock, response.c_str(), (int)response.size(), 0);
+        }
+    }
+    catch (const std::exception& e)
+    {
+        std::wcerr << L"[EXCEPTION] " << e.what() << std::endl;
+        std::string response = "Exception during file copy.";
+        send(clientSock, response.c_str(), (int)response.size(), 0);
+    }
+}

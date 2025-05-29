@@ -167,6 +167,7 @@
         
         <!-- File Manager -->
         <VerticalStackLayout x:Name="FileExplorerPanel" IsVisible="False" Spacing="10" Padding="10">
+            <Label x:Name="CopyToLabel" Text="Select a folder to copy to..." FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" IsVisible="False"/>
             <Label Text="{Binding CurrentPath}" FontAttributes="Bold" FontSize="16"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Back" Command="{Binding NavigateUpCommand}" />

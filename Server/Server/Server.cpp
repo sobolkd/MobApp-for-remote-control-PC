@@ -510,6 +510,16 @@ void handleClient(SOCKET clientSock) {
         {
             handleDeleteFile(command, clientSock);
         }
+        // Copy file 
+        else if (command.rfind("COPY_", 0) == 0)
+        {
+            handleCopyFile(command, clientSock);
+        }
+        // Move file 
+        else if (command.rfind("MOVE_", 0) == 0)
+        {
+            // move
+        }
 
     }
     closesocket(clientSock);
@@ -531,7 +541,7 @@ void tcpServer() {
 /_______  /\____/|___  /\____/|____/
         \/           \/             
 )" << std::endl;
-std::cout << "Ready to work!" << std::endl;
+std::cout << "Ready to work! Waiting for connect..." << std::endl;
 
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2), &wsa);
