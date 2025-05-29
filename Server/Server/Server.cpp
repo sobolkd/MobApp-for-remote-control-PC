@@ -509,7 +509,7 @@ void handleClient(SOCKET clientSock) {
         else if (command.rfind("DELETE_", 0) == 0)
         {
             handleDeleteFile(command, clientSock);
-        }
+        }   
         // Copy file 
         else if (command.rfind("COPY_", 0) == 0)
         {

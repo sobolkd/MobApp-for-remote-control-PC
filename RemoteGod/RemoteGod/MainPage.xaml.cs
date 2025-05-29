@@ -129,7 +129,7 @@ public partial class MainPage : ContentPage
         {
             string action = await Application.Current.MainPage.DisplayActionSheet(
                 $"Select an action for {selected.Name}", "Cancel", null,
-                "Download", "Copy", "Delete");
+                "Download", "Copy", "Move", "Delete");
 
             switch (action)
             {
@@ -155,6 +155,11 @@ public partial class MainPage : ContentPage
                 case "Copy":
                     viewModel.CopySourcePath = selected.Path;
                     await Application.Current.MainPage.DisplayAlert("Copy", $"Copied '{selected.Name}'. Now navigate to target folder and press Paste.", "OK");
+                    break;
+
+                case "Move":
+                    viewModel.MoveSourcePath = selected.Path;
+                    await Application.Current.MainPage.DisplayAlert("Move", $"Moved '{selected.Name}'. Now navigate to target folder and press Paste.", "OK");
                     break;
 
                 case "Delete":
@@ -423,10 +428,12 @@ public partial class MainPage : ContentPage
 
     private async void OnPasteClicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(viewModel.CopySourcePath))
+        if (string.IsNullOrEmpty(viewModel.CopySourcePath) && string.IsNullOrEmpty(viewModel.MoveSourcePath))
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Nothing to paste. Copy or Move a file first.", "OK");
             return;
+        }
 
-        string sourcePath = viewModel.CopySourcePath;
         string destinationPath = viewModel.CurrentPath;
 
         if (string.IsNullOrEmpty(destinationPath))
@@ -435,13 +442,34 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        string command = $"COPY_{sourcePath}_{destinationPath}";
+        string command = null;
+
+        if (!string.IsNullOrEmpty(viewModel.MoveSourcePath))
+        {
+            command = $"MOVE_{viewModel.MoveSourcePath}_{destinationPath}";
+        }
+        else if (!string.IsNullOrEmpty(viewModel.CopySourcePath))
+        {
+            command = $"COPY_{viewModel.CopySourcePath}_{destinationPath}";
+        }
+
+        if (command == null)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Invalid paste operation.", "OK");
+            return;
+        }
+
         string response = await serverConnector.SendCommandWithResponse(command);
 
         await Application.Current.MainPage.DisplayAlert("Paste", response, "OK");
 
-
         viewModel.CopySourcePath = null;
-    }
+        viewModel.MoveSourcePath = null;
 
+        await viewModel.RefreshAsync();
+    }
+    private void OnCancelClicked(object sender, EventArgs e)
+    {
+        viewModel.CancelPasteMove();
+    }
 }

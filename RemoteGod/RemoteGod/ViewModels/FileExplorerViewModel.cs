@@ -46,7 +46,21 @@ namespace RemoteGod.ViewModels
             }
         }
 
-        public bool CanPaste => !string.IsNullOrEmpty(CopySourcePath);
+        private string? _moveSourcePath;
+        public string? MoveSourcePath
+        {
+            get => _moveSourcePath;
+            set
+            {
+                if (_moveSourcePath != value)
+                {
+                    _moveSourcePath = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(CanPaste));
+                }
+            }
+        }
+        public bool CanPaste => !string.IsNullOrEmpty(CopySourcePath) || !string.IsNullOrEmpty(MoveSourcePath);
 
         public ICommand NavigateUpCommand { get; }
         public ICommand RefreshCommand { get; }
@@ -190,18 +204,37 @@ namespace RemoteGod.ViewModels
 
         private async Task PasteAsync()
         {
-            if (string.IsNullOrEmpty(CopySourcePath) || string.IsNullOrEmpty(CurrentPath))
+            if (string.IsNullOrEmpty(CurrentPath))
                 return;
 
-            string command = $"COPY_{CopySourcePath}_{CurrentPath}";
-            string response = await _sendCommandAsync(command);
+            if (!string.IsNullOrEmpty(MoveSourcePath))
+            {
+                string command = $"MOVE_{MoveSourcePath}_{CurrentPath}";
+                string response = await _sendCommandAsync(command);
 
-            await Application.Current.MainPage.DisplayAlert("Paste", response, "OK");
+                await Application.Current.MainPage.DisplayAlert("Move", response, "OK");
 
-            CopySourcePath = null;
+                MoveSourcePath = null;
+            }
+            else if (!string.IsNullOrEmpty(CopySourcePath))
+            {
+                string command = $"COPY_{CopySourcePath}_{CurrentPath}";
+                string response = await _sendCommandAsync(command);
+
+                await Application.Current.MainPage.DisplayAlert("Paste", response, "OK");
+
+                CopySourcePath = null;
+            }
 
             await LoadDirectoryAsync(CurrentPath, _sendCommandAsync);
         }
+
+        public void CancelPasteMove()
+        {
+            CopySourcePath = null;
+            MoveSourcePath = null;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = "") =>
