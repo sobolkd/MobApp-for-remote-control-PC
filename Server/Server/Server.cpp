@@ -516,9 +516,9 @@ void handleClient(SOCKET clientSock) {
             handleCopyFile(command, clientSock);
         }
         // Move file 
-        else if (command.rfind("MOVE_", 0) == 0)
+        else if (command.rfind("CUT_", 0) == 0)
         {
-            // move
+            handleMoveFile(command, clientSock);
         }
 
     }

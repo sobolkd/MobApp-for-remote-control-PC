@@ -446,7 +446,7 @@ public partial class MainPage : ContentPage
 
         if (!string.IsNullOrEmpty(viewModel.MoveSourcePath))
         {
-            command = $"MOVE_{viewModel.MoveSourcePath}_{destinationPath}";
+            command = $"CUT_{viewModel.MoveSourcePath}_{destinationPath}";
         }
         else if (!string.IsNullOrEmpty(viewModel.CopySourcePath))
         {

@@ -217,3 +217,52 @@ void handleCopyFile(const std::string& command, SOCKET clientSock)
         send(clientSock, response.c_str(), (int)response.size(), 0);
     }
 }
+
+void handleMoveFile(const std::string& command, SOCKET clientSock)
+{
+    try
+    {
+        size_t firstUnderscore = command.find('_');
+        size_t secondUnderscore = command.find('_', firstUnderscore + 1);
+
+        if (firstUnderscore == std::string::npos || secondUnderscore == std::string::npos)
+        {
+            std::string response = "Invalid CUT command format.";
+            send(clientSock, response.c_str(), (int)response.size(), 0);
+            return;
+        }
+
+        std::string sourcePath = command.substr(firstUnderscore + 1, secondUnderscore - firstUnderscore - 1);
+        std::string destPath = command.substr(secondUnderscore + 1);
+
+        std::wstring wSourcePath = normalizePathSeparators(stringToWstring2(sourcePath));
+        std::wstring wDestPath = normalizePathSeparators(stringToWstring2(destPath));
+
+        std::wcout << L"[LOG] Moving file from: " << wSourcePath << L" to " << wDestPath << std::endl;
+
+        if (fs::is_directory(wDestPath)) {
+            wDestPath += L"\\" + fs::path(wSourcePath).filename().wstring();
+        }
+
+        if (MoveFileExW(wSourcePath.c_str(), wDestPath.c_str(), MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING))
+        {
+            std::string response = "Cut successful!";
+            send(clientSock, response.c_str(), (int)response.size(), 0);
+        }
+        else
+        {
+            std::wstring errorMsg = L"[ERROR] Failed to cut file. Error code: " + std::to_wstring(GetLastError());
+            std::wcerr << errorMsg << std::endl;
+
+            std::string response = "Failed to cut file.";
+            send(clientSock, response.c_str(), (int)response.size(), 0);
+        }
+    }
+    catch (const std::exception& e)
+    {
+        std::wcerr << L"[EXCEPTION] " << e.what() << std::endl;
+        std::string response = "Exception during file cut.";
+        send(clientSock, response.c_str(), (int)response.size(), 0);
+    }
+}
+

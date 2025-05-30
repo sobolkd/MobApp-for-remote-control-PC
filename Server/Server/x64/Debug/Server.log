@@ -15,7 +15,7 @@ D:\Diplom\Server\Server\Server.cpp(471,65): warning C4267: 'argument': conversio
 D:\Diplom\Server\Server\Server.cpp(483,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 D:\Diplom\Server\Server\Server.cpp(493,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 D:\Diplom\Server\Server\Server.cpp(498,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Diplom\Server\Server\Server.cpp(530,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(531,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
   (compiling source file 'Server.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18):
@@ -49,4 +49,7 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.3443
               _SizeTy=unsigned __int64
           ]
   
+  filesystem_handler.cpp
+D:\Diplom\Server\Server\filesystem_handler.cpp(160,80): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

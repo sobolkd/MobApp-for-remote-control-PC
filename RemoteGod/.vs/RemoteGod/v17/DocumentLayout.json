@@ -35,8 +35,7 @@
               "ViewState": "AgIAAKQAAAAAAAAAAAAAAK8AAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-02-05T17:28:51.907Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -46,7 +45,7 @@
               "RelativeDocumentMoniker": "RemoteGod\\MainPage.xaml.cs",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml.cs",
               "RelativeToolTip": "RemoteGod\\MainPage.xaml.cs",
-              "ViewState": "AgIAAL8BAAAAAAAAAAAYwNkBAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAK0BAAAAAAAAAAApwMMBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-05T18:07:10.551Z",
               "IsPinned": true,
@@ -60,7 +59,7 @@
               "RelativeDocumentMoniker": "RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
               "RelativeToolTip": "RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
-              "ViewState": "AgIAANIAAAAAAAAAAAApwOwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAAwOwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-27T00:18:32.761Z",
               "EditorCaption": ""

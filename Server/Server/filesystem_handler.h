@@ -17,3 +17,4 @@ std::string get_directory_list_response(const std::wstring& path);
 bool sendFileToClient(const std::wstring& filePath, SOCKET clientSocket);
 void handleDeleteFile(const std::string& command, SOCKET clientSock);
 void handleCopyFile(const std::string& command, SOCKET clientSock);
+void handleMoveFile(const std::string& command, SOCKET clientSock);
