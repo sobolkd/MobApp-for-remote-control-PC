@@ -1,2 +1,56 @@
-﻿  Main.cpp
+﻿  Server.cpp
+D:\Diplom\Server\Server\Server.cpp(101,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(145,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(172,82): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(177,82): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(184,78): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(260,71): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(266,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(279,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(296,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(304,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(459,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(465,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(482,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(488,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(505,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(511,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(523,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(533,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(538,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(569,63): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Diplom\Server\Server\Server.cpp(578,53): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
+  (compiling source file 'Server.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(4710,18):
+      the template instantiation context (the oldest one first) is
+          D:\Diplom\Server\Server\Server.cpp(277,42):
+          see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+              D:\Diplom\Server\Server\Server.cpp(277,42):
+              see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'handleClient'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(793,17):
+          see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+          with
+          [
+              _Size_type=unsigned __int64,
+              _Iter=wchar_t *,
+              _Sent=wchar_t *,
+              _Size=unsigned __int64
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(949,18):
+          see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+          with
+          [
+              _OutIt=char *,
+              _Size=unsigned __int64,
+              _InIt=wchar_t *,
+              _SizeTy=unsigned __int64
+          ]
+  
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe

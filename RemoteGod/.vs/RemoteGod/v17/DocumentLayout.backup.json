@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\viewmodels\\fileexplorerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\viewmodels\\fileexplorerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\connection\\serverconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\connection\\serverconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\viewmodels\\fileexplorerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\viewmodels\\fileexplorerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,16 +30,17 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "MainPage.xaml",
               "DocumentMoniker": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml",
               "RelativeDocumentMoniker": "RemoteGod\\MainPage.xaml",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml",
               "RelativeToolTip": "RemoteGod\\MainPage.xaml",
-              "ViewState": "AgIAAKQAAAAAAAAAAAAAAK8AAABXAAAAAAAAAA==",
+              "ViewState": "AgIAALgAAAAAAAAAAAApwMwAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-02-05T17:28:51.907Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -45,7 +50,7 @@
               "RelativeDocumentMoniker": "RemoteGod\\MainPage.xaml.cs",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml.cs",
               "RelativeToolTip": "RemoteGod\\MainPage.xaml.cs",
-              "ViewState": "AgIAAK0BAAAAAAAAAAApwMMBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAYwDUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-05T18:07:10.551Z",
               "IsPinned": true,
@@ -53,13 +58,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "ServerConnector.cs",
+              "DocumentMoniker": "D:\\Diplom\\RemoteGod\\RemoteGod\\Connection\\ServerConnector.cs",
+              "RelativeDocumentMoniker": "RemoteGod\\Connection\\ServerConnector.cs",
+              "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\Connection\\ServerConnector.cs",
+              "RelativeToolTip": "RemoteGod\\Connection\\ServerConnector.cs",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAgwJwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T10:56:29.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "FileExplorerViewModel.cs",
               "DocumentMoniker": "D:\\Diplom\\RemoteGod\\RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
               "RelativeDocumentMoniker": "RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
               "RelativeToolTip": "RemoteGod\\ViewModels\\FileExplorerViewModel.cs",
-              "ViewState": "AgIAAMkAAAAAAAAAAAAAwOwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEQAAAAAAAAAAIA5wBIAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-27T00:18:32.761Z",
               "EditorCaption": ""

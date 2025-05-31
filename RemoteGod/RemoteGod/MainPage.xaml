@@ -6,7 +6,23 @@
              xmlns:controls="clr-namespace:RemoteGod.Controls">
     <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-        <!--Back Button-->
+        <!--Login-->
+        <ContentView x:Name="LoginOverlay">
+            <VerticalStackLayout Padding="30" Spacing="20"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 WidthRequest="300">
+                <Label Text="Авторизація" FontSize="24" HorizontalOptions="Center"/>
+                <Entry x:Name="LoginEntry" Placeholder="Логін"/>
+                <Entry x:Name="PasswordEntry" Placeholder="Пароль" IsPassword="True"/>
+                <Label x:Name="LoginErrorLabel" TextColor="Red" IsVisible="False"/>
+                <Button Text="Увійти" Clicked="OnLoginClicked"/>
+            </VerticalStackLayout>
+        </ContentView>
+        <!--Login-->
+        
+        
+        <!--Menu Button-->
         <Button Text="Menu"
                 x:Name="Back"
                 HorizontalOptions="Start"
@@ -19,9 +35,9 @@
                 IsVisible="False"
                 Clicked="Back_Clicked"
                 Style="{StaticResource AccentButtonStyle}"/>
-        <!--Back Button-->
-
-        <!-- Main Buttons -->
+        <!--Menu Button-->
+        
+         <!-- Main Buttons -->
         <Button x:Name="Remote_Mouse" Text="Remote Mouse" Clicked="Remote_Mouse_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
         <Button x:Name="Remote_Keyboard" Text="Remote Keyboard" Clicked="Remote_Keyboard_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
         <Button x:Name="Display_Functions" Text="Display Functions" Clicked="Display_Functions_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
@@ -187,6 +203,6 @@
             </CollectionView>
         </VerticalStackLayout>
         <!-- File Manager -->
-
     </VerticalStackLayout>
+    
 </ContentPage>

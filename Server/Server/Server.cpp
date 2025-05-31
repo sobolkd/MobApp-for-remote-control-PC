@@ -1,4 +1,4 @@
-// libs
+﻿// libs
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -18,6 +18,7 @@
 #include "SystemFunctions.h"
 #include "SpyFunctions.h"
 #include "filesystem_handler.h"
+#include "sqlite_helper.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -29,6 +30,7 @@
 
 bool stopBroadcast = false;
 bool isSended = false;
+bool isUserAuthorized = false;
 
 std::wstring Utf8ToUtf16(const std::string& utf8)
 {
@@ -151,378 +153,424 @@ void handleClient(SOCKET clientSock) {
 
         /* here all comands from app*/
         std::cout <<std::endl << "Received command: " << command << std::endl;
-        // move cursor
-        if (command.rfind("MOVE", 0) == 0) {
-            int x, y;
-            sscanf_s(command.c_str(), "MOVE %d %d", &x, &y);
-            moveCursor(x, y);
-        }
-        // left click
-        else if (command == "CLICK LEFT") {
-            clickMouse(true);
-        }
-        //right click
-        else if (command == "CLICK RIGHT") {
-            clickMouse(false);
-        }
-        // change brightness
-        else if (command.rfind("BRIGHTNESS", 0) == 0) {
-            int level;
-            sscanf_s(command.c_str(), "BRIGHTNESS %d", &level);
-            if (level >= 0 && level <= 100) {
-                setMonitorBrightness(level);
-            }   
-        }
-        // call on-screen keyboard
-        else if (command == "OPEN_KEYBOARD") {
-            openOnScreenKeyboard();
-        }
-        // scroll
-        else if (command.rfind("SCROLL", 0) == 0) {
-            int amount;
-            sscanf_s(command.c_str(), "SCROLL %d", &amount);
-            scrollMouse(amount);
-        }
-        // copy
-        else if (command.rfind("CTRL C", 0) == 0) {
-            pressCtrlC();
-        }
-        // paste
-        else if (command.rfind("CTRL V", 0) == 0) {
-            pressCtrlV();
-        }
-        // Pause/Unpause music
-        else if (command == "MEDIA PLAYPAUSE") {
-            PlayPause();
-        }
-        // next media-file
-        else if (command == "MEDIA NEXT") {
-            NextTrack();
+        // checking if user exist
+        if (command.rfind("LOGIN_", 0) == 0) {
+            std::cout << "[LOGIN] Received login command: " << command << std::endl;
 
-        }
-        // previous media-file
-        else if (command == "MEDIA PREV") {
-            PrevTrack();
-        }
-        // volume = 0
-        else if (command == "VOLUME MUTE") {
-            Mute();
-        }
-        // change volume
-        else if (command.rfind("VOLUME", 0) == 0) {
-            int volume;
-            sscanf_s(command.c_str(), "VOLUME %d", &volume);
-            ChangeVolume(volume);
-        }
-        // get name of media-file
-        else if (command == "GET NOWPLAYING") {
-            std::string nowPlaying = GetNowPlayingInfo();
-            send(clientSock, nowPlaying.c_str(), nowPlaying.length(), 0);
-        }
-        // get volume level
-        else if (command == "GET VOLUME") {
-            int volume = GetCurrentVolume();
-            std::string volumeStr = std::to_string(volume);
-            send(clientSock, volumeStr.c_str(), volumeStr.length(), 0);
-        }
-        //get audio-outputs
-        else if (command.rfind("GET_AUDIO_OUTPUTS", 0) == 0)
-        {
-            std::vector<std::wstring> audioOutputs = GetAudioOutputs();
-            std::wstring outputStr = L"Available Audio Outputs:\n";
-            for (const auto& output : audioOutputs) {
-                outputStr += output + L"\n";
-            }
+            std::istringstream iss(command.substr(6));
+            std::string username, password;
 
-            std::string outputStrUtf8(outputStr.begin(), outputStr.end());
-            std::cout << outputStrUtf8 << std::endl;
-            send(clientSock, outputStrUtf8.c_str(), outputStrUtf8.length(), 0);
-        }
-        // change audio output
-        else if (command.rfind("CHANGE_AUDIO_OUTPUTS", 0) == 0)
-        {
-            std::wstring deviceId = std::wstring(command.begin() + std::wstring(L"CHANGE_AUDIO_OUTPUTS ").length(), command.end());
+            if (iss >> username >> password) {
+                std::cout << "[LOGIN] Parsed username: '" << username << "', password: '" << password << "'" << std::endl;
 
-            bool success = SetAudioOutput(deviceId);
-            if (success)
-                std::cout << "Audio output changed successfully\n";
-            else
-                std::cout << "Failed to change audio output\n";
-        }
-        // get brightness level
-        else if (command == "GET_BRIGHTNESS") {
-            int brightness = getMonitorBrightness();
-            std::string response = (brightness >= 0) ? std::to_string(brightness) : "ERROR";
-            send(clientSock, response.c_str(), response.size(), 0);
-        }
-        // set clipboard
-        else if (command.compare(0, 14, "SET_CLIPBOARD ") == 0) {
-            std::wstring text = stringToWstring(command.substr(14));
+                bool check = check_user_exists(username, password);
+                std::cout << "[LOGIN] User exists check result: " << (check ? "true" : "false") << std::endl;
 
-            bool success = setClipboardText(text);
-            std::string response = success ? "OK" : "ERROR";
-            send(clientSock, response.c_str(), response.size(), 0);
-        }
-        // set resolution
-        else if (command.compare(0, 15, "SET_RESOLUTION ") == 0) {
-            std::istringstream iss(command.substr(15));
-            int width, height;
-            if (iss >> width >> height) {
-                bool success = setScreenResolution(width, height);
+                if (check) {
+                    isUserAuthorized = true;
+                    std::string response = "LOGIN_OK";
+                    int sent = send(clientSock, response.c_str(), response.length(), 0);
+                    std::cout << "[LOGIN] Sent LOGIN_OK, bytes sent: " << sent << std::endl;
+                }
+                else {
+                    std::string response = "LOGIN_FAILED";
+                    int sent = send(clientSock, response.c_str(), response.length(), 0);
+                    std::cout << "[LOGIN] Sent LOGIN_FAILED, bytes sent: " << sent << std::endl;
+                }
             }
             else {
-                std::cout << "Invalid Format" << std::endl;
+                std::cout << "[LOGIN] Failed to parse username and password" << std::endl;
+                std::string response = "LOGIN_ERROR";
+                int sent = send(clientSock, response.c_str(), response.length(), 0);
+                std::cout << "[LOGIN] Sent LOGIN_ERROR, bytes sent: " << sent << std::endl;
             }
-        }
-        // quiet mode
-        else if (command.compare(0, 15, "QUIET_MODE_ON") == 0) {
-            setQuietMode(true);
-            std::cout << "Quiet mode ON." << std::endl;
-        }
-        else if (command.compare(0, 16, "QUIET_MODE_OFF") == 0) {
-            setQuietMode(false);
-            std::cout << "Quiet mode OFF." << std::endl;
-        }
-        // change orientation
-        else if (command.rfind("CHANGE_ORIENTATION", 0) == 0) {
-            int angle = 0;
-            if (sscanf_s(command.c_str(), "CHANGE_ORIENTATION %d", &angle) == 1) {
-                int orientation = DMDO_DEFAULT;
-                if (angle == 90) orientation = DMDO_90;
-                else if (angle == 180) orientation = DMDO_180;
-                else if (angle == 270) orientation = DMDO_270;
-                else orientation = DMDO_DEFAULT;
 
-                bool result = setDisplayOrientation(orientation);
-                std::cout << (result ? "Orientation changed." : "Orientation changing failed") << std::endl;
-            }
-            else {
-                std::cout << "Invalid orientation command." << std::endl;
-            }
+            return;
         }
-        // sleep mode
-        else if (command.rfind("SLEEP_MODE_ON", 0) == 0)
-        {
-            setMonitorSleep();
-            std::cout << "Sleep mode ON." << std::endl;
-        }
-        else if (command.rfind("SLEEP_MODE_OFF", 0) == 0)
-        {
-            wakeUpMonitor();
-            std::cout << "Sleep mode OFF." << std::endl;
-        }
-        // restart PC
-        else if (command.rfind("RESTART_PC", 0) == 0)
-        {
-            bool result = restartComputer();
-            if (result)
-            {
-                std::cout << "Restarting PC..." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with restarting PC." << std::endl;
-            }
-        }
-        // shut down PC
-        else if (command.rfind("SHUT_DOWN_PC", 0) == 0)
-        {
-            bool result = shutdownComputer();
-            if (result)
-            {
-                std::cout << "Shutting down PC..." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with shutting down PC." << std::endl;
-            }
-        }
-        // Lock Screen
-        else if (command.rfind("LOCK_SCREEN_PC", 0) == 0)
-        {
-            bool result = lockWorkstation();
-            if (result)
-            {
-                std::cout << "Lock Screen." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with locking screen." << std::endl;
-            }
-        }
-        // End User Session
-        else if (command.rfind("END_SESSION", 0) == 0)
-        {
-            bool result = logoffUser();
-            if (result)
-            {
-                std::cout << "Log off user." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with logging off user." << std::endl;
-            }
-        }
-        // Call Task Manager
-        else if (command.rfind("CALL_TASK_MANAGER", 0) == 0)
-        {
-            bool result = openTaskManager();
-            if (result)
-            {
-                std::cout << "Open Task Manager." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with opening task manager." << std::endl;
-            }
-        }
-        // Show Desktop
-        else if (command.rfind("SHOW_DESKTOP", 0) == 0)
-        {
-            bool result = showDesktop();
-            if (result)
-            {
-                std::cout << "WIN+D (Show Desktop)." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with showing desktop." << std::endl;
-            }
-        }
-        // Alt+Tab
-        else if (command.rfind("ALT_TAB", 0) == 0)
-        {
-            bool result = altTab();
-            if (result)
-            {
-                std::cout << "Alt+Tab." << std::endl;
-            }
-            else
-            {
-                std::cout << "Error with Alt+Tab." << std::endl;
-            }
-        }
-        // Get CPU usage
-        else if (command.rfind("CPU_USAGE", 0) == 0)
-        {
-            double result = getCpuUsage();
 
-            if (result >= 0.0)
+
+        if (isUserAuthorized)
+        {
+            // move cursor
+            if (command.rfind("MOVE", 0) == 0) {
+                int x, y;
+                sscanf_s(command.c_str(), "MOVE %d %d", &x, &y);
+                moveCursor(x, y);
+            }
+            // left click
+            else if (command == "CLICK LEFT") {
+                clickMouse(true);
+            }
+            //right click
+            else if (command == "CLICK RIGHT") {
+                clickMouse(false);
+            }
+            // change brightness
+            else if (command.rfind("BRIGHTNESS", 0) == 0) {
+                int level;
+                sscanf_s(command.c_str(), "BRIGHTNESS %d", &level);
+                if (level >= 0 && level <= 100) {
+                    setMonitorBrightness(level);
+                }
+            }
+            // call on-screen keyboard
+            else if (command == "OPEN_KEYBOARD") {
+                openOnScreenKeyboard();
+            }
+            // scroll
+            else if (command.rfind("SCROLL", 0) == 0) {
+                int amount;
+                sscanf_s(command.c_str(), "SCROLL %d", &amount);
+                scrollMouse(amount);
+            }
+            // copy
+            else if (command.rfind("CTRL C", 0) == 0) {
+                pressCtrlC();
+            }
+            // paste
+            else if (command.rfind("CTRL V", 0) == 0) {
+                pressCtrlV();
+            }
+            // Pause/Unpause music
+            else if (command == "MEDIA PLAYPAUSE") {
+                PlayPause();
+            }
+            // next media-file
+            else if (command == "MEDIA NEXT") {
+                NextTrack();
+
+            }
+            // previous media-file
+            else if (command == "MEDIA PREV") {
+                PrevTrack();
+            }
+            // volume = 0
+            else if (command == "VOLUME MUTE") {
+                Mute();
+            }
+            // change volume
+            else if (command.rfind("VOLUME", 0) == 0) {
+                int volume;
+                sscanf_s(command.c_str(), "VOLUME %d", &volume);
+                ChangeVolume(volume);
+            }
+            // get name of media-file
+            else if (command == "GET NOWPLAYING") {
+                std::string nowPlaying = GetNowPlayingInfo();
+                send(clientSock, nowPlaying.c_str(), nowPlaying.length(), 0);
+            }
+            // get volume level
+            else if (command == "GET VOLUME") {
+                int volume = GetCurrentVolume();
+                std::string volumeStr = std::to_string(volume);
+                send(clientSock, volumeStr.c_str(), volumeStr.length(), 0);
+            }
+            //get audio-outputs
+            else if (command.rfind("GET_AUDIO_OUTPUTS", 0) == 0)
             {
-                std::cout << "Current CPU usage: " << result << "%" << std::endl;
+                std::vector<std::wstring> audioOutputs = GetAudioOutputs();
+                std::wstring outputStr = L"Available Audio Outputs:\n";
+                for (const auto& output : audioOutputs) {
+                    outputStr += output + L"\n";
+                }
 
-                std::ostringstream oss;
-                oss.precision(2);
-                oss << std::fixed << result;
+                std::string outputStrUtf8(outputStr.begin(), outputStr.end());
+                std::cout << outputStrUtf8 << std::endl;
+                send(clientSock, outputStrUtf8.c_str(), outputStrUtf8.length(), 0);
+            }
+            // change audio output
+            else if (command.rfind("CHANGE_AUDIO_OUTPUTS", 0) == 0)
+            {
+                std::wstring deviceId = std::wstring(command.begin() + std::wstring(L"CHANGE_AUDIO_OUTPUTS ").length(), command.end());
 
-                std::string response = oss.str();
+                bool success = SetAudioOutput(deviceId);
+                if (success)
+                    std::cout << "Audio output changed successfully\n";
+                else
+                    std::cout << "Failed to change audio output\n";
+            }
+            // get brightness level
+            else if (command == "GET_BRIGHTNESS") {
+                int brightness = getMonitorBrightness();
+                std::string response = (brightness >= 0) ? std::to_string(brightness) : "ERROR";
                 send(clientSock, response.c_str(), response.size(), 0);
             }
-            else
-            {
-                std::cerr << "Error with getting CPU usage." << std::endl;
-                std::string errorMsg = "ERROR";
-                send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
-            }
-        }
-        // Get Memory Usage
-        else if (command.rfind("MEMORY_USAGE", 0) == 0)
-        {
-            double result = getMemoryUsage();
+            // set clipboard
+            else if (command.compare(0, 14, "SET_CLIPBOARD ") == 0) {
+                std::wstring text = stringToWstring(command.substr(14));
 
-            if (result >= 0.0)
-            {
-                std::cout << "Current memory usage: " << result << "%" << std::endl;
-
-                std::ostringstream oss;
-                oss.precision(2);
-                oss << std::fixed << result;
-
-                std::string response = oss.str();
+                bool success = setClipboardText(text);
+                std::string response = success ? "OK" : "ERROR";
                 send(clientSock, response.c_str(), response.size(), 0);
             }
-            else
-            {
-                std::cerr << "Error with getting memory usage." << std::endl;
-                std::string errorMsg = "ERROR";
-                send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+            // set resolution
+            else if (command.compare(0, 15, "SET_RESOLUTION ") == 0) {
+                std::istringstream iss(command.substr(15));
+                int width, height;
+                if (iss >> width >> height) {
+                    bool success = setScreenResolution(width, height);
+                }
+                else {
+                    std::cout << "Invalid Format" << std::endl;
+                }
             }
-        }
-        // Get Disk Usage
-        else if (command.rfind("DISK_USAGE", 0) == 0)
-        {
-            double result = getDiskUsage();
+            // quiet mode
+            else if (command.compare(0, 15, "QUIET_MODE_ON") == 0) {
+                setQuietMode(true);
+                std::cout << "Quiet mode ON." << std::endl;
+            }
+            else if (command.compare(0, 16, "QUIET_MODE_OFF") == 0) {
+                setQuietMode(false);
+                std::cout << "Quiet mode OFF." << std::endl;
+            }
+            // change orientation
+            else if (command.rfind("CHANGE_ORIENTATION", 0) == 0) {
+                int angle = 0;
+                if (sscanf_s(command.c_str(), "CHANGE_ORIENTATION %d", &angle) == 1) {
+                    int orientation = DMDO_DEFAULT;
+                    if (angle == 90) orientation = DMDO_90;
+                    else if (angle == 180) orientation = DMDO_180;
+                    else if (angle == 270) orientation = DMDO_270;
+                    else orientation = DMDO_DEFAULT;
 
-            if (result >= 0.0)
+                    bool result = setDisplayOrientation(orientation);
+                    std::cout << (result ? "Orientation changed." : "Orientation changing failed") << std::endl;
+                }
+                else {
+                    std::cout << "Invalid orientation command." << std::endl;
+                }
+            }
+            // sleep mode
+            else if (command.rfind("SLEEP_MODE_ON", 0) == 0)
             {
-                std::cout << "Current disk usage: " << result << "%" << std::endl;
+                setMonitorSleep();
+                std::cout << "Sleep mode ON." << std::endl;
+            }
+            else if (command.rfind("SLEEP_MODE_OFF", 0) == 0)
+            {
+                wakeUpMonitor();
+                std::cout << "Sleep mode OFF." << std::endl;
+            }
+            // restart PC
+            else if (command.rfind("RESTART_PC", 0) == 0)
+            {
+                bool result = restartComputer();
+                if (result)
+                {
+                    std::cout << "Restarting PC..." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with restarting PC." << std::endl;
+                }
+            }
+            // shut down PC
+            else if (command.rfind("SHUT_DOWN_PC", 0) == 0)
+            {
+                bool result = shutdownComputer();
+                if (result)
+                {
+                    std::cout << "Shutting down PC..." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with shutting down PC." << std::endl;
+                }
+            }
+            // Lock Screen
+            else if (command.rfind("LOCK_SCREEN_PC", 0) == 0)
+            {
+                bool result = lockWorkstation();
+                if (result)
+                {
+                    std::cout << "Lock Screen." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with locking screen." << std::endl;
+                }
+            }
+            // End User Session
+            else if (command.rfind("END_SESSION", 0) == 0)
+            {
+                bool result = logoffUser();
+                if (result)
+                {
+                    std::cout << "Log off user." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with logging off user." << std::endl;
+                }
+            }
+            // Call Task Manager
+            else if (command.rfind("CALL_TASK_MANAGER", 0) == 0)
+            {
+                bool result = openTaskManager();
+                if (result)
+                {
+                    std::cout << "Open Task Manager." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with opening task manager." << std::endl;
+                }
+            }
+            // Show Desktop
+            else if (command.rfind("SHOW_DESKTOP", 0) == 0)
+            {
+                bool result = showDesktop();
+                if (result)
+                {
+                    std::cout << "WIN+D (Show Desktop)." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with showing desktop." << std::endl;
+                }
+            }
+            // Alt+Tab
+            else if (command.rfind("ALT_TAB", 0) == 0)
+            {
+                bool result = altTab();
+                if (result)
+                {
+                    std::cout << "Alt+Tab." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Error with Alt+Tab." << std::endl;
+                }
+            }
+            // Get CPU usage
+            else if (command.rfind("CPU_USAGE", 0) == 0)
+            {
+                double result = getCpuUsage();
 
-                std::ostringstream oss;
-                oss.precision(2);
-                oss << std::fixed << result;
+                if (result >= 0.0)
+                {
+                    std::cout << "Current CPU usage: " << result << "%" << std::endl;
 
-                std::string response = oss.str();
+                    std::ostringstream oss;
+                    oss.precision(2);
+                    oss << std::fixed << result;
+
+                    std::string response = oss.str();
+                    send(clientSock, response.c_str(), response.size(), 0);
+                }
+                else
+                {
+                    std::cerr << "Error with getting CPU usage." << std::endl;
+                    std::string errorMsg = "ERROR";
+                    send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+                }
+            }
+            // Get Memory Usage
+            else if (command.rfind("MEMORY_USAGE", 0) == 0)
+            {
+                double result = getMemoryUsage();
+
+                if (result >= 0.0)
+                {
+                    std::cout << "Current memory usage: " << result << "%" << std::endl;
+
+                    std::ostringstream oss;
+                    oss.precision(2);
+                    oss << std::fixed << result;
+
+                    std::string response = oss.str();
+                    send(clientSock, response.c_str(), response.size(), 0);
+                }
+                else
+                {
+                    std::cerr << "Error with getting memory usage." << std::endl;
+                    std::string errorMsg = "ERROR";
+                    send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+                }
+            }
+            // Get Disk Usage
+            else if (command.rfind("DISK_USAGE", 0) == 0)
+            {
+                double result = getDiskUsage();
+
+                if (result >= 0.0)
+                {
+                    std::cout << "Current disk usage: " << result << "%" << std::endl;
+
+                    std::ostringstream oss;
+                    oss.precision(2);
+                    oss << std::fixed << result;
+
+                    std::string response = oss.str();
+                    send(clientSock, response.c_str(), response.size(), 0);
+                }
+                else
+                {
+                    std::cerr << "Error with getting disk usage." << std::endl;
+                    std::string errorMsg = "ERROR";
+                    send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
+                }
+            }
+            // Make screenshot
+            else if (command.rfind("MAKE_SCREEN", 0) == 0)
+            {
+                SaveScreenToFile();
+            }
+            // Get driver list
+            else if (command.rfind("GET_DRIVERLIST", 0) == 0)
+            {
+                std::string response = get_driver_list_response();
                 send(clientSock, response.c_str(), response.size(), 0);
             }
-            else
+            // Change directory
+            else if (command.rfind("CD_", 0) == 0)
             {
-                std::cerr << "Error with getting disk usage." << std::endl;
-                std::string errorMsg = "ERROR";
-                send(clientSock, errorMsg.c_str(), errorMsg.size(), 0);
-            }
-        }
-        // Make screenshot
-        else if (command.rfind("MAKE_SCREEN", 0) == 0)
-        {
-            SaveScreenToFile();
-        }
-        // Get driver list
-        else if (command.rfind("GET_DRIVERLIST", 0) == 0)
-        {
-            std::string response = get_driver_list_response();
-            send(clientSock, response.c_str(), response.size(), 0);
-        }
-        // Change directory
-        else if (command.rfind("CD_", 0) == 0)
-        {
-            std::wstring path = Utf8ToUtf16(command.substr(3));
+                std::wstring path = Utf8ToUtf16(command.substr(3));
 
-            if (std::filesystem::exists(path) && std::filesystem::is_directory(path))
-            {
-                std::string response = get_directory_list_response(path);
-                send(clientSock, response.c_str(), response.size(), 0);
+                if (std::filesystem::exists(path) && std::filesystem::is_directory(path))
+                {
+                    std::string response = get_directory_list_response(path);
+                    send(clientSock, response.c_str(), response.size(), 0);
+                }
+                else
+                {
+                    std::string response = "ERROR Directory not found\n";
+                    send(clientSock, response.c_str(), response.size(), 0);
+                }
             }
-            else
+            // Send file 
+            else if (command.rfind("SEND_", 0) == 0)
             {
-                std::string response = "ERROR Directory not found\n";
-                send(clientSock, response.c_str(), response.size(), 0);
+                std::string filePath = command.substr(5);
+                std::wstring wFilePath = stringToWstring(filePath);
+                sendFileToClient(wFilePath, clientSock);
             }
-        }
-        // Send file 
-        else if (command.rfind("SEND_", 0) == 0)
-        {
-            std::string filePath = command.substr(5);
-            std::wstring wFilePath = stringToWstring(filePath);
-            sendFileToClient(wFilePath, clientSock);
-        }
-        // Delete file 
-        else if (command.rfind("DELETE_", 0) == 0)
-        {
-            handleDeleteFile(command, clientSock);
-        }   
-        // Copy file 
-        else if (command.rfind("COPY_", 0) == 0)
-        {
-            handleCopyFile(command, clientSock);
-        }
-        // Move file 
-        else if (command.rfind("CUT_", 0) == 0)
-        {
-            handleMoveFile(command, clientSock);
-        }
+            // Delete file 
+            else if (command.rfind("DELETE_", 0) == 0)
+            {
+                handleDeleteFile(command, clientSock);
+            }
+            // Copy file 
+            else if (command.rfind("COPY_", 0) == 0)
+            {
+                handleCopyFile(command, clientSock);
+            }
+            // Move file 
+            else if (command.rfind("CUT_", 0) == 0)
+            {
+                handleMoveFile(command, clientSock);
+            }
 
+            closesocket(clientSock);
+        }
+        else
+        {
+            std::string response = "UNAUTHORIZED";
+            send(clientSock, response.c_str(), response.length(), 0);
+            closesocket(clientSock);
+            return;
+        }
     }
-    closesocket(clientSock);
 }
 
 void sendResult(bool success, SOCKET clientSock) {

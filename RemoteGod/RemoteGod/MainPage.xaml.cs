@@ -4,6 +4,7 @@ using Microsoft.Maui.Controls;
 using static Android.Print.PrintAttributes;
 using RemoteGod.ViewModels;
 using RemoteGod.Models;
+using AndroidX.Fragment.App.StrictMode;
 
 namespace RemoteGod;
 
@@ -48,7 +49,8 @@ public partial class MainPage : ContentPage
                 ShowIpLabel.Text = "PC IP:" + message + "%";
             });
         };
-
+        HideAllButtons();
+        Back.IsVisible = false;
         serverConnector.StartListening();
     }
 
@@ -471,5 +473,38 @@ public partial class MainPage : ContentPage
     private void OnCancelClicked(object sender, EventArgs e)
     {
         viewModel.CancelPasteMove();
+    }
+
+    private async void OnLoginClicked(object sender, EventArgs e)
+    {
+        LoginErrorLabel.IsVisible = false;
+
+        string login = LoginEntry.Text?.Trim() ?? "";
+        string pass = PasswordEntry.Text?.Trim() ?? "";
+
+        if (login == "" || pass == "")
+        {
+            LoginErrorLabel.Text = "Заповніть всі поля";
+            LoginErrorLabel.IsVisible = true;
+            return;
+        }
+
+        string response = await serverConnector.SendCommandWithResponse($"LOGIN_{login} {pass}");
+
+        if (response == "LOGIN_OK")
+        {
+            LoginOverlay.IsVisible = false;
+            ShowAllButtons();
+        }
+        else if (response == "LOGIN_FAILED")
+        {
+            LoginErrorLabel.Text = "Невірний логін або пароль";
+            LoginErrorLabel.IsVisible = true;
+        }
+        else
+        {
+            LoginErrorLabel.Text = "Помилка з’єднання з сервером";
+            LoginErrorLabel.IsVisible = true;
+        }
     }
 }

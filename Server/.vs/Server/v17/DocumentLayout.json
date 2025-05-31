@@ -34,9 +34,9 @@
               "Title": "Main.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Main.cpp",
               "RelativeDocumentMoniker": "Server\\Main.cpp",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\Main.cpp*",
-              "RelativeToolTip": "Server\\Main.cpp*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAcAAAAAAAAAA==",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\Main.cpp",
+              "RelativeToolTip": "Server\\Main.cpp",
+              "ViewState": "AgIAAAcAAAAAAAAAAAApwCMAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-30T13:37:23.121Z",
               "IsPinned": true,
@@ -50,7 +50,7 @@
               "RelativeDocumentMoniker": "Server\\Server.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeToolTip": "Server\\Server.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAJsAAAAAAAAAAADwv6wAAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-24T22:44:59.797Z",
               "IsPinned": true,
@@ -64,10 +64,9 @@
               "RelativeDocumentMoniker": "Server\\sqlite_helper.h",
               "ToolTip": "D:\\Diplom\\Server\\Server\\sqlite_helper.h",
               "RelativeToolTip": "Server\\sqlite_helper.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-30T14:32:21.424Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T14:32:21.424Z"
             },
             {
               "$type": "Document",
@@ -77,7 +76,7 @@
               "RelativeDocumentMoniker": "Server\\sqlite_helper.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\sqlite_helper.cpp",
               "RelativeToolTip": "Server\\sqlite_helper.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHgAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-30T14:32:04.013Z",
               "EditorCaption": ""

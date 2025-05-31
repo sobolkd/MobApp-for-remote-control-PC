@@ -101,3 +101,34 @@ void print_all_users() {
     if (err) sqlite3_free(err);
     sqlite3_close(db);
 }
+
+bool check_user_exists(const std::string& username, const std::string& password) {
+    sqlite3* db;
+    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+        return false;
+    }
+
+    // hashing password
+    std::string passwordHash = hash_password(password);
+
+    const char* sql = "SELECT COUNT(*) FROM users WHERE username = ? AND password_hash = ?";
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        sqlite3_close(db);
+        return false;
+    }
+
+    sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, passwordHash.c_str(), -1, SQLITE_STATIC);
+
+    bool exists = false;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        int count = sqlite3_column_int(stmt, 0);
+        exists = (count > 0);
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return exists;
+}
+
