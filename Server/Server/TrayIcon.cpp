@@ -1,8 +1,39 @@
 #include "TrayIcon.h"
 #include <windows.h>
 #include <shellapi.h>
+#include <iostream>
+#include "resource.h"
+#include "sqlite_helper.h"
+#include <string>
 
 #define WM_TRAYICON (WM_USER + 1)
+
+INT_PTR CALLBACK AddUserDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+    if (message == WM_COMMAND) {
+        if (LOWORD(wParam) == IDC_OK_BUTTON) {
+            wchar_t wlogin[100], wpass[100];
+            GetDlgItemText(hDlg, IDC_LOGIN_EDIT, wlogin, 100);
+            GetDlgItemText(hDlg, IDC_PASS_EDIT, wpass, 100);
+
+            char login[100], pass[100];
+            size_t converted = 0;
+
+            wcstombs_s(&converted, login, sizeof(login), wlogin, _TRUNCATE);
+            wcstombs_s(&converted, pass, sizeof(pass), wpass, _TRUNCATE);
+
+            bool result = insert_user(login, pass);
+
+            MessageBox(hDlg,
+                result ? L"User added successfully!" : L"Failed to add user.",
+                L"Result",
+                MB_OK | (result ? MB_ICONINFORMATION : MB_ICONERROR));
+
+            EndDialog(hDlg, LOWORD(wParam));
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
 
 NOTIFYICONDATA nid = {};
 HMENU hMenu = NULL;
@@ -31,6 +62,13 @@ LRESULT CALLBACK MsgWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             HideConsole();
             break;
         case 3:
+            DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_ADDUSER_DIALOG), hwnd, AddUserDialogProc);
+            break;
+        case 4:
+            ShowConsole();
+            print_all_users();
+            break;
+        case 5:
             Shell_NotifyIcon(NIM_DELETE, &nid);
             ExitProcess(0);
             break;
@@ -68,7 +106,10 @@ void InitTrayIcon() {
     hMenu = CreatePopupMenu();
     AppendMenu(hMenu, MF_STRING, 1, L"Show Console");
     AppendMenu(hMenu, MF_STRING, 2, L"Hide Console");
-    AppendMenu(hMenu, MF_STRING, 3, L"Exit");
+    AppendMenu(hMenu, MF_STRING, 3, L"Add User");
+    AppendMenu(hMenu, MF_STRING, 4, L"Check Users");
+    AppendMenu(hMenu, MF_STRING, 5, L"Exit");
+
 
     HideConsole();
 }

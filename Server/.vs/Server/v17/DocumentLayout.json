@@ -7,16 +7,12 @@
       "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\TrayIcon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\TrayIcon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\sqlite_helper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\sqlite_helper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\sqlite_helper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\sqlite_helper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,7 +32,7 @@
               "RelativeDocumentMoniker": "Server\\Main.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Main.cpp",
               "RelativeToolTip": "Server\\Main.cpp",
-              "ViewState": "AgIAAAcAAAAAAAAAAAApwCMAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABkAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-30T13:37:23.121Z",
               "IsPinned": true,
@@ -44,13 +40,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Server.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeDocumentMoniker": "Server\\Server.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeToolTip": "Server\\Server.cpp",
-              "ViewState": "AgIAAJsAAAAAAAAAAADwv6wAAABcAAAAAAAAAA==",
+              "ViewState": "AgIAAKEAAAAAAAAAAADwv6oAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-24T22:44:59.797Z",
               "IsPinned": true,
@@ -58,27 +54,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "sqlite_helper.h",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\sqlite_helper.h",
-              "RelativeDocumentMoniker": "Server\\sqlite_helper.h",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\sqlite_helper.h",
-              "RelativeToolTip": "Server\\sqlite_helper.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-30T14:32:21.424Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "sqlite_helper.cpp",
-              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\sqlite_helper.cpp",
-              "RelativeDocumentMoniker": "Server\\sqlite_helper.cpp",
-              "ToolTip": "D:\\Diplom\\Server\\Server\\sqlite_helper.cpp",
-              "RelativeToolTip": "Server\\sqlite_helper.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHgAAABEAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "TrayIcon.cpp",
+              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\TrayIcon.cpp",
+              "RelativeDocumentMoniker": "Server\\TrayIcon.cpp",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\TrayIcon.cpp",
+              "RelativeToolTip": "Server\\TrayIcon.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-30T14:32:04.013Z",
+              "WhenOpened": "2025-05-31T16:01:02.197Z",
               "EditorCaption": ""
             }
           ]

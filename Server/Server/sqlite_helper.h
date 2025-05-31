@@ -15,4 +15,5 @@ extern "C" {
 #ifdef __cplusplus
 #include <string>
 bool check_user_exists(const std::string& username, const std::string& password);
+bool delete_all_users();
 #endif

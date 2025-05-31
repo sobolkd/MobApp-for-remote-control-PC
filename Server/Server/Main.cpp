@@ -14,7 +14,7 @@ int main()
     InitTrayIcon();
 
     std::cout << "Starting server..." << std::endl;
-    // start server
+
     SetConsoleOutputCP(CP_UTF8);
     _setmode(_fileno(stdout), _O_TEXT);
 
@@ -27,18 +27,12 @@ int main()
         return 1;
     }
 
-    if (!insert_user("admin2", "secret1234")) {
-        printf("Insert failed\n");
-    }
-
-    print_all_users();
-
     MSG msg;
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-
+    // start server
     udpThread.join();
     tcpThread.join();
 

@@ -74,7 +74,7 @@ bool insert_user(const char* username, const char* password) {
         sqlite3_close(db);
         return false;
     }
-
+    std::cout << "Added user: " + std::string(username) << std::endl;
     sqlite3_close(db);
     return true;
 }
@@ -132,3 +132,22 @@ bool check_user_exists(const std::string& username, const std::string& password)
     return exists;
 }
 
+// just for comfort, will be deleted after
+bool delete_all_users() {
+    sqlite3* db;
+    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+        return false;
+    }
+
+    const char* sql = "DELETE FROM users;";
+    char* err = nullptr;
+    if (sqlite3_exec(db, sql, nullptr, nullptr, &err) != SQLITE_OK) {
+        std::cerr << "Error deleting users: " << err << "\n";
+        sqlite3_free(err);
+        sqlite3_close(db);
+        return false;
+    }
+
+    sqlite3_close(db);
+    return true;
+}

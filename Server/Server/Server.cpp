@@ -171,6 +171,7 @@ void handleClient(SOCKET clientSock) {
                     std::string response = "LOGIN_OK";
                     int sent = send(clientSock, response.c_str(), response.length(), 0);
                     std::cout << "[LOGIN] Sent LOGIN_OK, bytes sent: " << sent << std::endl;
+                    std::cout<<"\n\n\n\n\n Client connected.\n";
                 }
                 else {
                     std::string response = "LOGIN_FAILED";

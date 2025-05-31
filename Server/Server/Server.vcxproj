@@ -153,11 +153,15 @@
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="MediaController.h" />
     <ClInclude Include="MouseController.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="SpyFunctions.h" />
     <ClInclude Include="sqlite_helper.h" />
     <ClInclude Include="SystemFunctions.h" />
     <ClInclude Include="TrayIcon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
