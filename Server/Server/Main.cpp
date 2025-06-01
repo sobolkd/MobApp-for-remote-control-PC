@@ -8,13 +8,10 @@
 #include "sqlite3.h"
 #include "sqlite_helper.h"
 
-// TODO: change localization
-// TODO: send screenshot to client
-// TODO: remove SPY_MODE and move Screenshot button to System
 // TODO: add server to the autolaunch
 // TODO: fix bug with "Back" button about path
-// TODO: try to make screen 
 // TODO: add check for symbols
+// TODO: change UI for System
 
 int main()
 {

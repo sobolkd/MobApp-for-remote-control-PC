@@ -18,3 +18,5 @@ bool sendFileToClient(const std::wstring& filePath, SOCKET clientSocket);
 void handleDeleteFile(const std::string& command, SOCKET clientSock);
 void handleCopyFile(const std::string& command, SOCKET clientSock);
 void handleMoveFile(const std::string& command, SOCKET clientSock);
+std::wstring stringToWstring2(const std::string& str);
+std::wstring normalizePathSeparators(const std::wstring& path);

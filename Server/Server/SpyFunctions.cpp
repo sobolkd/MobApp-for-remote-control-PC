@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <sstream>
 
-void SaveScreenToFile() {
+std::string SaveScreenToFile() {
     try {
         SetProcessDPIAware();
         int screenX = GetSystemMetrics(SM_CXSCREEN);
@@ -67,8 +67,11 @@ void SaveScreenToFile() {
         ReleaseDC(nullptr, hScreenDC);
 
         std::cout << "Screen saved to: " << fullPath << std::endl;
+        return fullPath;
     }
     catch (const std::exception& e) {
         OutputDebugStringA(("Screenshot BMP error: " + std::string(e.what()) + "\n").c_str());
+        return "Error";
     }
 }
+

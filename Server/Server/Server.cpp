@@ -515,7 +515,17 @@ void handleClient(SOCKET clientSock) {
             // Make screenshot
             else if (command.rfind("MAKE_SCREEN", 0) == 0)
             {
-                SaveScreenToFile();
+                std::string screenshotPath = SaveScreenToFile();
+
+                if (!screenshotPath.empty())
+                {
+                    send(clientSock, screenshotPath.c_str(), screenshotPath.size(), 0);
+                }
+                else
+                {
+                    std::string error = "ERROR: Cannot save screenshot";
+                    send(clientSock, error.c_str(), error.size(), 0);
+                }
             }
             // Get driver list
             else if (command.rfind("GET_DRIVERLIST", 0) == 0)

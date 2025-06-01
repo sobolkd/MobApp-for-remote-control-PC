@@ -67,7 +67,6 @@ public partial class MainPage : ContentPage
         Media_Control.IsVisible = false;
         File_Manager.IsVisible = false;
         System.IsVisible = false;
-        Spy_Mode.IsVisible = false;
     }
     private void ShowAllButtons()
     {
@@ -78,7 +77,6 @@ public partial class MainPage : ContentPage
         Media_Control.IsVisible = true;
         File_Manager.IsVisible = true;
         System.IsVisible = true;
-        Spy_Mode.IsVisible = true;
     }
     void Remote_Mouse_Clicked(object sender, EventArgs e)
     {
@@ -187,11 +185,6 @@ public partial class MainPage : ContentPage
         SystemStack.IsVisible = true;
         _ = UpdateDataPc();
     }
-    void Spy_Mode_Clicked(object sender, EventArgs e)
-    {
-        HideAllButtons();
-        SpyMode.IsVisible = true;
-    }
     void Back_Clicked(object sender, EventArgs e)
     {
         RemoteMouse.IsVisible = false;
@@ -200,7 +193,6 @@ public partial class MainPage : ContentPage
         Media_Controls.IsVisible = false;
         FileExplorerPanel.IsVisible = false;
         SystemStack.IsVisible = false;
-        SpyMode.IsVisible = false;
         ShowAllButtons();
     }
     void Call_Keyboard_Clicked (object sender, EventArgs e)
@@ -423,9 +415,33 @@ public partial class MainPage : ContentPage
         }
     }
 
-    private void MakeScreen_Clicked(object sender, EventArgs e)
+    private async void MakeScreen_Clicked(object sender, EventArgs e)
     {
-        serverConnector.SendCommand("MAKE_SCREEN");
+        string remotePath = await serverConnector.SendCommandWithResponse("MAKE_SCREEN");
+
+        if (remotePath != null)
+        {
+            if (!await serverConnector.EnsureStoragePermissionAsync())
+            {
+                await Application.Current.MainPage.DisplayAlert("Permission", "Storage permission not granted", "OK");
+                return;
+            }
+
+            string fileName = Path.GetFileName(remotePath);
+            string downloadsDir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+            string downloadPath = Path.Combine(downloadsDir, fileName);
+
+            bool success = await serverConnector.DownloadFileAsync(remotePath, downloadPath);
+
+            await Application.Current.MainPage.DisplayAlert(
+                success ? "Success" : "Error",
+                success ? "File downloaded to Downloads" : "Failed to download file",
+                "OK");
+        }
+        else
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Server did not return a file path", "OK");
+        }
     }
 
     private async void OnPasteClicked(object sender, EventArgs e)
@@ -484,7 +500,7 @@ public partial class MainPage : ContentPage
 
         if (login == "" || pass == "")
         {
-            LoginErrorLabel.Text = "Заповніть всі поля";
+            LoginErrorLabel.Text = "Fill in all fields.";
             LoginErrorLabel.IsVisible = true;
             return;
         }
@@ -498,12 +514,12 @@ public partial class MainPage : ContentPage
         }
         else if (response == "LOGIN_FAILED")
         {
-            LoginErrorLabel.Text = "Невірний логін або пароль";
+            LoginErrorLabel.Text = "Incorrect login or password";
             LoginErrorLabel.IsVisible = true;
         }
         else
         {
-            LoginErrorLabel.Text = "Помилка з’єднання з сервером";
+            LoginErrorLabel.Text = "Server connection error";
             LoginErrorLabel.IsVisible = true;
         }
     }

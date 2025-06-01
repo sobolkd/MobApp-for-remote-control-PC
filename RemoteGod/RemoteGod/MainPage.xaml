@@ -12,11 +12,17 @@
                                  VerticalOptions="Center"
                                  HorizontalOptions="Center"
                                  WidthRequest="300">
-                <Label Text="Авторизація" FontSize="24" HorizontalOptions="Center"/>
-                <Entry x:Name="LoginEntry" Placeholder="Логін"/>
-                <Entry x:Name="PasswordEntry" Placeholder="Пароль" IsPassword="True"/>
+                <Label Text="Authorization" FontSize="24" HorizontalOptions="Center"/>
+                <Entry x:Name="LoginEntry" Placeholder="Login"/>
+                <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True"/>
                 <Label x:Name="LoginErrorLabel" TextColor="Red" IsVisible="False"/>
-                <Button Text="Увійти" Clicked="OnLoginClicked"/>
+                <Button Text="Log in" Clicked="OnLoginClicked"/>
+                <Label 
+    Text="If you want to register, you must add a new user in the server program on your computer." 
+    FontSize="16"
+    TextColor="Gray"
+    HorizontalOptions="Fill"
+    HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
         </ContentView>
         <!--Login-->
@@ -44,7 +50,6 @@
         <Button x:Name="Media_Control" Text="Media Control" Clicked="Media_Control_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
         <Button x:Name="File_Manager" Text="File Manager" Clicked="File_Manager_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
         <Button x:Name="System" Text="System" Clicked="System_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
-        <Button x:Name="Spy_Mode" Text="Spy Mode" Clicked="Spy_Mode_Clicked" IsVisible="True" Style="{StaticResource MainButtonStyle}"/>
         <!-- Main Buttons -->
 
         <!-- System -->
@@ -59,6 +64,7 @@
             <Button x:Name="EndSessionButton" Text="End User Session" Clicked="EndSession_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
             <Button x:Name="CallTaskManagerButton" Text="Open Task Manager" Clicked="CallTaskManager_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
             <Button x:Name="ShowDesktopButton" Text="Show Desktop" Clicked="ShowDesktop_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+            <Button Text="Screenshot" x:Name="MakeScreen" Clicked="MakeScreen_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
             <Button x:Name="AltTabButton" Text="Alt+Tab" Clicked="AltTab_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
         </VerticalStackLayout>
         <!-- System -->
@@ -174,12 +180,6 @@
             </StackLayout>
         </VerticalStackLayout>
         <!-- Media Control -->
-        
-        <!-- Spy Mode -->
-        <VerticalStackLayout Padding="20" x:Name="SpyMode" IsVisible="False">
-            <Button Text="Screenshot" x:Name="MakeScreen" Clicked="MakeScreen_Clicked" Style="{StaticResource MainButtonStyle}"/>
-        </VerticalStackLayout>
-        <!-- Spy Mode -->
         
         <!-- File Manager -->
         <VerticalStackLayout x:Name="FileExplorerPanel" IsVisible="False" Spacing="10" Padding="10">
