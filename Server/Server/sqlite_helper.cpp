@@ -151,3 +151,41 @@ bool delete_all_users() {
     sqlite3_close(db);
     return true;
 }
+
+std::string delete_user_by_id(int userId) {
+    sqlite3* db;
+    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+        return "Failed to open database.";
+    }
+
+    const char* sql = "DELETE FROM users WHERE id = ?";
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        sqlite3_close(db);
+        return "Failed to prepare delete statement.";
+    }
+
+    if (sqlite3_bind_int(stmt, 1, userId) != SQLITE_OK) {
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return "Failed to bind user ID.";
+    }
+
+    int rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return "Failed to execute delete.";
+    }
+
+    int changes = sqlite3_changes(db);
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    if (changes > 0) {
+        return "User successfully deleted.";
+    }
+    else {
+        return "No user with such ID found.";
+    }
+}

@@ -5,7 +5,7 @@
 #include "resource.h"
 #include "sqlite_helper.h"
 #include <string>
-
+#include <sstream>
 #define WM_TRAYICON (WM_USER + 1)
 
 INT_PTR CALLBACK AddUserDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -69,6 +69,28 @@ LRESULT CALLBACK MsgWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             print_all_users();
             break;
         case 5:
+        {
+            ShowConsole();
+            print_all_users();
+            std::cout << "Enter the user ID of the user you want to delete: ";
+
+            int choice;
+            std::string input;
+            std::getline(std::cin, input);
+
+            std::stringstream ss(input);
+            if (ss >> choice && ss.eof())
+            {
+                std::string result = delete_user_by_id(choice);
+                std::cout << result << std::endl;
+            }
+            else
+            {
+                std::cout << "Invalid input. Please enter a valid numeric ID." << std::endl;
+            }
+        }
+            break;
+        case 6:
             Shell_NotifyIcon(NIM_DELETE, &nid);
             ExitProcess(0);
             break;
@@ -108,7 +130,8 @@ void InitTrayIcon() {
     AppendMenu(hMenu, MF_STRING, 2, L"Hide Console");
     AppendMenu(hMenu, MF_STRING, 3, L"Add User");
     AppendMenu(hMenu, MF_STRING, 4, L"Check Users");
-    AppendMenu(hMenu, MF_STRING, 5, L"Exit");
+    AppendMenu(hMenu, MF_STRING, 5, L"Delete User");
+    AppendMenu(hMenu, MF_STRING, 6, L"Exit");
 
 
     HideConsole();

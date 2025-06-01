@@ -16,4 +16,5 @@ extern "C" {
 #include <string>
 bool check_user_exists(const std::string& username, const std::string& password);
 bool delete_all_users();
+std::string delete_user_by_id(int userId);
 #endif
