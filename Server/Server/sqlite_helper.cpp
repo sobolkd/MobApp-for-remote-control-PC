@@ -7,8 +7,18 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <filesystem>
 
-// hashing password
+const char* DB_PATH = "users.db";
+
+void SetWorkingDirectoryToExePath() {
+    wchar_t exePath[MAX_PATH];
+    GetModuleFileNameW(NULL, exePath, MAX_PATH);
+    std::filesystem::path path(exePath);
+    std::filesystem::current_path(path.parent_path());
+}
+
+// Hashing password
 static std::string hash_password(const std::string& password) {
     BCRYPT_ALG_HANDLE hAlg = NULL;
     BCRYPT_HASH_HANDLE hHash = NULL;
@@ -37,10 +47,16 @@ static std::string hash_password(const std::string& password) {
     return oss.str();
 }
 
-// create Database
+// Init database
 bool init_database() {
+    SetWorkingDirectoryToExePath();
+
     sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+    int rc = sqlite3_open(DB_PATH, &db);
+    if (rc != SQLITE_OK) {
+        std::string msg = "Failed to open DB: ";
+        msg += sqlite3_errmsg(db);
+        MessageBoxA(NULL, msg.c_str(), "SQLite Error", MB_ICONERROR);
         sqlite3_close(db);
         return false;
     }
@@ -48,6 +64,9 @@ bool init_database() {
     const char* sql = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password_hash TEXT);";
     char* err = nullptr;
     if (sqlite3_exec(db, sql, nullptr, nullptr, &err) != SQLITE_OK) {
+        std::string msg = "Failed to create table: ";
+        msg += err ? err : "Unknown error";
+        MessageBoxA(NULL, msg.c_str(), "SQLite Error", MB_ICONERROR);
         sqlite3_free(err);
         sqlite3_close(db);
         return false;
@@ -57,10 +76,10 @@ bool init_database() {
     return true;
 }
 
-// insert user
+// Add user
 bool insert_user(const char* username, const char* password) {
     sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+    if (sqlite3_open(DB_PATH, &db) != SQLITE_OK) {
         sqlite3_close(db);
         return false;
     }
@@ -87,10 +106,10 @@ static int callback(void*, int argc, char** argv, char** azColName) {
     return 0;
 }
 
-// print users with password-hash
+// print users
 void print_all_users() {
     sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+    if (sqlite3_open(DB_PATH, &db) != SQLITE_OK) {
         std::cerr << "Cannot open DB.\n";
         return;
     }
@@ -102,15 +121,14 @@ void print_all_users() {
     sqlite3_close(db);
 }
 
+// check user
 bool check_user_exists(const std::string& username, const std::string& password) {
     sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+    if (sqlite3_open(DB_PATH, &db) != SQLITE_OK) {
         return false;
     }
 
-    // hashing password
     std::string passwordHash = hash_password(password);
-
     const char* sql = "SELECT COUNT(*) FROM users WHERE username = ? AND password_hash = ?";
     sqlite3_stmt* stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
@@ -132,10 +150,10 @@ bool check_user_exists(const std::string& username, const std::string& password)
     return exists;
 }
 
-// just for comfort, will be deleted after
+// delete all users
 bool delete_all_users() {
     sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+    if (sqlite3_open(DB_PATH, &db) != SQLITE_OK) {
         return false;
     }
 
@@ -152,9 +170,10 @@ bool delete_all_users() {
     return true;
 }
 
+// delete user
 std::string delete_user_by_id(int userId) {
     sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+    if (sqlite3_open(DB_PATH, &db) != SQLITE_OK) {
         return "Failed to open database.";
     }
 

@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sqlite3\sqlite3.c" />
+    <ClCompile Include="autostart.cpp" />
     <ClCompile Include="ClipboardController.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="filesystem_handler.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\sqlite3\sqlite3.h" />
+    <ClInclude Include="autostart.h" />
     <ClInclude Include="ClipboardController.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="filesystem_handler.h" />

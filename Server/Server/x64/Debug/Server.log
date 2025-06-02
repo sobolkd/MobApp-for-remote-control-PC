@@ -1,2 +1,5 @@
-﻿  TrayIcon.cpp
+﻿  Main.cpp
+  sqlite_helper.cpp
+D:\Diplom\Server\Server\sqlite_helper.cpp(36,10): warning C4267: 'argument': conversion from 'size_t' to 'ULONG', possible loss of data
+  Generating Code...
   Server.vcxproj -> D:\Diplom\Server\x64\Debug\Server.exe
