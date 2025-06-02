@@ -6,10 +6,21 @@
 #include "sqlite_helper.h"
 #include <string>
 #include <sstream>
+#include <regex>
 #define WM_TRAYICON (WM_USER + 1)
 
+bool isValidLogin(const std::string& login) {
+    if (login.length() < 4) return false;
+    return std::regex_match(login, std::regex("^[a-zA-Z0-9_]+$"));
+}
+
+bool isValidPassword(const std::string& password) {
+    return password.length() >= 5;
+}
+
 INT_PTR CALLBACK AddUserDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-    if (message == WM_COMMAND) {
+    switch (message) {
+    case WM_COMMAND:
         if (LOWORD(wParam) == IDC_OK_BUTTON) {
             wchar_t wlogin[100], wpass[100];
             GetDlgItemText(hDlg, IDC_LOGIN_EDIT, wlogin, 100);
@@ -21,6 +32,19 @@ INT_PTR CALLBACK AddUserDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
             wcstombs_s(&converted, login, sizeof(login), wlogin, _TRUNCATE);
             wcstombs_s(&converted, pass, sizeof(pass), wpass, _TRUNCATE);
 
+            std::string loginStr(login);
+            std::string passStr(pass);
+
+            if (!isValidLogin(loginStr)) {
+                MessageBoxA(hDlg, "Login must be at least 4 characters and contain only letters, numbers, and underscores.", "Validation Error", MB_OK | MB_ICONWARNING);
+                return TRUE;
+            }
+
+            if (!isValidPassword(passStr)) {
+                MessageBoxA(hDlg, "Password must be at least 5 characters.", "Validation Error", MB_OK | MB_ICONWARNING);
+                return TRUE;
+            }
+
             bool result = insert_user(login, pass);
 
             MessageBox(hDlg,
@@ -31,9 +55,20 @@ INT_PTR CALLBACK AddUserDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
             EndDialog(hDlg, LOWORD(wParam));
             return TRUE;
         }
+        break;
+
+    case WM_CLOSE:
+        EndDialog(hDlg, 0);
+        return TRUE;
+
+    case WM_INITDIALOG:
+        return TRUE;
     }
+
     return FALSE;
 }
+
+
 
 NOTIFYICONDATA nid = {};
 HMENU hMenu = NULL;

@@ -5,6 +5,7 @@ using static Android.Print.PrintAttributes;
 using RemoteGod.ViewModels;
 using RemoteGod.Models;
 using AndroidX.Fragment.App.StrictMode;
+using System.Text.RegularExpressions;
 
 namespace RemoteGod;
 
@@ -501,6 +502,27 @@ public partial class MainPage : ContentPage
         if (login == "" || pass == "")
         {
             LoginErrorLabel.Text = "Fill in all fields.";
+            LoginErrorLabel.IsVisible = true;
+            return;
+        }
+
+        if (login.Length < 4)
+        {
+            LoginErrorLabel.Text = "Login must be at least 4 characters.";
+            LoginErrorLabel.IsVisible = true;
+            return;
+        }
+
+        if (pass.Length < 5)
+        {
+            LoginErrorLabel.Text = "Password must be at least 5 characters.";
+            LoginErrorLabel.IsVisible = true;
+            return;
+        }
+
+        if (!Regex.IsMatch(login, @"^[a-zA-Z0-9_]+$"))
+        {
+            LoginErrorLabel.Text = "Login can contain only letters, numbers, and underscores.";
             LoginErrorLabel.IsVisible = true;
             return;
         }

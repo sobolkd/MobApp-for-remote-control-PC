@@ -10,8 +10,6 @@
 
 // TODO: add server to the autolaunch
 // TODO: fix bug with "Back" button about path
-// TODO: add check for symbols
-// TODO: change UI for System
 
 int main()
 {

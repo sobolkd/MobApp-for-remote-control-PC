@@ -53,19 +53,99 @@
         <!-- Main Buttons -->
 
         <!-- System -->
-        <VerticalStackLayout Padding="20" x:Name="SystemStack" IsVisible="False">
-            <Label Text="Getting PC IP" x:Name="ShowIpLabel"/>
-            <Label Text="Getting CPU usage..." x:Name="CPUUsageLabel"/>
-            <Label Text="Getting memory usage..." x:Name="MemoryUsageLabel"/>
-            <Label Text="Getting disk usage..." x:Name="DiskUsageLabel"/>
-            <Button x:Name="RestartPCButton" Text="Restart PC" Clicked="RestartPC_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button x:Name="ShutDownPCButton" Text="Shut Down PC" Clicked="ShutDownPC_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button x:Name="LockScreenButton" Text="Lock Screen" Clicked="LockScreen_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button x:Name="EndSessionButton" Text="End User Session" Clicked="EndSession_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button x:Name="CallTaskManagerButton" Text="Open Task Manager" Clicked="CallTaskManager_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button x:Name="ShowDesktopButton" Text="Show Desktop" Clicked="ShowDesktop_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button Text="Screenshot" x:Name="MakeScreen" Clicked="MakeScreen_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
-            <Button x:Name="AltTabButton" Text="Alt+Tab" Clicked="AltTab_Clicked" Margin="10" Style="{StaticResource MainButtonStyle}"/>
+        <VerticalStackLayout 
+    Padding="20" 
+    x:Name="SystemStack" 
+    IsVisible="False"
+    HorizontalOptions="Center"
+    VerticalOptions="Center"
+    Spacing="5">
+
+            <Label 
+        Text="Getting PC IP" 
+        x:Name="ShowIpLabel"
+        HorizontalOptions="Center"
+        FontSize="18"
+        FontAttributes="Bold"
+        TextColor="White" />
+
+            <Label 
+        Text="Getting CPU usage..." 
+        x:Name="CPUUsageLabel"
+        HorizontalOptions="Center"
+        FontSize="16"
+        FontAttributes="Bold"/>
+
+            <Label 
+        Text="Getting memory usage..." 
+        x:Name="MemoryUsageLabel"
+        HorizontalOptions="Center"
+        FontSize="16"
+        FontAttributes="Bold"/>
+
+            <Label 
+        Text="Getting disk usage..." 
+        x:Name="DiskUsageLabel"
+        HorizontalOptions="Center"
+        FontSize="16"
+        FontAttributes="Bold"/>
+
+            <Button 
+        x:Name="RestartPCButton" 
+        Text="Restart PC" 
+        Clicked="RestartPC_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        x:Name="ShutDownPCButton" 
+        Text="Shut Down PC" 
+        Clicked="ShutDownPC_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        x:Name="LockScreenButton" 
+        Text="Lock Screen" 
+        Clicked="LockScreen_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        x:Name="EndSessionButton" 
+        Text="End User Session" 
+        Clicked="EndSession_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        x:Name="CallTaskManagerButton" 
+        Text="Open Task Manager" 
+        Clicked="CallTaskManager_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        x:Name="ShowDesktopButton" 
+        Text="Show Desktop" 
+        Clicked="ShowDesktop_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        Text="Screenshot" 
+        x:Name="MakeScreen" 
+        Clicked="MakeScreen_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
+            <Button 
+        x:Name="AltTabButton" 
+        Text="Alt+Tab" 
+        Clicked="AltTab_Clicked" 
+        Margin="10"
+        Style="{StaticResource MainButtonStyle}" />
+
         </VerticalStackLayout>
         <!-- System -->
         
