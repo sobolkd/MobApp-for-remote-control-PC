@@ -10,9 +10,6 @@
 #include "autostart.h"
 #include <filesystem>
 
-// TODO: add server to the autolaunch
-// TODO: fix bug with "Back" button about path
-
 int main()
 {
     try {

@@ -35,4 +35,4 @@ over multiple features such as the cursor, media, files, and many more.
 1. Clone this repository.
 
    ```bash
-   git clone https://github.com/yourusername/MobApp-for-remote-control-PC.git
+   git clone https://github.com/sobolkd/MobApp-for-remote-control-PC.git
