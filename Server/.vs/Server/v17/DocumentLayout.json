@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "D:\\Diplom\\Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\MouseController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\MouseController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\sqlite_helper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\sqlite_helper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|D:\\Diplom\\Server\\Server\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14B7FE19-E1F0-4937-844B-E5819350736E}|Server\\Server.vcxproj|solutionrelative:Server\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +26,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Main.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Main.cpp",
               "RelativeDocumentMoniker": "Server\\Main.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Main.cpp",
               "RelativeToolTip": "Server\\Main.cpp",
-              "ViewState": "AgIAACcAAAAAAAAAAADwvzwAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAqwCUAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-30T13:37:23.121Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Server.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeDocumentMoniker": "Server\\Server.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\Server.cpp",
               "RelativeToolTip": "Server\\Server.cpp",
-              "ViewState": "AgIAAPEBAAAAAAAAAAApwP8BAABBAAAAAAAAAA==",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAmwKEAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-24T22:44:59.797Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MouseController.cpp",
+              "DocumentMoniker": "D:\\Diplom\\Server\\Server\\MouseController.cpp",
+              "RelativeDocumentMoniker": "Server\\MouseController.cpp",
+              "ToolTip": "D:\\Diplom\\Server\\Server\\MouseController.cpp",
+              "RelativeToolTip": "Server\\MouseController.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-08T15:33:14.956Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "sqlite_helper.cpp",
               "DocumentMoniker": "D:\\Diplom\\Server\\Server\\sqlite_helper.cpp",
               "RelativeDocumentMoniker": "Server\\sqlite_helper.cpp",
               "ToolTip": "D:\\Diplom\\Server\\Server\\sqlite_helper.cpp",
               "RelativeToolTip": "Server\\sqlite_helper.cpp",
-              "ViewState": "AgIAALEAAAAAAAAAAAAgwM4AAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAwEcAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-02T12:03:30.249Z"
             }

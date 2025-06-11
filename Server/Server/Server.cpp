@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <filesystem>
+#include <iomanip>
 // headers
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -27,7 +28,6 @@
 #define TCP_PORT 9999
 #define BROADCAST_IP "255.255.255.255"
 #define KEYWORD "HELLO_SERVER"
-
 bool stopBroadcast = false;
 bool isSended = false;
 bool isUserAuthorized = false;
@@ -152,7 +152,18 @@ void handleClient(SOCKET clientSock) {
         std::string command(buffer);
 
         /* here all comands from app*/
-        std::cout <<std::endl << "Received command: " << command << std::endl;
+        using namespace std::chrono;
+        auto now = system_clock::now();
+        auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
+        std::time_t t = system_clock::to_time_t(now);
+        std::tm tm;
+        std::cout << "-------------------------------------------------" << std::endl;
+        localtime_s(&tm, &t);
+        std::cout << "Time now: " << std::put_time(&tm, "%H:%M:%S") << '.'
+            << std::setw(3) << std::setfill('0') << ms.count() << std::endl;
+        std::cout << "Received command: " << command << std::endl;
+        std::cout << "-------------------------------------------------" << std::endl;
+
         // checking if user exist
         if (command.rfind("LOGIN_", 0) == 0) {
             std::cout << "[LOGIN] Received login command: " << command << std::endl;
@@ -570,6 +581,9 @@ void handleClient(SOCKET clientSock) {
             else if (command.rfind("CUT_", 0) == 0)
             {
                 handleMoveFile(command, clientSock);
+            }
+            else {
+                std::cout << "Wrong command, ignoring: " << command << std::endl;
             }
 
             closesocket(clientSock);

@@ -22,14 +22,14 @@ namespace RemoteGod
 
                 using var stream = client.GetStream();
 
-                // Читаємо розмір
+                // Reading size
                 byte[] sizeBuffer = new byte[4];
                 if (!await ReadExactAsync(stream, sizeBuffer, 4)) return;
 
                 int fileSize = BitConverter.ToInt32(sizeBuffer, 0);
                 byte[] imageData = new byte[fileSize];
 
-                // Читаємо файл
+                // Reading file
                 if (!await ReadExactAsync(stream, imageData, fileSize)) return;
 
                 await SaveImageToGallery(imageData);

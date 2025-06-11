@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|d:\\diplom\\remotegod\\remotegod\\connection\\serverconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9368848-DFE6-4800-8D2F-F438DF2CCE7B}|RemoteGod\\RemoteGod.csproj|solutionrelative:remotegod\\connection\\serverconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServerConnector.cs",
+              "DocumentMoniker": "D:\\Diplom\\RemoteGod\\RemoteGod\\Connection\\ServerConnector.cs",
+              "RelativeDocumentMoniker": "RemoteGod\\Connection\\ServerConnector.cs",
+              "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\Connection\\ServerConnector.cs",
+              "RelativeToolTip": "RemoteGod\\Connection\\ServerConnector.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAcwJEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T07:43:56.804Z",
+              "IsPinned": true
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,9 +41,10 @@
               "RelativeDocumentMoniker": "RemoteGod\\MainPage.xaml.cs",
               "ToolTip": "D:\\Diplom\\RemoteGod\\RemoteGod\\MainPage.xaml.cs",
               "RelativeToolTip": "RemoteGod\\MainPage.xaml.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABcAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAWwGgAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-02T14:32:34.12Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

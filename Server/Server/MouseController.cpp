@@ -5,6 +5,7 @@
 // function for moving
 void moveCursor(int x, int y) {
     SetCursorPos(x, y);
+    std::cout << "Moved to " << x << " " << y << std::endl;
 }
 
 // function for clicks

@@ -18,7 +18,7 @@ public partial class MainPage : ContentPage
     private MediaController mediaController;
     private readonly SystemController systemController;
     private FileExplorerViewModel viewModel;
-
+    public static DateTime Now { get; }
     private double cursorX = 500;
     private double cursorY = 300;
     public string SelectedAudioOutput { get; set; }
@@ -83,6 +83,8 @@ public partial class MainPage : ContentPage
     {
         HideAllButtons();
         RemoteMouse.IsVisible = true;
+        //  string time = DateTime.Now.ToString("HH:mm:ss:fff");
+        //  serverConnector.SendCommand($"Check_time: {time}");
     }
     void Remote_Keyboard_Clicked(object sender, EventArgs e)
     {
